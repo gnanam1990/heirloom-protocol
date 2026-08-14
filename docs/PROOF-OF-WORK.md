@@ -21,6 +21,7 @@ command that reproduces it.
 | M8: internal pre-mainnet review | `9bd28d4` | Commit-bound findings report with one High, one Medium, two Low and one informational observation |
 | M9: audit remediation | `50461c5` | Recovery/config ordering, vault self-address, stale config and atomic rounding fixes with regressions |
 | M10: hosted remediation re-verification | `1f3b682` | Exact remediation evidence commit passed protocol, mutation, Base USDC fork and web jobs |
+| M11: v3.1-R1 release identity | `286b0e9` | Unique audit-remediated version ID for the next Base Sepolia factory |
 
 ## Current verified results
 

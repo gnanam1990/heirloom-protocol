@@ -6,8 +6,10 @@
 
 This package freezes the security claims, review scope, trust assumptions, reproduction steps and
 release gates for Heirloom v3.1. The internal findings were remediated at commit
-`50461c50f5dd9d8505d684286d75ba6e3ed58ee1`; the exact final delivery commit and the source hashes
-below must be recorded in the external engagement and report.
+`50461c50f5dd9d8505d684286d75ba6e3ed58ee1`. Release candidate
+`286b0e98d3372262410de54363759f17a1becb41` changes only the factory version preimage to
+`HEIRLOOM_V3_1_R1` plus its test/runbook identity. The exact final delivery commit and the source
+hashes below must be recorded in the external engagement and report.
 
 Mainnet deployment remains prohibited until an independent reviewer signs the exact commit, all
 accepted findings are remediated, the remediation is re-reviewed, and the release evidence in
@@ -35,7 +37,7 @@ The review should prioritize five properties:
 
 | File | SHA-256 | Purpose |
 |---|---|---|
-| `src/HeirloomFactory.sol` | `339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746` | Versioned deterministic clone factory and registry |
+| `src/HeirloomFactory.sol` | `456373f6ae289df7b973a6f483e3676962ff7168ca8063f84ab137ed536dd90a` | Versioned deterministic clone factory and registry |
 | `src/HeirloomVault.sol` | `7f5e61cf51e80739e30315003a7c7f14c1d0f261d9d22115bec901e1baef7c71` | Asset custody, liveness, claim, recovery and distribution state machine |
 | `src/HeirloomTypes.sol` | `98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285` | Configuration and state types |
 | `src/interfaces/IHeirloomVault.sol` | `651f44819a90794d2b4597538f9567b9fb413639da1c64ecac2bcf7fa4621e78` | External interface and events |
@@ -45,6 +47,9 @@ D1-D40 and I1-I16. The internal findings and remediation evidence are
 `docs/INTERNAL-PREMAINNET-AUDIT-2026-08-14.md` and
 `docs/REMEDIATION-REVERIFICATION-2026-08-14.md`. Tests are in scope as evidence, not as production
 bytecode.
+
+The release-identity delta and exact version ID are frozen in
+`docs/RELEASE-CANDIDATE-V3.1-R1.md`.
 
 ### Review-adjacent scope
 
