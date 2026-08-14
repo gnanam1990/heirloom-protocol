@@ -34,11 +34,31 @@ Verified locally from clean committed source on 2026-08-14:
 | Web production build/render | Passed | `cd apps/web && npm test` |
 | Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no console warnings/errors | Manual local preview inspection |
 | Private Sites deployment | Version 1 succeeded | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
+| Hosted protocol CI | Passed: protocol and web jobs | [GitHub Actions run 31803767578](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31803767578) |
+| Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |
 
-The GitHub workflow was triggered on commit `0765cd3`, but GitHub did not allocate a runner because
-the account reported a billing or spending-limit problem. No workflow step ran, so this is an
-external automation blocker rather than a test failure. Local pinned commands above remain green;
-the hosted check must be rerun after the account billing limit is corrected.
+The original hosted workflow allocation blocker was cleared on 2026-08-14. The rerun completed
+both the protocol and web jobs successfully.
+
+## Base Sepolia deployment evidence
+
+The factory was deployed from clean source commit
+`770b05bfd44799cbb780e7bf8ee91116eb5dd01a` using the funded deployer
+`0xE8405844a45C209895afE2e49be6aA2C6C6202a6`.
+
+| Field | Verified value |
+|---|---|
+| Factory | [`0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf`](https://base-sepolia.blockscout.com/address/0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf) — source verified |
+| Implementation | [`0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80`](https://base-sepolia.blockscout.com/address/0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80) — source verified |
+| Bound asset | Circle Base Sepolia USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
+| Deployment chain | `84532` |
+| Version ID | `0x7cd4187df3151f8b6dba7f8b29a43eb0d551f30262c0c0885dd40f776328670f` |
+| Factory runtime code hash | `0x2f249b59d9d8b67ba29af37bc000be9168eb022c78ce84807c6b9ce3cfe0d5b8` |
+| Implementation runtime code hash | `0x3525b99ee637757d4e7b42c5c7a70c86b97f76dfd780527f359e259a9000bbc2` |
+| Implementation initializer lock | Storage slot `29` contains the constructor-set initialized flag |
+
+The machine-readable record is
+[`deployments/base-sepolia-770b05b.json`](../deployments/base-sepolia-770b05b.json).
 
 ## Reproduction
 

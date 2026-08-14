@@ -1,0 +1,26 @@
+{
+  "status": "deployed",
+  "chainId": 84532,
+  "network": "base-sepolia",
+  "officialUsdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "factory": "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+  "implementation": "0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+  "versionId": "0x7cd4187df3151f8b6dba7f8b29a43eb0d551f30262c0c0885dd40f776328670f",
+  "deployer": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+  "deploymentTransaction": "0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7",
+  "deploymentBlock": 45473582,
+  "deploymentBlockHash": "0x377a2fa46da3c127d8ce6666ac262c39f27a382ba29ae7f2840c196013d508c5",
+  "deploymentGasUsed": 5859390,
+  "deploymentFeeWei": "35680398806828",
+  "factoryRuntimeCodeHash": "0x2f249b59d9d8b67ba29af37bc000be9168eb022c78ce84807c6b9ce3cfe0d5b8",
+  "implementationRuntimeCodeHash": "0x3525b99ee637757d4e7b42c5c7a70c86b97f76dfd780527f359e259a9000bbc2",
+  "implementationInitializerSlot": 29,
+  "implementationInitializerSlotValue": "0x0000000000000001000000000000000000000000000000000000000000000000",
+  "sourceVerification": {
+    "verifier": "blockscout",
+    "factory": "https://base-sepolia.blockscout.com/address/0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+    "implementation": "https://base-sepolia.blockscout.com/address/0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80"
+  },
+  "sourceCommit": "770b05bfd44799cbb780e7bf8ee91116eb5dd01a",
+  "verifiedAt": "2026-08-14T13:56:13Z"
+}
