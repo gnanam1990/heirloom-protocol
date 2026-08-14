@@ -23,7 +23,8 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. CI will publish:
+The project is delivered through reviewable milestone commits. Current evidence includes 30
+tests, 10,000 fuzz runs per CI fuzz case and four stateful invariants. CI publishes:
 
 - Build and test results.
 - Unit, fuzz and stateful invariant evidence.
@@ -58,6 +59,22 @@ FOUNDRY_PROFILE=ci forge test
 
 Fork tests require `BASE_MAINNET_RPC_URL`. Deployment uses a hardware wallet or Foundry
 keystore; raw private keys are never stored in this repository.
+
+## Product UI
+
+The Base-themed owner dashboard lives in `apps/web`. It includes responsive owner, beneficiary,
+security, activity and public-proof surfaces plus a Base Account connector for passkey-backed
+wallet onboarding.
+
+```bash
+cd apps/web
+npm ci
+npm run lint
+npm test
+```
+
+Displayed vault values are clearly marked as interface-preview data until the verified Base
+Sepolia factory address is configured.
 
 ## Release track
 
