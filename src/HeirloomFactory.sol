@@ -8,7 +8,7 @@ import { HeirloomTypes } from "./HeirloomTypes.sol";
 import { HeirloomVault } from "./HeirloomVault.sol";
 
 contract HeirloomFactory {
-    bytes32 public constant VERSION_ID = keccak256("HEIRLOOM_V3_1");
+    bytes32 public constant VERSION_ID = keccak256("HEIRLOOM_V3_1_R1");
 
     IERC20 public immutable asset;
     address public immutable implementation;

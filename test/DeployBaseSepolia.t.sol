@@ -34,7 +34,7 @@ contract DeployBaseSepoliaTest is Test {
 
         assertEq(block.chainid, factory.deploymentChainId());
         assertEq(address(factory.asset()), deployment.OFFICIAL_USDC());
-        assertEq(factory.VERSION_ID(), keccak256("HEIRLOOM_V3_1"));
+        assertEq(factory.VERSION_ID(), keccak256("HEIRLOOM_V3_1_R1"));
         assertGt(factory.implementation().code.length, 0);
     }
 }

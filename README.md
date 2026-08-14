@@ -6,8 +6,8 @@ distribution without giving the executor payout authority.
 
 ## Status
 
-**Pre-production. Base Sepolia first. No mainnet asset deployment before an independent audit
-and remediation.**
+**Pre-production v3.1-R1 audit-remediated candidate. Base Sepolia first. No mainnet asset deployment
+before an independent audit and remediation review.**
 
 The normative implementation source is
 [`docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md`](docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md).

@@ -46,7 +46,8 @@ from RPC or explorer evidence. Before accepting the deployment:
 
 1. Confirm factory `asset()` equals official Base Sepolia USDC.
 2. Confirm `deploymentChainId()` is `84532`.
-3. Confirm `VERSION_ID()` equals `keccak256("HEIRLOOM_V3_1")`.
+3. Confirm `VERSION_ID()` equals `keccak256("HEIRLOOM_V3_1_R1")`. The `R1` suffix binds the
+   audit-remediated bytecode and distinguishes it from the historical pre-remediation factory.
 4. Confirm the implementation initializer is permanently locked.
 5. Create a vault and confirm predicted and deployed addresses match.
 6. Run a funded lifecycle: deposit, heartbeat, claim, challenge, primary payout, fallback payout,
