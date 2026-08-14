@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "local-mutation-gate-passed-hosted-ci-pending",
+  "status": "local-and-hosted-mutation-gate-passed",
   "recordedAt": "2026-08-14T15:59:59Z",
   "sourceCommit": "1f0c51a8d835de8728e0a0d4bde46d519878d314",
   "productionSourceChanged": false,
@@ -50,7 +50,13 @@
     ],
     "isolation": "Repository copied to an OS temporary directory; production worktree is never mutated."
   },
-  "hostedCi": null,
+  "hostedCi": {
+    "runId": 31817277687,
+    "jobId": 94821871141,
+    "url": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31817277687",
+    "conclusion": "success",
+    "mutationJobDuration": "6m53s"
+  },
   "authorization": {
     "mainnetDeploymentAuthorized": false,
     "reason": "Independent audit, remediation review and remaining release gates are incomplete."

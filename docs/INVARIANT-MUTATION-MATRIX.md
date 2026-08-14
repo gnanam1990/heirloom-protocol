@@ -2,7 +2,7 @@
 
 ## Result
 
-**16 of 16 production-source mutants killed locally on 2026-08-14.**
+**16 of 16 production-source mutants killed locally and in hosted CI on 2026-08-14.**
 
 Each mutant changes an exact anchor in `src/HeirloomVault.sol`, must compile successfully, and is
 then run against one named invariant regression test. A mutant is counted as killed only when that
@@ -11,6 +11,9 @@ fail the gate.
 
 The runner copies the repository into an isolated temporary directory. It never changes the source
 worktree and removes the temporary copy after the run.
+
+Hosted evidence: [GitHub Actions run 31817277687](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31817277687),
+mutation job `94821871141`.
 
 ## Evidence matrix
 
