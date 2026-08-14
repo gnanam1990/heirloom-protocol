@@ -32,7 +32,8 @@ Verified locally from clean committed source on 2026-08-14:
 | Coverage snapshot | 84.42% lines; 81.40% statements; 38.98% branches; 80.88% functions | `forge coverage --report summary` |
 | Web lint | Passed | `cd apps/web && npm run lint` |
 | Web production build/render | Passed | `cd apps/web && npm test` |
-| Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no console warnings/errors | Manual local preview inspection |
+| Funded-vault release monitor | Passed: registry, identity, state, balance, allowance, config, runtime and liveness | `./script/check-base-sepolia-vault.sh` |
+| Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no app-origin console errors | Manual local preview inspection |
 | Private Sites deployment | Version 1 succeeded | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
 | Hosted protocol CI | Passed: protocol and web jobs | [GitHub Actions run 31803767578](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31803767578) |
 | Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |

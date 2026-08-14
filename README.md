@@ -23,7 +23,7 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. Current evidence includes 30
+The project is delivered through reviewable milestone commits. Current evidence includes 33
 tests, 10,000 fuzz runs per CI fuzz case and four stateful invariants. CI publishes:
 
 - Build and test results.
@@ -73,8 +73,8 @@ npm run lint
 npm test
 ```
 
-Displayed vault values are clearly marked as interface-preview data until the verified Base
-Sepolia factory address is configured.
+The dashboard is connected to the verified Base Sepolia factory and reconstructs owner-vault
+funding, allowance, liveness, routing and recovery state from public contract reads.
 
 ## Release track
 

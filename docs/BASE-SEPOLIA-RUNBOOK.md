@@ -54,6 +54,18 @@ from RPC or explorer evidence. Before accepting the deployment:
 7. Record every transaction, block, code hash and explorer verification link.
 8. Configure the UI only after the manifest is reviewed.
 
+## Funded-vault monitor
+
+Run the read-only release monitor against the public Base Sepolia RPC:
+
+```bash
+./script/check-base-sepolia-vault.sh
+```
+
+Set `BASE_SEPOLIA_RPC_URL` to use another provider. The monitor fails closed if the factory
+registry, owner, asset, version, state, config hash, 20 USDC balance, zero residual allowance,
+runtime hash or minimum liveness nonce differs from the recorded release evidence.
+
 ## Mainnet boundary
 
 There is intentionally no mainnet deployment script. Add one only after independent audit,

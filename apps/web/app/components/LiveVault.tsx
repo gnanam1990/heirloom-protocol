@@ -13,6 +13,8 @@ import {
   erc20Abi,
   FACTORY_ADDRESS,
   factoryAbi,
+  RELEASE_OWNER_ADDRESS,
+  RELEASE_VAULT_ADDRESS,
   USDC_ADDRESS,
   VAULT_USER_SALT,
   vaultAbi,
@@ -43,22 +45,35 @@ const fieldLabels = [
 
 type FormState = Record<(typeof fieldLabels)[number][0], string>;
 
+export type VaultSnapshot = {
+  address?: Address;
+  owner?: Address;
+  balance?: bigint;
+  state?: number;
+  lastSeen?: bigint;
+  livenessNonce?: bigint;
+  configNonce?: bigint;
+  configHash?: `0x${string}`;
+  durations?: readonly bigint[];
+  standard?: { primary: Address; fallbackAddress: Address; bps: number };
+  terminal?: { primary: Address; fallbackAddress: Address; bps: number };
+  guardians: Address[];
+  guardianThreshold?: number;
+  recoveryAddress?: Address;
+};
+
 const emptyForm = Object.fromEntries(fieldLabels.map(([key]) => [key, ""])) as FormState;
 
 function shortAddress(value?: string) {
   return value ? `${value.slice(0, 6)}…${value.slice(-4)}` : "—";
 }
 
-export function LiveVault() {
+export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapshot) => void }) {
   const { address, chainId, isConnected } = useAccount();
   const [form, setForm] = useState<FormState>(emptyForm);
   const [acknowledged, setAcknowledged] = useState(false);
   const [localError, setLocalError] = useState<string>();
-  const [storedVaultAddress] = useState<Address | undefined>(() => {
-    if (typeof window === "undefined") return undefined;
-    const stored = window.localStorage.getItem("heirloom.baseSepolia.vault");
-    return stored && isAddress(stored) ? stored : undefined;
-  });
+  const [storedVaultAddress, setStoredVaultAddress] = useState<Address>();
   const createWrite = useWriteContract();
   const approveWrite = useWriteContract();
   const depositWrite = useWriteContract();
@@ -100,7 +115,11 @@ export function LiveVault() {
     }
     return undefined;
   }, [createReceipt.data]);
-  const vaultAddress = createdVaultAddress ?? storedVaultAddress;
+  const releaseVaultAddress =
+    address?.toLowerCase() === RELEASE_OWNER_ADDRESS.toLowerCase()
+      ? RELEASE_VAULT_ADDRESS
+      : undefined;
+  const vaultAddress = createdVaultAddress ?? storedVaultAddress ?? releaseVaultAddress;
 
   const vaultUsdc = useReadContract({
     address: USDC_ADDRESS,
@@ -124,12 +143,189 @@ export function LiveVault() {
     chainId: 84_532,
     query: { enabled: Boolean(vaultAddress) },
   });
+  const vaultState = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "vaultState",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress), refetchInterval: 30_000 },
+  });
+  const livenessNonce = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "livenessNonce",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress), refetchInterval: 30_000 },
+  });
+  const configNonce = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "configNonce",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const configHash = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "currentConfigHash",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const durations = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "durations",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const standard = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "beneficiary",
+    args: [0],
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const terminal = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "terminalBeneficiary",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const guardianA = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "guardian",
+    args: [0],
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const guardianB = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "guardian",
+    args: [1],
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const guardianC = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "guardian",
+    args: [2],
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const guardianThreshold = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "guardianThreshold",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const recoveryAddress = useReadContract({
+    address: vaultAddress,
+    abi: vaultAbi,
+    functionName: "recoveryAddress",
+    chainId: 84_532,
+    query: { enabled: Boolean(vaultAddress) },
+  });
+  const allowance = useReadContract({
+    address: USDC_ADDRESS,
+    abi: erc20Abi,
+    functionName: "allowance",
+    args: address && vaultAddress ? [address, vaultAddress] : undefined,
+    chainId: 84_532,
+    query: { enabled: Boolean(address && vaultAddress), refetchInterval: 30_000 },
+  });
+  const refetchAllowance = allowance.refetch;
+  const refetchWalletUsdc = walletUsdc.refetch;
+  const refetchVaultUsdc = vaultUsdc.refetch;
+  const refetchLastSeen = lastSeen.refetch;
+  const refetchLivenessNonce = livenessNonce.refetch;
+
+  useEffect(() => {
+    const hydrateVault = window.setTimeout(() => {
+      const stored = window.localStorage.getItem("heirloom.baseSepolia.vault");
+      if (stored && isAddress(stored)) setStoredVaultAddress(stored);
+    }, 0);
+    return () => window.clearTimeout(hydrateVault);
+  }, []);
 
   useEffect(() => {
     if (createdVaultAddress) {
       window.localStorage.setItem("heirloom.baseSepolia.vault", createdVaultAddress);
     }
   }, [createdVaultAddress]);
+
+  useEffect(() => {
+    if (!onSnapshot) return;
+    onSnapshot({
+      address: vaultAddress,
+      owner: vaultOwner.data,
+      balance: vaultUsdc.data,
+      state: vaultState.data,
+      lastSeen: lastSeen.data,
+      livenessNonce: livenessNonce.data,
+      configNonce: configNonce.data,
+      configHash: configHash.data,
+      durations: durations.data,
+      standard: standard.data,
+      terminal: terminal.data,
+      guardians: [guardianA.data, guardianB.data, guardianC.data].filter(
+        (value): value is Address => Boolean(value),
+      ),
+      guardianThreshold: guardianThreshold.data,
+      recoveryAddress: recoveryAddress.data,
+    });
+  }, [
+    configHash.data,
+    configNonce.data,
+    durations.data,
+    guardianA.data,
+    guardianB.data,
+    guardianC.data,
+    guardianThreshold.data,
+    lastSeen.data,
+    livenessNonce.data,
+    onSnapshot,
+    recoveryAddress.data,
+    standard.data,
+    terminal.data,
+    vaultAddress,
+    vaultOwner.data,
+    vaultState.data,
+    vaultUsdc.data,
+  ]);
+
+  useEffect(() => {
+    if (!approveReceipt.isSuccess) return;
+    void refetchAllowance();
+  }, [approveReceipt.isSuccess, refetchAllowance]);
+
+  useEffect(() => {
+    if (!depositReceipt.isSuccess) return;
+    void Promise.all([
+      refetchAllowance(),
+      refetchWalletUsdc(),
+      refetchVaultUsdc(),
+      refetchLastSeen(),
+      refetchLivenessNonce(),
+    ]);
+  }, [
+    depositReceipt.isSuccess,
+    refetchAllowance,
+    refetchLastSeen,
+    refetchLivenessNonce,
+    refetchVaultUsdc,
+    refetchWalletUsdc,
+  ]);
+
+  useEffect(() => {
+    if (!heartbeatReceipt.isSuccess) return;
+    void Promise.all([refetchLastSeen(), refetchLivenessNonce()]);
+  }, [heartbeatReceipt.isSuccess, refetchLastSeen, refetchLivenessNonce]);
 
   const protocolVerified =
     factoryAsset.data?.toLowerCase() === USDC_ADDRESS.toLowerCase() &&
@@ -145,11 +341,20 @@ export function LiveVault() {
     heartbeatReceipt.isLoading;
   const transactionError =
     createWrite.error || approveWrite.error || depositWrite.error || heartbeatWrite.error;
+  const fundingAmount = parseUnits("20", 6);
+  const funded = (vaultUsdc.data ?? 0n) >= fundingAmount;
+  const approved = (allowance.data ?? 0n) >= fundingAmount || approveReceipt.isSuccess;
+  const connectedOwner =
+    isConnected &&
+    chainId === 84_532 &&
+    Boolean(address && vaultOwner.data) &&
+    address?.toLowerCase() === vaultOwner.data?.toLowerCase();
 
   const claimDate = useMemo(() => {
     if (lastSeen.data === undefined) return undefined;
-    return new Date(Number(lastSeen.data + MINIMUM_DURATIONS.inactivityPeriod) * 1000);
-  }, [lastSeen.data]);
+    const inactivityPeriod = durations.data?.[0] ?? MINIMUM_DURATIONS.inactivityPeriod;
+    return new Date(Number(lastSeen.data + inactivityPeriod) * 1000);
+  }, [durations.data, lastSeen.data]);
 
   function updateField(key: keyof FormState, value: string) {
     setForm((current) => ({ ...current, [key]: value.trim() }));
@@ -212,7 +417,7 @@ export function LiveVault() {
       address: USDC_ADDRESS,
       abi: erc20Abi,
       functionName: "approve",
-      args: [vaultAddress, parseUnits("20", 6)],
+      args: [vaultAddress, fundingAmount],
       chainId: 84_532,
     });
   }
@@ -223,7 +428,7 @@ export function LiveVault() {
       address: vaultAddress,
       abi: vaultAbi,
       functionName: "deposit",
-      args: [parseUnits("20", 6)],
+      args: [fundingAmount],
       chainId: 84_532,
     });
   }
@@ -291,17 +496,23 @@ export function LiveVault() {
           <div className="vault-identity">
             <span>Vault address</span>
             <a href={`https://base-sepolia.blockscout.com/address/${vaultAddress}`} target="_blank" rel="noreferrer">{vaultAddress}</a>
-            <p>Owner {shortAddress(vaultOwner.data)} · claim eligibility {claimDate ? claimDate.toLocaleDateString() : "loading"}</p>
+            <p>
+              Owner {shortAddress(vaultOwner.data)} · state {vaultState.data === 0 ? "Active" : `#${vaultState.data ?? "—"}`} · liveness nonce {livenessNonce.data?.toString() ?? "—"}
+            </p>
+            <p>Claim eligibility {claimDate ? claimDate.toLocaleString() : "loading"}</p>
           </div>
           <div className="vault-balance"><span>Vault balance</span><strong>{vaultUsdc.data === undefined ? "—" : formatUnits(vaultUsdc.data, 6)} USDC</strong></div>
           <div className="vault-actions">
-            <button className="secondary-button" onClick={approveUsdc} disabled={busy || approveReceipt.isSuccess}>1. {approveReceipt.isSuccess ? "USDC approved" : "Approve 20 USDC"}</button>
-            <button className="primary-button" onClick={depositUsdc} disabled={busy || !approveReceipt.isSuccess || depositReceipt.isSuccess}>2. {depositReceipt.isSuccess ? "20 USDC deposited" : "Deposit 20 USDC"}</button>
-            <button className="secondary-button" onClick={heartbeat} disabled={busy}>Send heartbeat</button>
+            <button className="secondary-button" onClick={approveUsdc} disabled={busy || funded || approved || !connectedOwner}>1. {funded ? "Funding complete" : approved ? "USDC approved" : "Approve 20 USDC"}</button>
+            <button className="primary-button" onClick={depositUsdc} disabled={busy || funded || !approved || !connectedOwner || (walletUsdc.data ?? 0n) < fundingAmount}>2. {funded ? "20 USDC funded" : "Deposit 20 USDC"}</button>
+            <button className="secondary-button" onClick={heartbeat} disabled={busy || !connectedOwner}>Send heartbeat</button>
           </div>
         </div>
       )}
 
+      {vaultAddress && isConnected && !connectedOwner && (
+        <div className="alert chain-alert">Read-only mode: connect the configured owner to send owner actions.</div>
+      )}
       {(localError || transactionError) && <div className="alert error-alert">{localError || transactionError?.shortMessage || transactionError?.message}</div>}
       {createReceipt.isSuccess && <div className="alert success-alert">Vault creation confirmed on Base Sepolia.</div>}
       {depositReceipt.isSuccess && <div className="alert success-alert">20 test USDC deposited. Owner liveness updated on-chain.</div>}

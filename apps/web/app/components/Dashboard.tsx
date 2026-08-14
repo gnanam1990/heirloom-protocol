@@ -15,17 +15,18 @@ import {
   LockKeyhole,
   Menu,
   Network,
-  RefreshCw,
   ShieldCheck,
   Users,
   Vault,
   WalletCards,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { formatUnits } from "viem";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
-import { LiveVault } from "./LiveVault";
+import { RELEASE_TRANSACTIONS, RELEASE_VAULT_ADDRESS } from "../protocol";
+import { LiveVault, type VaultSnapshot } from "./LiveVault";
 
 type View = "overview" | "beneficiaries" | "security" | "activity";
 type IconType = typeof Vault;
@@ -37,17 +38,18 @@ const navigation = [
   { id: "activity" as const, label: "Activity", icon: Activity },
 ];
 
-const beneficiaries = [
-  { initials: "S", label: "Standard route", share: "40%", phase: "Configured", color: "blue" },
-];
-
 function shortAddress(address?: string) {
-  return address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "Not connected";
+  return address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "—";
+}
+
+function days(value?: bigint) {
+  return value === undefined ? "—" : `${Number(value) / 86_400} days`;
 }
 
 export function Dashboard() {
   const [view, setView] = useState<View>("overview");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [vaultSnapshot, setVaultSnapshot] = useState<VaultSnapshot>({ guardians: [] });
   const { address, chainId, isConnected } = useAccount();
   const { connectors, connect, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -177,9 +179,14 @@ export function Dashboard() {
             </div>
             <div className="heading-actions">
               <span className="preview-badge">Live deployment · source verified</span>
-              <button className="secondary-button">
+              <a
+                className="secondary-button"
+                href="https://github.com/gnanam1990/heirloom-protocol/blob/main/docs/PROOF-OF-WORK.md"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FileCheck2 size={17} /> Public proof
-              </button>
+              </a>
             </div>
           </div>
 
@@ -197,20 +204,66 @@ export function Dashboard() {
             </div>
           )}
 
-          {view === "overview" && <Overview />}
-          {view === "beneficiaries" && <Beneficiaries />}
-          {view === "security" && <Security />}
-          {view === "activity" && <ActivityView />}
+          {view === "overview" && (
+            <Overview snapshot={vaultSnapshot} onSnapshot={setVaultSnapshot} />
+          )}
+          {view === "beneficiaries" && <Beneficiaries snapshot={vaultSnapshot} />}
+          {view === "security" && <Security snapshot={vaultSnapshot} />}
+          {view === "activity" && <ActivityView snapshot={vaultSnapshot} />}
         </div>
       </section>
     </main>
   );
 }
 
-function Overview() {
+function Overview({
+  snapshot,
+  onSnapshot,
+}: {
+  snapshot: VaultSnapshot;
+  onSnapshot: (snapshot: VaultSnapshot) => void;
+}) {
+  const [now, setNow] = useState<number>();
+  useEffect(() => {
+    const refresh = window.setTimeout(() => setNow(Date.now()), 0);
+    const interval = window.setInterval(() => setNow(Date.now()), 60_000);
+    return () => {
+      window.clearTimeout(refresh);
+      window.clearInterval(interval);
+    };
+  }, []);
+  const funded = (snapshot.balance ?? 0n) > 0n;
+  const active = snapshot.state === 0;
+  const inactivity = snapshot.durations?.[0];
+  const challenge = snapshot.durations?.[1];
+  const claimAt =
+    snapshot.lastSeen !== undefined && inactivity !== undefined
+      ? Number(snapshot.lastSeen + inactivity) * 1000
+      : undefined;
+  const remainingDays = claimAt && now
+    ? Math.max(0, Math.ceil((claimAt - now) / (24 * 60 * 60 * 1000)))
+    : undefined;
+  const elapsedPercent =
+    claimAt && now && snapshot.lastSeen !== undefined && inactivity
+      ? Math.min(
+          100,
+          Math.max(
+            0,
+            ((now / 1000 - Number(snapshot.lastSeen)) / Number(inactivity)) * 100,
+          ),
+        )
+      : 0;
+  const status = snapshot.address
+    ? active
+      ? funded
+        ? "Active · funded"
+        : "Active · awaiting funding"
+      : `State ${snapshot.state ?? "—"}`
+    : "Factory ready";
+
   return (
     <>
-      <LiveVault />
+      <LiveVault onSnapshot={onSnapshot} />
       <section className="status-hero">
         <div className="status-copy">
           <div className="status-title-row">
@@ -219,27 +272,35 @@ function Overview() {
             </span>
             <span>
               <span className="eyebrow">Vault status</span>
-              <strong>Factory active and verified</strong>
+              <strong>{status}</strong>
             </span>
           </div>
           <p>
-            Create an owner vault above. After creation, only current-owner actions can extend its
-            liveness.
+            {snapshot.address
+              ? "Only a fresh action signed by the current owner can extend this vault's liveness."
+              : "Create an owner vault above. The deployed factory is source verified and chain locked."}
           </p>
-          <button
-            className="heartbeat-button"
-            disabled
-            title="Available after an owner vault is created"
-          >
-            <RefreshCw size={17} /> Send heartbeat
-          </button>
+          {snapshot.address && (
+            <a
+              className="heartbeat-button"
+              href={`https://base-sepolia.blockscout.com/address/${snapshot.address}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open vault <ArrowUpRight size={16} />
+            </a>
+          )}
         </div>
         <div className="deadline-panel">
           <span className="eyebrow">Next claim boundary</span>
-          <strong>90 days</strong>
-          <span>Measured from the latest owner-authenticated action</span>
+          <strong>{remainingDays === undefined ? "—" : `${remainingDays} days`}</strong>
+          <span>
+            {claimAt
+              ? new Date(claimAt).toLocaleString()
+              : "Available after a vault is configured"}
+          </span>
           <div className="progress-track">
-            <span style={{ width: "0%" }} />
+            <span style={{ width: `${elapsedPercent}%` }} />
           </div>
           <div className="progress-labels">
             <span>Last owner action</span>
@@ -249,10 +310,30 @@ function Overview() {
       </section>
 
       <section className="metric-grid">
-        <Metric icon={WalletCards} label="Factory" value="Deployed" meta="Source verified on Base Sepolia" />
-        <Metric icon={Users} label="Asset" value="USDC" meta="Official Circle test token" />
-        <Metric icon={ShieldCheck} label="Recovery quorum" value="2 of 3" meta="Configured per owner vault" />
-        <Metric icon={Clock3} label="Challenge window" value="7 days" meta="Begins after a valid claim" />
+        <Metric
+          icon={WalletCards}
+          label="Vault balance"
+          value={snapshot.balance === undefined ? "—" : `${formatUnits(snapshot.balance, 6)} USDC`}
+          meta={snapshot.address ? shortAddress(snapshot.address) : "No owner vault selected"}
+        />
+        <Metric
+          icon={HeartPulse}
+          label="Liveness epoch"
+          value={snapshot.livenessNonce?.toString() ?? "—"}
+          meta="Owner-authenticated actions only"
+        />
+        <Metric
+          icon={ShieldCheck}
+          label="Recovery quorum"
+          value={snapshot.guardianThreshold ? `${snapshot.guardianThreshold} of ${snapshot.guardians.length}` : "—"}
+          meta={snapshot.recoveryAddress ? `Recovery ${shortAddress(snapshot.recoveryAddress)}` : "Not loaded"}
+        />
+        <Metric
+          icon={Clock3}
+          label="Challenge window"
+          value={days(challenge)}
+          meta="Begins after a valid claim request"
+        />
       </section>
 
       <section className="dashboard-grid">
@@ -263,19 +344,25 @@ function Overview() {
             action="View all"
           />
           <div className="beneficiary-list">
-            {beneficiaries.map((item) => (
-              <BeneficiaryRow key={item.initials} {...item} />
-            ))}
+            <BeneficiaryRow
+              initials="S"
+              label={snapshot.standard ? shortAddress(snapshot.standard.primary) : "Standard route"}
+              share={snapshot.standard ? `${snapshot.standard.bps / 100}%` : "—"}
+              phase="Primary"
+              color="blue"
+            />
             <div className="terminal-row">
               <div className="avatar terminal-avatar">
                 <LockKeyhole size={17} />
               </div>
               <div className="beneficiary-copy">
-                <strong>Terminal route</strong>
+                <strong>{snapshot.terminal ? shortAddress(snapshot.terminal.primary) : "Terminal route"}</strong>
                 <span>Terminal · executes last</span>
               </div>
               <div className="beneficiary-phase terminal-phase">Terminal locked</div>
-              <strong className="share-value">60%</strong>
+              <strong className="share-value">
+                {snapshot.terminal ? `${snapshot.terminal.bps / 100}%` : "—"}
+              </strong>
             </div>
           </div>
           <div className="destination-legend">
@@ -294,8 +381,9 @@ function Overview() {
           />
           <ol className="timeline">
             <TimelineItem state="done" title="Factory deployed" meta="Version HEIRLOOM_V3_1 · source verified" />
-            <TimelineItem state="current" title="Create and fund vault" meta="Owner-controlled addresses required" />
-            <TimelineItem title="Owner liveness" meta="90-day inactivity threshold" />
+            <TimelineItem state={snapshot.address ? "done" : "current"} title="Vault configured" meta={snapshot.address ? shortAddress(snapshot.address) : "Owner-controlled addresses required"} />
+            <TimelineItem state={funded ? "done" : snapshot.address ? "current" : undefined} title="Vault funded" meta={funded ? `${formatUnits(snapshot.balance ?? 0n, 6)} USDC confirmed on-chain` : "Awaiting owner deposit"} />
+            <TimelineItem state={funded && active ? "current" : undefined} title="Owner liveness" meta={`${days(inactivity)} inactivity threshold`} />
             <TimelineItem title="Challenge and distribution" meta="7 days, then primary → fallback → rollover" />
             <TimelineItem title="Terminal settlement" meta="Only after all standard shares resolve" />
           </ol>
@@ -314,28 +402,43 @@ function Overview() {
           <span>Runtime</span>
           <strong>23,602 B</strong>
         </div>
-        <button className="text-button">
+        <a
+          className="text-button"
+          href="https://github.com/gnanam1990/heirloom-protocol/actions"
+          target="_blank"
+          rel="noreferrer"
+        >
           Review proof <ArrowUpRight size={16} />
-        </button>
+        </a>
       </section>
     </>
   );
 }
 
-function Beneficiaries() {
+function Beneficiaries({ snapshot }: { snapshot: VaultSnapshot }) {
   return (
     <section className="panel detail-panel">
       <PanelHeader
         title="Destination-locked schedule"
         subtitle="Shares are calculated once from the distribution snapshot."
-        action="Propose change"
       />
       <div className="schedule-table" role="table" aria-label="Beneficiary schedule">
         <div className="schedule-head" role="row">
           <span>Beneficiary</span><span>Primary phase</span><span>Fallback phase</span><span>Share</span>
         </div>
-        <ScheduleRow name="Standard route" primary="Selected at creation" fallback="Selected at creation" share="40%" />
-        <ScheduleRow name="Terminal route" primary="Selected at creation" fallback="Selected at creation" share="60%" terminal />
+        <ScheduleRow
+          name="Standard route"
+          primary={shortAddress(snapshot.standard?.primary)}
+          fallback={shortAddress(snapshot.standard?.fallbackAddress)}
+          share={snapshot.standard ? `${snapshot.standard.bps / 100}%` : "—"}
+        />
+        <ScheduleRow
+          name="Terminal route"
+          primary={shortAddress(snapshot.terminal?.primary)}
+          fallback={shortAddress(snapshot.terminal?.fallbackAddress)}
+          share={snapshot.terminal ? `${snapshot.terminal.bps / 100}%` : "—"}
+          terminal
+        />
       </div>
       <div className="info-callout">
         <Clock3 size={19} />
@@ -345,19 +448,24 @@ function Beneficiaries() {
   );
 }
 
-function Security() {
+function Security({ snapshot }: { snapshot: VaultSnapshot }) {
   return (
     <div className="security-grid">
       <section className="panel detail-panel">
         <PanelHeader title="Guardian recovery" subtitle="Guardians may activate only the owner-precommitted address." />
-        <div className="quorum-visual"><div className="quorum-number">2<span>/3</span></div><div><strong>Approval threshold</strong><p>2-day activation delay · 30-day execution window</p></div></div>
-        <div className="guardian-stack"><span>GA</span><span>GB</span><span>GC</span><p>3 independent guardians</p></div>
+        <div className="quorum-visual"><div className="quorum-number">{snapshot.guardianThreshold ?? "—"}<span>/{snapshot.guardians.length || "—"}</span></div><div><strong>Approval threshold</strong><p>{days(snapshot.durations?.[6])} activation delay · {days(snapshot.durations?.[7])} execution window</p></div></div>
+        <div className="guardian-stack">
+          {snapshot.guardians.map((guardian, index) => <span key={guardian} title={guardian}>G{index + 1}</span>)}
+          <p>{snapshot.guardians.length || "—"} configured guardians</p>
+        </div>
+        <SecurityRow icon={ShieldCheck} label="Recovery destination" value={shortAddress(snapshot.recoveryAddress)} />
       </section>
       <section className="panel detail-panel">
         <PanelHeader title="Verifiable identity" subtitle="Publicly inspectable for the life of every vault." />
         <SecurityRow icon={Network} label="Network" value="Base Sepolia · 84532" />
         <SecurityRow icon={Vault} label="Version" value="HEIRLOOM_V3_1" />
-        <SecurityRow icon={FileCheck2} label="Vault runtime" value="23,602 bytes" />
+        <SecurityRow icon={FileCheck2} label="Config epoch" value={snapshot.configNonce?.toString() ?? "—"} />
+        <SecurityRow icon={Fingerprint} label="Config hash" value={shortAddress(snapshot.configHash)} />
         <SecurityRow icon={LockKeyhole} label="Upgrade authority" value="None" />
       </section>
       <section className="panel detail-panel security-wide">
@@ -371,14 +479,20 @@ function Security() {
   );
 }
 
-function ActivityView() {
+function ActivityView({ snapshot }: { snapshot: VaultSnapshot }) {
+  const isReleaseVault = snapshot.address?.toLowerCase() === RELEASE_VAULT_ADDRESS.toLowerCase();
   return (
     <section className="panel detail-panel">
-      <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." action="Open explorer" />
+      <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." />
       <div className="activity-list">
-        <ActivityRow icon={FileCheck2} title="Factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45473582" hash="0x09ba…8fc7" />
-        <ActivityRow icon={BadgeCheck} title="Factory source verified" meta="Blockscout standard JSON verification" hash="0x524A…eEcf" />
-        <ActivityRow icon={ShieldCheck} title="Implementation locked" meta="Initializer flag and runtime hash verified" hash="0xd746…3E80" />
+        {isReleaseVault && (
+          <>
+            <ActivityRow icon={HeartPulse} title="20 USDC deposited" meta="Aug 14, 2026 · Base Sepolia block 45475123" hash="0xec16…6e97" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.deposit}`} />
+            <ActivityRow icon={ShieldCheck} title="20 USDC approved" meta="Aug 14, 2026 · Base Sepolia block 45474672" hash="0x49e3…d617" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.approve}`} />
+            <ActivityRow icon={Vault} title="Owner vault created" meta="Aug 14, 2026 · Base Sepolia block 45474409" hash="0x2d02…e077" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.create}`} />
+          </>
+        )}
+        <ActivityRow icon={FileCheck2} title="Factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45473582" hash="0x09ba…8fc7" href="https://base-sepolia.blockscout.com/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7" />
       </div>
     </section>
   );
@@ -392,7 +506,7 @@ function PanelHeader({ title, subtitle, action }: { title: string; subtitle: str
   return <div className="panel-header"><div><h2>{title}</h2><p>{subtitle}</p></div>{action && <button className="text-button">{action} <ChevronRight size={15} /></button>}</div>;
 }
 
-function BeneficiaryRow({ initials, label, share, phase, color }: (typeof beneficiaries)[number]) {
+function BeneficiaryRow({ initials, label, share, phase, color }: { initials: string; label: string; share: string; phase: string; color: string }) {
   return <div className="beneficiary-row"><div className={`avatar avatar-${color}`}>{initials}</div><div className="beneficiary-copy"><strong>{label}</strong><span>Standard beneficiary</span></div><div className="beneficiary-phase"><span className="status-dot" />{phase} active</div><strong className="share-value">{share}</strong></div>;
 }
 
@@ -412,6 +526,6 @@ function Permission({ title, items, good }: { title: string; items: string[]; go
   return <div className={`permission-card ${good ? "permission-good" : ""}`}><strong>{title}</strong>{items.map((item) => <span key={item}><BadgeCheck size={15} />{item}</span>)}</div>;
 }
 
-function ActivityRow({ icon: Icon, title, meta, hash }: { icon: IconType; title: string; meta: string; hash: string }) {
-  return <div className="activity-row"><div className="metric-icon"><Icon size={18} /></div><div><strong>{title}</strong><p>{meta}</p></div><code>{hash}</code><button className="icon-button" aria-label={`Open transaction ${hash}`}><ArrowUpRight size={17} /></button></div>;
+function ActivityRow({ icon: Icon, title, meta, hash, href }: { icon: IconType; title: string; meta: string; hash: string; href: string }) {
+  return <div className="activity-row"><div className="metric-icon"><Icon size={18} /></div><div><strong>{title}</strong><p>{meta}</p></div><code>{hash}</code><a className="icon-button" href={href} target="_blank" rel="noreferrer" aria-label={`Open transaction ${hash}`}><ArrowUpRight size={17} /></a></div>;
 }

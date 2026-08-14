@@ -5,6 +5,13 @@ export const VERSION_ID =
   "0x7cd4187df3151f8b6dba7f8b29a43eb0d551f30262c0c0885dd40f776328670f" as const;
 export const VAULT_USER_SALT =
   "0x484549524c4f4f4d5f424153455f5345504f4c49415f534d4f4b455f56310000" as const;
+export const RELEASE_OWNER_ADDRESS = "0xE8405844a45C209895afE2e49be6aA2C6C6202a6" as const;
+export const RELEASE_VAULT_ADDRESS = "0x45004e3a5992606201B53Cd0FBab7f9439B4476C" as const;
+export const RELEASE_TRANSACTIONS = {
+  create: "0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077",
+  approve: "0x49e3e654c5b8b7ddf1fdb907920a8cc65a7d258f025d0a5a8753be266269d617",
+  deposit: "0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97",
+} as const;
 
 const beneficiaryComponents = [
   { name: "primary", type: "address" },
@@ -112,6 +119,69 @@ export const vaultAbi = [
   },
   {
     type: "function",
+    name: "livenessNonce",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint64" }],
+  },
+  {
+    type: "function",
+    name: "configNonce",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint64" }],
+  },
+  {
+    type: "function",
+    name: "currentConfigHash",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "bytes32" }],
+  },
+  {
+    type: "function",
+    name: "durations",
+    stateMutability: "view",
+    inputs: [],
+    outputs: durationComponents,
+  },
+  {
+    type: "function",
+    name: "beneficiary",
+    stateMutability: "view",
+    inputs: [{ name: "index", type: "uint8" }],
+    outputs: [{ name: "", type: "tuple", components: beneficiaryComponents }],
+  },
+  {
+    type: "function",
+    name: "terminalBeneficiary",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "tuple", components: beneficiaryComponents }],
+  },
+  {
+    type: "function",
+    name: "guardian",
+    stateMutability: "view",
+    inputs: [{ name: "index", type: "uint8" }],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
+    name: "guardianThreshold",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8" }],
+  },
+  {
+    type: "function",
+    name: "recoveryAddress",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
+  },
+  {
+    type: "function",
     name: "heartbeat",
     stateMutability: "nonpayable",
     inputs: [],
@@ -155,4 +225,3 @@ export const erc20Abi = [
     outputs: [{ name: "", type: "bool" }],
   },
 ] as const;
-
