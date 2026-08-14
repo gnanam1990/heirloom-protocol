@@ -23,12 +23,13 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. Current evidence includes 33 core
-test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case and four
-stateful invariants. CI publishes:
+The project is delivered through reviewable milestone commits. Current evidence includes 49 core
+test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case, four stateful
+invariants and 16 of 16 killed production-source mutants. CI publishes:
 
 - Build and test results.
 - Unit, fuzz and stateful invariant evidence.
+- I1-I16 source-mutation evidence.
 - Coverage and gas reports.
 - Runtime and creation bytecode hashes.
 - Base Sepolia deployment manifests and explorer links.
@@ -56,6 +57,7 @@ forge fmt --check
 forge build --sizes
 forge test --no-match-contract BaseMainnetUSDCForkTest
 FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
+./script/check-invariant-mutations.mjs --all
 ./script/check-base-mainnet-usdc-fork.sh
 ```
 

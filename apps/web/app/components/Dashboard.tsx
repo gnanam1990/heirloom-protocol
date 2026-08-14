@@ -396,7 +396,7 @@ function Overview({
         </div>
         <div>
           <span className="eyebrow">Protocol evidence</span>
-          <strong>33 core tests · 9 fork cases · 4 stateful invariants</strong>
+          <strong>49 core · 9 fork · 4 stateful · 16/16 mutants</strong>
         </div>
         <div className="proof-meta">
           <span>Runtime</span>

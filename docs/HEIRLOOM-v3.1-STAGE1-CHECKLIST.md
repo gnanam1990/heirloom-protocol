@@ -33,7 +33,7 @@
 
 - [ ] All four P0 regression suites are green.
 - [ ] I1-I16 pass under stateful fuzzing.
-- [ ] Each invariant has mutation evidence.
+- [x] Each I1-I16 invariant has a compiling source mutant killed by its mapped regression test.
 - [ ] Exact timestamp boundaries are exhaustively tested.
 - [ ] Base Sepolia lifecycle is source-verified and reproducible.
 - [x] Pinned and latest Base mainnet-fork USDC tests are green locally and in hosted CI.

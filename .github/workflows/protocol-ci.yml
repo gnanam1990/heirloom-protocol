@@ -94,6 +94,42 @@ jobs:
             echo "- Cases: pinned identity, latest compatibility, exact deltas, pause, blacklist, lifecycle"
           } >> "${GITHUB_STEP_SUMMARY}"
 
+  invariant-mutations:
+    name: I1-I16 source mutation gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout pinned source and dependencies
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Install pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.19.0
+
+      - name: Install pinned Foundry
+        uses: foundry-rs/foundry-toolchain@908c540300062bd5a7e473851cdb4282204cee09 # v1.9.1
+        with:
+          version: v1.7.1
+          cache: true
+
+      - name: Prove every invariant kills its source mutant
+        run: ./script/check-invariant-mutations.mjs --all
+
+      - name: Publish mutation proof summary
+        if: always()
+        run: |
+          {
+            echo "## I1-I16 source mutation proof"
+            echo
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Method: compile each mutated production source, then require its mapped test to fail"
+            echo "- Gate: all 16 mutants must be killed; invalid or surviving mutants fail CI"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
   web:
     name: Web lint, build, and render
     runs-on: ubuntu-latest

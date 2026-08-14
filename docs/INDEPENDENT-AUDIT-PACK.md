@@ -112,10 +112,10 @@ Active --requestClaim--> ClaimRequested --startDistribution--> Distributing --te
 | I15 | Recovery installs only the precommitted address and atomically invalidates old claims, configs, approvals and nonces. |
 | I16 | Vault version, asset, factory and runtime bytecode identity remain publicly verifiable. |
 
-The current stateful suite exercises four aggregate accounting invariants. That is useful evidence,
-but it is **not yet the specification's required one-to-one mutation proof for I1-I16**. The
-independent review must treat this as an open release gate, not infer full formal coverage from the
-existing invariant count.
+The stateful suite exercises four aggregate accounting invariants. A separate deterministic matrix
+maps every I1-I16 invariant to a compiling production-source mutant and a regression test that kills
+it; the executable evidence is documented in `docs/INVARIANT-MUTATION-MATRIX.md`. This is a
+one-to-one mutation gate, not an exhaustive formal proof or a replacement for independent review.
 
 ## Mandatory attack questions
 
@@ -212,7 +212,7 @@ Low for defense-in-depth or operational mismatch; Informational for non-security
 ## Mainnet release gates
 
 - [ ] Exact audit delivery commit and source hashes confirmed.
-- [ ] I1-I16 each have test and mutation evidence.
+- [x] I1-I16 each have test and compiling production-source mutation evidence.
 - [ ] Independent report has no unresolved Critical or High finding.
 - [ ] Accepted Medium/Low risks are documented by the release owner.
 - [ ] Remediation commit is re-reviewed and all CI/fork gates pass.
