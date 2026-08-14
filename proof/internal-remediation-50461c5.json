@@ -1,0 +1,50 @@
+{
+  "schema": "heirloom.internal-remediation.v1",
+  "generatedAt": "2026-08-14T23:39:04+05:30",
+  "independentExternalAudit": false,
+  "originalReviewedCommit": "9c4fb2b64b49114f86d402f800ad91b5367fe26d",
+  "findingsCommit": "9bd28d426657523bf5add21c382075a4aa283a2e",
+  "remediationCommit": "50461c50f5dd9d8505d684286d75ba6e3ed58ee1",
+  "sourceSha256": {
+    "src/HeirloomFactory.sol": "339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746",
+    "src/HeirloomVault.sol": "7f5e61cf51e80739e30315003a7c7f14c1d0f261d9d22115bec901e1baef7c71",
+    "src/HeirloomTypes.sol": "98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285",
+    "src/interfaces/IHeirloomVault.sol": "651f44819a90794d2b4597538f9567b9fb413639da1c64ecac2bcf7fa4621e78"
+  },
+  "vaultRuntime": {
+    "bytes": 23818,
+    "eip170MarginBytes": 758,
+    "keccak256": "0x48bfce26a7b15d9f7ceaa248db541a41a5afdc84ca9ac27252ff8d6dc2770ab9"
+  },
+  "factoryRuntimeBytes": 2995,
+  "findings": {
+    "H-01": "closed-internally",
+    "M-01": "closed-internally",
+    "L-01": "closed-internally",
+    "L-02": "closed-internally"
+  },
+  "gates": {
+    "coreForgeEntries": 58,
+    "deterministicTests": 52,
+    "fuzzRuns": 10000,
+    "statefulGroups": 5,
+    "statefulRunsPerGroup": 1000,
+    "statefulCallsPerRun": 100,
+    "statefulTotalCalls": 500000,
+    "unexpectedHandlerReverts": 0,
+    "mutantsKilled": 16,
+    "mutantsTotal": 16,
+    "baseMainnetUsdcForkPassed": 9,
+    "baseMainnetUsdcForkTotal": 9,
+    "gasSnapshot": "pass",
+    "webLintBuildRender": "pass",
+    "coverage": {
+      "linesPercent": 92.07,
+      "statementsPercent": 90.51,
+      "branchesPercent": 55.96,
+      "functionsPercent": 88.51
+    }
+  },
+  "releaseStatus": "pre-production-mainnet-blocked",
+  "nextRequiredGate": "independent external audit and remediation re-verification"
+}

@@ -5,10 +5,9 @@
 **Audit candidate; not approved for Base mainnet deployment.**
 
 This package freezes the security claims, review scope, trust assumptions, reproduction steps and
-release gates for Heirloom v3.1. The contract source is byte-for-byte unchanged from repository
-commit `e272c65f3c7f4d5f87c468a3ade83797ce35a2ea`; the delivery commit adds only audit evidence,
-mainnet-fork tests and documentation. The exact delivery commit must be recorded in the final audit
-engagement and report.
+release gates for Heirloom v3.1. The internal findings were remediated at commit
+`50461c50f5dd9d8505d684286d75ba6e3ed58ee1`; the exact final delivery commit and the source hashes
+below must be recorded in the external engagement and report.
 
 Mainnet deployment remains prohibited until an independent reviewer signs the exact commit, all
 accepted findings are remediated, the remediation is re-reviewed, and the release evidence in
@@ -37,12 +36,15 @@ The review should prioritize five properties:
 | File | SHA-256 | Purpose |
 |---|---|---|
 | `src/HeirloomFactory.sol` | `339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746` | Versioned deterministic clone factory and registry |
-| `src/HeirloomVault.sol` | `e6aa4a7528deab81e0c204b151cea1db1a6d2ed55a5c5f384d55075043dddc9c` | Asset custody, liveness, claim, recovery and distribution state machine |
+| `src/HeirloomVault.sol` | `7f5e61cf51e80739e30315003a7c7f14c1d0f261d9d22115bec901e1baef7c71` | Asset custody, liveness, claim, recovery and distribution state machine |
 | `src/HeirloomTypes.sol` | `98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285` | Configuration and state types |
-| `src/interfaces/IHeirloomVault.sol` | `8c199041af6c8563d8bde68457d5682fec4b265e13ea0411e6a1d5216f21d1fb` | External interface and events |
+| `src/interfaces/IHeirloomVault.sol` | `651f44819a90794d2b4597538f9567b9fb413639da1c64ecac2bcf7fa4621e78` | External interface and events |
 
 The normative behavioral specification is `docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md`, including
-D1-D40 and I1-I16. Tests are in scope as evidence, not as production bytecode.
+D1-D40 and I1-I16. The internal findings and remediation evidence are
+`docs/INTERNAL-PREMAINNET-AUDIT-2026-08-14.md` and
+`docs/REMEDIATION-REVERIFICATION-2026-08-14.md`. Tests are in scope as evidence, not as production
+bytecode.
 
 ### Review-adjacent scope
 
@@ -155,6 +157,7 @@ cross-feature races:
 - Permissionless execution improves executability but does not guarantee that someone will pay gas.
 - Public configuration reveals owner, guardian and beneficiary addresses and shares.
 - Distribution cannot be cancelled after `startDistribution()`.
+- The current Base Sepolia deployment predates audit remediation and is not the final candidate.
 - Base Sepolia evidence is not a production audit and the funded testnet vault has not yet elapsed
   through its complete real-time lifecycle.
 
@@ -169,6 +172,7 @@ forge fmt --check
 forge build --sizes
 FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
 forge snapshot --check --no-match-contract BaseMainnetUSDCForkTest
+./script/check-invariant-mutations.mjs --all
 ./script/check-base-mainnet-usdc-fork.sh
 cd apps/web
 npm ci --ignore-scripts --no-audit --no-fund
@@ -219,6 +223,7 @@ Low for defense-in-depth or operational mismatch; Informational for non-security
 - [ ] Independent report has no unresolved Critical or High finding.
 - [ ] Accepted Medium/Low risks are documented by the release owner.
 - [ ] Remediation commit is re-reviewed and all CI/fork gates pass.
+- [x] Internal remediation re-verification and all local CI/fork gates pass.
 - [ ] Latest Base USDC proxy, implementation, roles and runtime hashes are rechecked at release time.
 - [ ] Mainnet deployment script, chain lock, official asset address and bytecode verification are
       separately reviewed.
