@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "sessionId": "local-8990da6b-54e4-4f0c-881a-25f10ac3908c",
+  "model": "gpt-5.6-sol",
+  "startedAt": "2026-08-14T12:44:06.241Z",
+  "endedAt": "2026-08-14T12:53:17.568Z",
+  "durationMs": 551317,
+  "status": "running",
+  "tokens": {
+    "total": 0,
+    "input": 0,
+    "output": 0
+  },
+  "cost": {
+    "usd": 0
+  },
+  "toolCalls": 0,
+  "lines": {
+    "added": 1608,
+    "removed": 0
+  },
+  "filesChanged": [
+    "src/HeirloomFactory.sol",
+    "src/HeirloomTypes.sol",
+    "src/HeirloomVault.sol",
+    "src/interfaces/IHeirloomVault.sol",
+    "test/HeirloomVault.t.sol",
+    "test/HeirloomVaultFuzz.t.sol",
+    "test/mocks/MockUSDC.sol"
+  ],
+  "git": {
+    "branch": "main",
+    "headBefore": "791c5454db44d3c63c9d14864b7cc3ed86fa1e44",
+    "headAfter": "791c5454db44d3c63c9d14864b7cc3ed86fa1e44",
+    "commitShas": [
+      "791c5454db44d3c63c9d14864b7cc3ed86fa1e44"
+    ]
+  },
+  "summary": "",
+  "originUrl": "https://getorigin.io/sessions/local-8990da6b-54e4-4f0c-881a-25f10ac3908c"
+}
