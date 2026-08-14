@@ -23,8 +23,9 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. Current evidence includes 33
-tests, 10,000 fuzz runs per CI fuzz case and four stateful invariants. CI publishes:
+The project is delivered through reviewable milestone commits. Current evidence includes 33 core
+test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case and four
+stateful invariants. CI publishes:
 
 - Build and test results.
 - Unit, fuzz and stateful invariant evidence.
@@ -53,12 +54,17 @@ git submodule update --init --recursive
 ```bash
 forge fmt --check
 forge build --sizes
-forge test
-FOUNDRY_PROFILE=ci forge test
+forge test --no-match-contract BaseMainnetUSDCForkTest
+FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
+./script/check-base-mainnet-usdc-fork.sh
 ```
 
-Fork tests require `BASE_MAINNET_RPC_URL`. Deployment uses a hardware wallet or Foundry
-keystore; raw private keys are never stored in this repository.
+Run `./script/check-base-mainnet-usdc-fork.sh` for the pinned and latest Base USDC suite. It uses
+`BASE_MAINNET_RPC_URL` when supplied and otherwise the public Base RPC. Deployment uses a hardware
+wallet or Foundry keystore; raw private keys are never stored in this repository.
+
+The independent review handoff is
+[`docs/INDEPENDENT-AUDIT-PACK.md`](docs/INDEPENDENT-AUDIT-PACK.md).
 
 ## Product UI
 

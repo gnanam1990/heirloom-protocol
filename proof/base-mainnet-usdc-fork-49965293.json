@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "status": "fork-compatible-not-mainnet-authorized",
+  "recordedAt": "2026-08-14T15:05:33Z",
+  "chain": {
+    "name": "Base Mainnet",
+    "chainId": 8453,
+    "rpcReference": "https://mainnet.base.org"
+  },
+  "pinnedBlock": {
+    "number": 49965293,
+    "hash": "0x1330f00832a462062c4e218a5e02367c109f903234b9d55cd905f251f04856d8",
+    "timestamp": 1786719933,
+    "timestampIso": "2026-08-14T15:05:33Z"
+  },
+  "usdc": {
+    "proxy": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "decimals": 6,
+    "paused": false,
+    "proxyRuntimeCodeHash": "0xa6705a10bb756b5dea144591118be77d7af0c3eee3bf2dfe2583dcb0364fefab",
+    "implementation": "0x2Ce6311ddAE708829bc0784C967b7d77D19FD779",
+    "implementationRuntimeCodeHash": "0x11b75a237997ab8328f65b2d5a55c10f0346d0a175741ed42ddf4f2c66b9e873",
+    "roles": {
+      "pauser": "0xD3571B3bc51CECFf49194AD67aFFFC648d5e07b4",
+      "blacklister": "0x1f2e3A640175d20ac31ed523B6733B977173E277",
+      "masterMinter": "0x2230393EDAD0299b7E7B59F20AA856cD1bEd52e1"
+    }
+  },
+  "test": {
+    "contract": "BaseMainnetUSDCForkTest",
+    "command": "BASE_MAINNET_RPC_URL=https://mainnet.base.org forge test --match-contract BaseMainnetUSDCForkTest -vv",
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "cases": [
+      "testPinnedForkUSDCIdentityAndRuntime",
+      "testLatestForkUSDCIdentityMatchesPinnedRelease",
+      "testPinnedForkExactDepositWithdrawalAndDirectTransferLiveness",
+      "testPinnedForkPausedUSDCRevertsDepositAtomically",
+      "testPinnedForkBlacklistedVaultRevertsDepositAtomically",
+      "testPinnedForkBlacklistedDestinationCannotPartiallyResolve",
+      "testPinnedForkBlacklistedFallbackCannotPartiallyResolve",
+      "testPinnedForkBlacklistedTerminalCannotPartiallySettle",
+      "testPinnedForkCompletesDestinationLockedLifecycle"
+    ],
+    "balanceSeedingOnly": "Foundry deal() seeds test balances; all token operations execute the forked USDC implementation."
+  },
+  "authorization": {
+    "mainnetDeploymentAuthorized": false,
+    "reason": "Independent audit, remediation review and release gates remain incomplete."
+  }
+}

@@ -1,0 +1,225 @@
+# Heirloom v3.1 Independent Audit Pack
+
+## Release status
+
+**Audit candidate; not approved for Base mainnet deployment.**
+
+This package freezes the security claims, review scope, trust assumptions, reproduction steps and
+release gates for Heirloom v3.1. The contract source is byte-for-byte unchanged from repository
+commit `e272c65f3c7f4d5f87c468a3ade83797ce35a2ea`; the delivery commit adds only audit evidence,
+mainnet-fork tests and documentation. The exact delivery commit must be recorded in the final audit
+engagement and report.
+
+Mainnet deployment remains prohibited until an independent reviewer signs the exact commit, all
+accepted findings are remediated, the remediation is re-reviewed, and the release evidence in
+`docs/PROOF-OF-WORK.md` is complete.
+
+## Executive summary
+
+Heirloom is a non-custodial Base USDC vault. After a configured inactivity and challenge period,
+any caller may advance a destination-locked distribution. The caller cannot choose the amount,
+destination, timing phase or terminal order. The owner can withdraw while the vault is Active;
+distribution becomes irreversible at `startDistribution()`.
+
+The review should prioritize five properties:
+
+1. Only fresh authorization attributable to the current owner, or completed recovery, creates
+   liveness.
+2. Claim requests are bound to the current liveness and configuration epochs.
+3. The contract derives exactly one valid destination phase from time; executors never aim funds.
+4. Failed or inexact token transfers change no beneficiary or snapshot accounting.
+5. Terminal settlement is last, once only, and consumes the entire remaining snapshot.
+
+## Scope
+
+### In-scope production contracts
+
+| File | SHA-256 | Purpose |
+|---|---|---|
+| `src/HeirloomFactory.sol` | `339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746` | Versioned deterministic clone factory and registry |
+| `src/HeirloomVault.sol` | `e6aa4a7528deab81e0c204b151cea1db1a6d2ed55a5c5f384d55075043dddc9c` | Asset custody, liveness, claim, recovery and distribution state machine |
+| `src/HeirloomTypes.sol` | `98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285` | Configuration and state types |
+| `src/interfaces/IHeirloomVault.sol` | `8c199041af6c8563d8bde68457d5682fec4b265e13ea0411e6a1d5216f21d1fb` | External interface and events |
+
+The normative behavioral specification is `docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md`, including
+D1-D40 and I1-I16. Tests are in scope as evidence, not as production bytecode.
+
+### Review-adjacent scope
+
+- `script/DeployBaseSepolia.s.sol`, deployment manifests and chain-ID/address gates.
+- Base Sepolia deployed source and runtime identity.
+- Base mainnet USDC fork compatibility at the pinned block and latest available block.
+- Product transaction construction where it could change contract security assumptions.
+
+### Out of scope
+
+- Legal classification, inheritance law, tax treatment and beneficiary identity verification.
+- Death, incapacity or lost-key detection; Heirloom observes only owner authorization and time.
+- Availability of public RPCs, frontends, indexers, explorers, relayers or permissionless callers.
+- Security of owner, guardian, recovery and beneficiary devices or wallet providers.
+- Assets other than the single factory-bound Base USDC contract.
+- A Base mainnet deployment, which does not yet exist and is not authorized by this pack.
+
+## Architecture and trust boundaries
+
+| Component or actor | Authority and assumptions |
+|---|---|
+| Owner | Controls Active funds, config proposals, heartbeat, claim veto and recovery veto. A compromised owner can withdraw Active funds. |
+| Guardians | May approve only the precommitted recovery address. They cannot select a new owner or move funds directly. Threshold compromise can transfer ownership after the delay. |
+| Recovery address | Fixed in configuration. It becomes owner only after a valid, delayed guardian recovery. |
+| Permissionless caller | May request a mature claim, start a valid distribution, execute a beneficiary index, roll over an expired index and settle terminal. It must never choose payout economics or destination. |
+| Beneficiaries | Receive public, configured entitlements. The vault cannot determine whether a recipient key is lost or a recipient contract can later move USDC. |
+| Factory | Deploys immutable minimal clones bound to one USDC address and exposes registry/version evidence. It has no upgrade or vault-admin authority. |
+| Circle USDC | External trusted dependency. Its admins can upgrade, pause or blacklist. Heirloom must revert atomically on failed/inexact transfers but cannot neutralize issuer control. |
+| Base | Timestamps and ordering are supplied by Base. Exact equality boundaries must remain deterministic; temporary sequencing or RPC unavailability can delay but must not redirect execution. |
+
+## State and asset model
+
+```text
+Active --requestClaim--> ClaimRequested --startDistribution--> Distributing --terminal--> Settled
+   ^             |                 irreversible boundary
+   |             +--fresh owner action or recovery invalidation--+
+   +--------------------------------------------------------------+
+```
+
+- Owner withdrawals are allowed only while Active.
+- `requestClaim()` moves no asset and records liveness/configuration epochs.
+- `startDistribution()` snapshots the supported-token balance and is irreversible.
+- Every non-terminal entitlement resolves exactly once as Paid or RolledOver.
+- Terminal is payable only after all non-terminal entries resolve and receives the remaining
+  snapshot exactly once.
+- Direct transfers cannot be prevented. Pre-snapshot transfers enter the snapshot; post-snapshot
+  excess is handled separately under D22/D39.
+
+## Formal invariants under review
+
+| ID | Required property |
+|---|---|
+| I1 | `lastSeen` changes only after fresh current-owner authorization or completed recovery. |
+| I2 | Permissionless actions, guardian actions, third-party deposits and direct token transfers never create owner liveness. |
+| I3 | `requestClaim()` transfers no vault asset and records the current liveness/config epoch. |
+| I4 | `startDistribution()` succeeds only for the current request epoch and is the sole irreversible boundary. |
+| I5 | A permissionless caller cannot choose payout amount, destination, entitlement, phase or terminal order. |
+| I6 | Exactly one non-terminal destination phase is valid for an unresolved beneficiary at any timestamp. |
+| I7 | After `rolloverAt`, primary and fallback payment are impossible for non-terminal beneficiaries. |
+| I8 | Every non-terminal entitlement resolves exactly once as Paid or RolledOver. |
+| I9 | Terminal payout is impossible while any non-terminal entitlement is Unresolved. |
+| I10 | Non-terminal entitlements plus terminal base entitlement equal the snapshot. |
+| I11 | Every rollover remains in `snapshotRemaining` and increases final terminal payment exactly once. |
+| I12 | A failed or inexact transfer changes no beneficiary status or snapshot accounting. |
+| I13 | Every payout reduces `snapshotRemaining` by exactly the outgoing token balance delta. |
+| I14 | Settled implies zero snapshot remaining, all non-terminal entries resolved and terminal paid once. |
+| I15 | Recovery installs only the precommitted address and atomically invalidates old claims, configs, approvals and nonces. |
+| I16 | Vault version, asset, factory and runtime bytecode identity remain publicly verifiable. |
+
+The current stateful suite exercises four aggregate accounting invariants. That is useful evidence,
+but it is **not yet the specification's required one-to-one mutation proof for I1-I16**. The
+independent review must treat this as an open release gate, not infer full formal coverage from the
+existing invariant count.
+
+## Mandatory attack questions
+
+The review must attempt to demonstrate each attack, including exact timestamp boundaries and
+cross-feature races:
+
+- Can any non-owner action extend inactivity or revive a stale claim?
+- Can permissionless config execution heartbeat, including when the executor happens to be owner?
+- Can stale liveness/config epochs start distribution after owner activity, config change or recovery?
+- Can a caller select primary versus fallback, pay after rollover, change amount, skip an unresolved
+  beneficiary or settle terminal early?
+- Can duplicate calls, reentrancy, zero entitlements, rounding or rollovers double-pay or strand the
+  snapshot?
+- Can paused, blacklisted, fee-on-transfer, rebasing, callback or otherwise inexact token behavior
+  partially commit state?
+- Can direct transfers manipulate liveness, snapshot accounting or post-settlement excess handling?
+- Can guardians replace the precommitted recovery address, reuse approvals, bypass delay/expiry,
+  survive owner veto, or revive claims/config after activation?
+- Can configuration hashes or deterministic salts replay across vaults, owners, chains, versions or
+  nonces?
+- Can an implementation clone be initialized twice, impersonate the registry, upgrade, self-destruct
+  or acquire admin authority?
+- Can chain timestamp equality, integer truncation, array bounds, BPS conservation or maximum
+  configuration size create an unreachable or prematurely reachable state?
+
+## Known limitations and non-promises
+
+- Heirloom cannot detect death, incapacity, key loss or recipient usability. Fallback eligibility is
+  time-based only.
+- A compromised owner can withdraw all funds while Active. Guardians are recovery governance, not a
+  theft-prevention committee.
+- Circle can pause, blacklist or upgrade Base USDC. The fork suite proves compatibility only with the
+  tested implementation and block.
+- Permissionless execution improves executability but does not guarantee that someone will pay gas.
+- Public configuration reveals owner, guardian and beneficiary addresses and shares.
+- Distribution cannot be cancelled after `startDistribution()`.
+- Base Sepolia evidence is not a production audit and the funded testnet vault has not yet elapsed
+  through its complete real-time lifecycle.
+
+## Reproduction
+
+Pinned toolchain: Foundry 1.7.1, Solidity 0.8.30, OpenZeppelin Contracts 5.7.0 and forge-std 1.16.2.
+
+```bash
+git submodule update --init --recursive
+forge --version
+forge fmt --check
+forge build --sizes
+FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
+forge snapshot --check --no-match-contract BaseMainnetUSDCForkTest
+./script/check-base-mainnet-usdc-fork.sh
+cd apps/web
+npm ci --ignore-scripts --no-audit --no-fund
+npm run lint
+npm test
+```
+
+The fork checker uses `BASE_MAINNET_RPC_URL` when set and otherwise the public Base RPC. The pinned
+block proves a stable historical target; the latest fork is a compatibility alarm and may fail
+legitimately if Circle upgrades USDC. Such a failure blocks release until reviewed and re-pinned.
+
+## Base mainnet USDC compatibility evidence
+
+The machine-readable evidence is `proof/base-mainnet-usdc-fork-49965293.json`.
+
+| Field | Pinned value |
+|---|---|
+| Chain | Base mainnet, `8453` |
+| Block | `49,965,293` |
+| Block hash | `0x1330f00832a462062c4e218a5e02367c109f903234b9d55cd905f251f04856d8` |
+| Timestamp | `2026-08-14T15:05:33Z` |
+| USDC proxy | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |
+| Implementation | `0x2Ce6311ddAE708829bc0784C967b7d77D19FD779` |
+| Fork cases | 9 passed: identity, latest compatibility, exact deltas/direct transfer, pause, vault/primary/fallback/terminal blacklist paths and complete lifecycle |
+
+`deal()` is used only to seed test balances. Approvals, `transferFrom`, transfers, pause,
+blacklisting, proxy reads and implementation behavior execute against forked Base USDC bytecode.
+
+## Required auditor output
+
+The engagement should return:
+
+1. Report bound to an exact repository commit and compiler/toolchain.
+2. Findings with severity, exploit preconditions, invariant impact and reproducible proof.
+3. Coverage statement for every I1-I16 invariant and every mandatory attack question above.
+4. Explicit review of Base USDC proxy/admin risks and Heirloom's atomic failure behavior.
+5. Remediation review bound to the final candidate commit.
+6. Residual-risk and launch recommendation: approve, approve with accepted risks, or block.
+
+Suggested severity: Critical for immediate arbitrary loss/control; High for conditional loss,
+permanent claim denial or destination control; Medium for bounded accounting/liveness violation;
+Low for defense-in-depth or operational mismatch; Informational for non-security observations.
+
+## Mainnet release gates
+
+- [ ] Exact audit delivery commit and source hashes confirmed.
+- [ ] I1-I16 each have test and mutation evidence.
+- [ ] Independent report has no unresolved Critical or High finding.
+- [ ] Accepted Medium/Low risks are documented by the release owner.
+- [ ] Remediation commit is re-reviewed and all CI/fork gates pass.
+- [ ] Latest Base USDC proxy, implementation, roles and runtime hashes are rechecked at release time.
+- [ ] Mainnet deployment script, chain lock, official asset address and bytecode verification are
+      separately reviewed.
+- [ ] Deployment and verification manifests are committed before meaningful-value funding.
+- [ ] UI warnings accurately describe inactivity, irreversibility, key loss, privacy and issuer risk.
+
+Until every required gate is recorded, the only valid release status is **pre-production**.
