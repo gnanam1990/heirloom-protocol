@@ -38,6 +38,14 @@
     "baseMainnetUsdcForkTotal": 9,
     "gasSnapshot": "pass",
     "webLintBuildRender": "pass",
+    "hostedCi": {
+      "evidenceCommit": "1f3b68291a76916a0a4aebba846557421a66cf7e",
+      "runId": 31827335863,
+      "url": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863",
+      "conclusion": "success",
+      "jobsPassed": 4,
+      "jobsTotal": 4
+    },
     "coverage": {
       "linesPercent": 92.07,
       "statementsPercent": 90.51,
