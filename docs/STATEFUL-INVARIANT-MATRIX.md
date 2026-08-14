@@ -9,6 +9,12 @@ report zero unexpected reverts, and Foundry shrinks any counterexample before re
 This gate complements, but does not replace, the one-to-one production-source mutation gate or an
 independent security audit.
 
+The stateful harness was introduced at source commit
+`64d2c418ea6605bdaa8b585399088d2ede9bdfbe`. Production contract source and bytecode were not
+changed by this milestone. The exact hosted run is
+[GitHub Actions 31820092793](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31820092793),
+and the machine-readable record is `proof/i1-i16-stateful-64d2c41.json`.
+
 ## Stateful model
 
 `test/HeirloomVaultInvariant.t.sol` creates three isolated vaults:

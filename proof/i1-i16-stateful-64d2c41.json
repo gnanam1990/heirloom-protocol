@@ -1,0 +1,79 @@
+{
+  "artifact": "heirloom-i1-i16-stateful-invariant-proof",
+  "generatedAt": "2026-08-14",
+  "status": "local-and-hosted-stateful-gate-passed",
+  "sourceCommit": "64d2c418ea6605bdaa8b585399088d2ede9bdfbe",
+  "productionSourceChanged": false,
+  "productionSourceSha256": {
+    "src/HeirloomFactory.sol": "339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746",
+    "src/HeirloomVault.sol": "e6aa4a7528deab81e0c204b151cea1db1a6d2ed55a5c5f384d55075043dddc9c",
+    "src/HeirloomTypes.sol": "98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285",
+    "src/interfaces/IHeirloomVault.sol": "8c199041af6c8563d8bde68457d5682fec4b265e13ea0411e6a1d5216f21d1fb"
+  },
+  "statefulGate": {
+    "testFile": "test/HeirloomVaultInvariant.t.sol",
+    "propertyGroups": 5,
+    "runsPerProperty": 1000,
+    "callsPerRun": 100,
+    "totalRandomizedCalls": 500000,
+    "primaryLifecycleActions": 14,
+    "inexactTransferActions": 1,
+    "unexpectedHandlerReverts": 0,
+    "coveredInvariants": [
+      "I1",
+      "I2",
+      "I3",
+      "I4",
+      "I5",
+      "I6",
+      "I7",
+      "I8",
+      "I9",
+      "I10",
+      "I11",
+      "I12",
+      "I13",
+      "I14",
+      "I15",
+      "I16"
+    ]
+  },
+  "normalSourceRegression": {
+    "coreForgeTestEntriesPassed": 50,
+    "deterministicTestsPassed": 44,
+    "fuzzRuns": 10000,
+    "baseMainnetForkTestsPassed": 9,
+    "sourceMutantsKilled": 16,
+    "sourceMutantsTotal": 16,
+    "webLintBuildAndRender": "passed"
+  },
+  "hostedCi": {
+    "runId": 31820092793,
+    "url": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31820092793",
+    "conclusion": "success",
+    "jobs": {
+      "coreAndStateful": {
+        "jobId": 94830996691,
+        "conclusion": "success",
+        "duration": "3m25s"
+      },
+      "sourceMutation": {
+        "jobId": 94830996695,
+        "conclusion": "success",
+        "duration": "7m46s"
+      },
+      "baseMainnetFork": {
+        "jobId": 94830996577,
+        "conclusion": "success",
+        "duration": "27s"
+      },
+      "web": {
+        "jobId": 94830996719,
+        "conclusion": "success",
+        "duration": "46s"
+      }
+    }
+  },
+  "mainnetDeploymentAuthorized": false,
+  "remainingMandatoryGate": "independent external audit and remediation"
+}
