@@ -14,9 +14,11 @@ npm run lint
 npm test
 ```
 
-The app currently targets Base Sepolia. Preview values remain explicitly labeled until a verified
-factory address is added and live contract reads are enabled. Wallet connection uses Base Account,
-so passkey-backed accounts work without seed-phrase onboarding.
+The app targets Base Sepolia and pins the source-verified v3.1 factory at
+`0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf`. The launch panel reads factory identity and
+USDC balances live, validates the production minimum schedule, creates deterministic owner vaults,
+and exposes approval, deposit and heartbeat actions. Injected wallets are preferred when present;
+Base Account remains available through the shared Wagmi configuration.
 
 ## Brand direction
 

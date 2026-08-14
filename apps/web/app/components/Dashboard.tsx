@@ -25,6 +25,7 @@ import {
 import { useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
+import { LiveVault } from "./LiveVault";
 
 type View = "overview" | "beneficiaries" | "security" | "activity";
 type IconType = typeof Vault;
@@ -53,9 +54,11 @@ export function Dashboard() {
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
   const baseConnector = connectors.find((connector) => connector.id === "baseAccount");
+  const injectedConnector = connectors.find((connector) => connector.id === "injected");
+  const preferredConnector = injectedConnector ?? baseConnector;
 
-  function connectBase() {
-    if (baseConnector) connect({ connector: baseConnector, chainId: baseSepolia.id });
+  function connectWallet() {
+    if (preferredConnector) connect({ connector: preferredConnector, chainId: baseSepolia.id });
   }
 
   return (
@@ -145,11 +148,11 @@ export function Dashboard() {
             ) : (
               <button
                 className="primary-button connect-button"
-                onClick={connectBase}
-                disabled={!baseConnector || isPending}
+                onClick={connectWallet}
+                disabled={!preferredConnector || isPending}
               >
                 <Fingerprint size={17} />
-                {isPending ? "Opening Base…" : "Connect with Base"}
+                {isPending ? "Opening wallet…" : "Connect wallet"}
               </button>
             )}
           </div>
@@ -174,7 +177,7 @@ export function Dashboard() {
               </p>
             </div>
             <div className="heading-actions">
-              <span className="preview-badge">Interface preview · no funds connected</span>
+              <span className="preview-badge">Live deployment · source verified</span>
               <button className="secondary-button">
                 <FileCheck2 size={17} /> Public proof
               </button>
@@ -208,6 +211,7 @@ export function Dashboard() {
 function Overview() {
   return (
     <>
+      <LiveVault />
       <section className="status-hero">
         <div className="status-copy">
           <div className="status-title-row">
@@ -304,7 +308,7 @@ function Overview() {
         </div>
         <div>
           <span className="eyebrow">Protocol evidence</span>
-          <strong>30 tests · 10,000 fuzz runs · 4 stateful invariants</strong>
+          <strong>33 tests · 10,000 fuzz runs · 4 stateful invariants</strong>
         </div>
         <div className="proof-meta">
           <span>Runtime</span>
