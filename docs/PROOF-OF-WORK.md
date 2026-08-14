@@ -14,6 +14,7 @@ command that reproduces it.
 | M2: adversarial verification | `cb57cbc` | Recovery/config boundary suite and four stateful accounting invariants |
 | CI and gas gates | `0765cd3` | Pinned GitHub workflow and committed gas snapshot |
 | M3: Base product UI | `0f9580d` | Base Account connector, responsive dashboard, production build and server-render test |
+| M4 preparation: Base Sepolia | `eaf30c6` | Chain-locked deployment script, pinned official test USDC, manifest and runbook |
 
 ## Current verified results
 
@@ -21,13 +22,14 @@ Verified locally from clean committed source on 2026-08-14:
 
 | Gate | Result | Reproduction |
 |---|---:|---|
-| Deterministic tests | 25 passed | `FOUNDRY_PROFILE=ci forge test` |
+| Deterministic tests | 28 passed | `FOUNDRY_PROFILE=ci forge test` |
 | Fuzz test | 10,000 runs passed | `FOUNDRY_PROFILE=ci forge test` |
 | Stateful invariants | 4 × 1,000 runs × 100 calls passed | `FOUNDRY_PROFILE=ci forge test` |
-| Total Forge test entries | 30 passed | `FOUNDRY_PROFILE=ci forge test` |
+| Total Forge test entries | 33 passed | `FOUNDRY_PROFILE=ci forge test` |
 | Vault runtime size | 23,602 bytes; 974-byte EIP-170 margin | `forge build --sizes` |
 | Factory runtime size | 2,995 bytes | `forge build --sizes` |
 | Gas snapshot | Matches committed baseline | `forge snapshot --check` |
+| Coverage snapshot | 84.42% lines; 81.40% statements; 38.98% branches; 80.88% functions | `forge coverage --report summary` |
 | Web lint | Passed | `cd apps/web && npm run lint` |
 | Web production build/render | Passed | `cd apps/web && npm test` |
 | Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no console warnings/errors | Manual local preview inspection |

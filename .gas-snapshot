@@ -1,3 +1,6 @@
+DeployBaseSepoliaTest:testDeploysPinnedFactoryOnBaseSepolia() (gas: 5469567)
+DeployBaseSepoliaTest:testRejectsMissingOfficialAssetCode() (gas: 12108)
+DeployBaseSepoliaTest:testRejectsWrongChainBeforeBroadcast() (gas: 9113)
 HeirloomConfigRecoveryTest:testConfigDigestBindsVaultAndCurrentNonce() (gas: 770040)
 HeirloomConfigRecoveryTest:testConfigExecutionAndExpiryExactBoundaries() (gas: 230438)
 HeirloomConfigRecoveryTest:testConfigReplacementRestartsDelayAndInvalidatesOldPayload() (gas: 200021)
