@@ -16,6 +16,7 @@ command that reproduces it.
 | M3: Base product UI | `0f9580d` | Base Account connector, responsive dashboard, production build and server-render test |
 | M4 preparation: Base Sepolia | `eaf30c6` | Chain-locked deployment script, pinned official test USDC, manifest and runbook |
 | M5 preparation: independent audit | `93ea145` | Pinned/latest Base mainnet USDC fork suite, machine-readable evidence and auditor handoff pack |
+| M6: invariant mutation proof | `1f0c51a` | Dedicated I1-I16 regression matrix and 16 compiling production-source mutants killed |
 
 ## Current verified results
 
@@ -23,10 +24,11 @@ Verified locally from clean committed source on 2026-08-14:
 
 | Gate | Result | Reproduction |
 |---|---:|---|
-| Deterministic tests | 28 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Deterministic tests | 44 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
 | Fuzz test | 10,000 runs passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
 | Stateful invariants | 4 × 1,000 runs × 100 calls passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
-| Core Forge test entries | 33 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Core Forge test entries | 49 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| I1-I16 source mutation gate | 16 of 16 compiling mutants killed | `./script/check-invariant-mutations.mjs --all` |
 | Base mainnet USDC fork | 9 passed: pinned/latest compatibility, exact deltas, pause, vault/primary/fallback/terminal blacklist paths and lifecycle | `./script/check-base-mainnet-usdc-fork.sh` |
 | Vault runtime size | 23,602 bytes; 974-byte EIP-170 margin | `forge build --sizes` |
 | Factory runtime size | 2,995 bytes | `forge build --sizes` |
@@ -103,6 +105,7 @@ forge build --sizes
 forge test -vv
 FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
 forge snapshot --check --no-match-contract BaseMainnetUSDCForkTest
+./script/check-invariant-mutations.mjs --all
 ./script/check-base-mainnet-usdc-fork.sh
 ```
 

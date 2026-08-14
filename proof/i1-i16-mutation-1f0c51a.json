@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "status": "local-mutation-gate-passed-hosted-ci-pending",
+  "recordedAt": "2026-08-14T15:59:59Z",
+  "sourceCommit": "1f0c51a8d835de8728e0a0d4bde46d519878d314",
+  "productionSourceChanged": false,
+  "productionSourceHashes": {
+    "src/HeirloomFactory.sol": "339d41deab998ca60348cce5ec61e5e166fcdad431fefb216150f2e9182d1746",
+    "src/HeirloomVault.sol": "e6aa4a7528deab81e0c204b151cea1db1a6d2ed55a5c5f384d55075043dddc9c",
+    "src/HeirloomTypes.sol": "98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285",
+    "src/interfaces/IHeirloomVault.sol": "8c199041af6c8563d8bde68457d5682fec4b265e13ea0411e6a1d5216f21d1fb"
+  },
+  "normalSource": {
+    "command": "FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest",
+    "corePassed": 49,
+    "coreFailed": 0,
+    "deterministicPassed": 44,
+    "fuzzRuns": 10000,
+    "statefulInvariants": 4,
+    "statefulRunsPerInvariant": 1000,
+    "statefulCallsPerRun": 100
+  },
+  "mutationGate": {
+    "command": "./script/check-invariant-mutations.mjs --all",
+    "manifest": "mutations/manifest.mjs",
+    "testContract": "HeirloomInvariantMatrixTest",
+    "selected": 16,
+    "compiled": 16,
+    "killed": 16,
+    "survived": 0,
+    "invalid": 0,
+    "harnessErrors": 0,
+    "ids": [
+      "I1",
+      "I2",
+      "I3",
+      "I4",
+      "I5",
+      "I6",
+      "I7",
+      "I8",
+      "I9",
+      "I10",
+      "I11",
+      "I12",
+      "I13",
+      "I14",
+      "I15",
+      "I16"
+    ],
+    "isolation": "Repository copied to an OS temporary directory; production worktree is never mutated."
+  },
+  "hostedCi": null,
+  "authorization": {
+    "mainnetDeploymentAuthorized": false,
+    "reason": "Independent audit, remediation review and remaining release gates are incomplete."
+  }
+}
