@@ -1,0 +1,60 @@
+name: Protocol CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: protocol-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Format, build, test, and size
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout pinned source and dependencies
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Install pinned Foundry
+        uses: foundry-rs/foundry-toolchain@908c540300062bd5a7e473851cdb4282204cee09 # v1.9.1
+        with:
+          version: v1.7.1
+          cache: true
+
+      - name: Record toolchain
+        run: forge --version
+
+      - name: Check formatting
+        run: forge fmt --check
+
+      - name: Build and enforce EVM size limits
+        run: forge build --sizes
+
+      - name: Run high-intensity test profile
+        env:
+          FOUNDRY_PROFILE: ci
+        run: forge test
+
+      - name: Check gas snapshot
+        run: forge snapshot --check
+
+      - name: Publish proof summary
+        if: always()
+        run: |
+          {
+            echo "## Heirloom protocol proof"
+            echo
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Foundry: \`$(forge --version | head -n 1)\`"
+            echo "- Profile: 10,000 fuzz runs; 1,000 invariant runs × 100 calls"
+            echo "- Gates: formatting, EVM bytecode size, tests, gas snapshot"
+          } >> "${GITHUB_STEP_SUMMARY}"
