@@ -2,7 +2,7 @@
 
 **A non-custodial asset-continuity vault for Base**
 
-**Status:** Stage 0A candidate for sign-off<br>
+**Status:** Stage 1 audit-remediation candidate; not approved for mainnet<br>
 **Target:** Base Sepolia, then Base mainnet after independent audit and remediation<br>
 **Date:** 14 August 2026<br>
 **Supersedes:** v3, v2 and v1
@@ -12,8 +12,9 @@
 > actions from manufacturing owner liveness, pays the terminal beneficiary last, binds
 > claim requests to a liveness epoch, and fully specifies guardian recovery.
 
-> Nothing has been deployed. This document is the candidate implementation source of truth.
-> Stage 1 may begin only after D1-D40 and I1-I16 are accepted without contradiction.
+> A pre-remediation candidate is deployed only on Base Sepolia. This document remains the
+> implementation source of truth; no Base mainnet deployment is authorized until an independent
+> auditor signs the exact remediated commit.
 
 ---
 
@@ -318,6 +319,11 @@ emits `ClaimCancelled` with a reason code.
 The irreversible boundary is `startDistribution()`. Once successful, no heartbeat, recovery,
 withdrawal or configuration path may return the vault to an earlier state.
 
+After the request-epoch checks succeed and before the snapshot is recorded,
+`startDistribution()` deletes any pending configuration and emits `ConfigInvalidated` at the
+current config nonce. This terminal cleanup does not increment `configNonce`, because the claim was
+already validated against that epoch and configuration can never execute after distribution starts.
+
 ## 12. Distribution configuration
 
 ### 12.1 Beneficiary structure
@@ -336,6 +342,7 @@ struct Beneficiary {
 - Every BPS value is greater than zero.
 - All BPS values total exactly 10,000.
 - Every configured destination is nonzero.
+- No configured destination may equal the vault itself.
 - `primary != fallbackAddress` for every entry.
 - V1 rejects duplicate destination addresses across the full schedule.
 
@@ -501,6 +508,10 @@ Permissionless execution:
 - Cannot change the proposal payload.
 - Increments `configNonce` only after successful validation and application.
 - Is unavailable from ClaimRequested onward.
+- Reverts while a pending recovery has reached guardian threshold. Guardian quorum has priority
+  until the owner vetoes it, recovery activates, or an expired request is cleared.
+- May invalidate a recovery request that has not reached threshold, preventing a single guardian
+  from freezing configuration.
 
 The owner may heartbeat separately before or after execution while the vault remains Active.
 
@@ -509,6 +520,8 @@ The owner may heartbeat separately before or after execution while the vault rem
 - Owner veto while Active deletes the proposal and creates liveness.
 - Expired proposals cannot execute and may be cleared by anyone.
 - Recovery activation deletes the pending proposal and increments `configNonce`.
+- Distribution start deletes the pending proposal without changing the already validated claim
+  epoch.
 - ClaimRequested freezes proposal creation, veto and execution.
 
 ## 16. Guardian recovery
@@ -517,8 +530,8 @@ The owner may heartbeat separately before or after execution while the vault rem
 
 - Three to seven unique guardian addresses.
 - Threshold from two guardians up to guardian count.
-- Owner, recovery address and zero address cannot be guardians.
-- Recovery address is nonzero and different from current owner.
+- Owner, recovery address, vault address and zero address cannot be guardians.
+- Recovery address is nonzero and different from current owner and the vault address.
 - Guardians can activate only that precommitted recovery address.
 
 ### 16.2 Lifecycle
@@ -541,6 +554,10 @@ Owner veto is available before activation.
    any pending claim.
 5. Any caller may call `activateRecovery()` when `readyAt <= now <= expiresAt`.
 6. After expiry, anyone may clear the request; guardians must start a new request.
+
+Once step 3 reaches threshold, permissionless config execution cannot invalidate the request.
+Before threshold, config execution may invalidate it. This ordering rule ensures guardian quorum
+cannot be defeated by transaction ordering while one guardian cannot unilaterally block config.
 
 ### 16.3 Activation effects
 
@@ -847,7 +864,7 @@ test to fail.
 | I7 | After `rolloverAt`, primary and fallback payment are impossible for non-terminal beneficiaries. |
 | I8 | Every non-terminal entitlement resolves exactly once as Paid or RolledOver. |
 | I9 | Terminal payout is impossible while any non-terminal entitlement is Unresolved. |
-| I10 | The sum of non-terminal entitlements plus terminal base entitlement equals the snapshot. |
+| I10 | The sum of floored non-terminal entitlements plus the terminal remainder equals the snapshot, including atomic-unit rounding. |
 | I11 | Every rolled-over amount remains in `snapshotRemaining` and therefore increases final terminal payment exactly once. |
 | I12 | A failed or inexact token transfer changes no beneficiary status and no snapshot accounting. |
 | I13 | Every successful payout reduces `snapshotRemaining` by exactly the outgoing token balance delta. |
@@ -998,9 +1015,9 @@ version and renewed security review.
 | D30 | Destination exclusivity | Exactly one phase valid at a timestamp. | I6-I7 fuzzing. |
 | D31 | Terminal order | Locked until every non-terminal resolves; paid once. | I9 and terminal tests. |
 | D32 | Zero entitlement | Mark Paid without token call; emit evidence. | Tiny-snapshot test. |
-| D33 | Duplicate destinations | Reject all duplicates in V1. | Constructor/config validation. |
+| D33 | Invalid destinations | Reject zero, duplicates and the vault's own address in V1. | Constructor/config validation. |
 | D34 | Claim request binding | Store livenessNonce and configNonce. | Stale-request tests. |
-| D35 | Recovery governance | 3-7 guardians, threshold >=2, delayed activation, owner veto and expiry. | Recovery lifecycle tests. |
+| D35 | Recovery governance | 3-7 guardians, threshold >=2, delayed activation, owner veto, expiry and quorum priority over config execution. | Recovery lifecycle and config/recovery interleaving tests. |
 | D36 | Recovery address | Precommitted, nonzero and not current owner. | Destination-selection invariant. |
 | D37 | Custom ERC-1271 actions | Excluded; smart account calls vault directly. | No by-signature interface. |
 | D38 | USDC changes | Monitor implementation and roles; pinned plus latest fork tests. | Operational launch gate. |

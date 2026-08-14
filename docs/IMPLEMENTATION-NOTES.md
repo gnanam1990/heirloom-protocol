@@ -25,8 +25,24 @@ Any successful owner-liveness action deletes a pending guardian recovery request
 same safety outcome as an explicit owner veto, emits recovery invalidation evidence and prevents
 guardians from activating an old request after the owner has freshly demonstrated control.
 
-Configuration execution and distribution start also invalidate pending recovery. Distribution
-remains the irreversible boundary.
+Configuration execution invalidates a pending recovery only before guardian threshold is reached.
+Once quorum is reached, config execution reverts until the owner vetoes recovery, recovery activates,
+or an expired request is cleared. Distribution start invalidates recovery and any pending config;
+distribution remains the irreversible boundary.
+
+## Self-address configuration rejection
+
+The vault rejects its own address as a primary/fallback destination, recovery address or guardian.
+A supported-token transfer to self would not reduce the vault balance and therefore cannot satisfy
+exact-delta accounting. Rejecting the configuration prevents an owner from scheduling an incapable
+route or authority while exact-delta enforcement remains the runtime backstop.
+
+## Terminal rounding model
+
+Every non-terminal entitlement is floored independently. The terminal base is the full snapshot
+minus those non-terminal floors, not merely the floor of the terminal BPS share. The terminal thus
+absorbs every atomic-unit rounding remainder and every later rollover exactly once. Stateful tests
+use a snapshot not divisible by 10,000 so this rule is exercised continuously.
 
 ## Production boundary
 

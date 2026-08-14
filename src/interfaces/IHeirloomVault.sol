@@ -105,6 +105,7 @@ interface IHeirloomVault {
     error ConfigNotReady();
     error ConfigProposalExpired();
     error ConfigHashMismatch();
+    error RecoveryBlocksConfig();
     error RecoveryAlreadyPending();
     error NoPendingRecovery();
     error RecoveryNotReady();

@@ -490,7 +490,7 @@ contract HeirloomLifecycleHandler is Test {
 }
 
 contract HeirloomVaultInvariantTest is StdInvariant, Test {
-    uint256 internal constant DEPOSIT = 1_000_000e6;
+    uint256 internal constant DEPOSIT = 1_000_000e6 + 7;
 
     address internal owner = makeAddr("stateful-owner");
     address internal outsider = makeAddr("stateful-outsider");
@@ -584,7 +584,10 @@ contract HeirloomVaultInvariantTest is StdInvariant, Test {
         if (distributionVault.terminalUnlockedAt() != 0) assertEq(resolved, length);
 
         HeirloomTypes.Beneficiary memory terminal = distributionVault.terminalBeneficiary();
-        uint256 terminalBase = distributionVault.snapshotBalance() * terminal.bps / 10_000;
+        uint256 terminalFloor = distributionVault.snapshotBalance() * terminal.bps / 10_000;
+        uint256 terminalBase = distributionVault.snapshotBalance() - entitlementSum;
+        assertGe(terminalBase, terminalFloor);
+        assertLt(terminalBase - terminalFloor, length + 1);
         assertEq(entitlementSum + terminalBase, distributionVault.snapshotBalance());
     }
 

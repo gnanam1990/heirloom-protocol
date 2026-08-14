@@ -231,6 +231,54 @@ contract HeirloomVaultTest is Test {
         assertTrue(emptyVault.terminalPaid());
     }
 
+    function testPositiveSnapshotZeroEntitlementsResolveAndTerminalReceivesRemainder() public {
+        HeirloomVault tinyVault =
+            HeirloomVault(factory.createVault(owner, keccak256("tiny"), _defaultConfig()));
+        usdc.mint(address(tinyVault), 1);
+        vm.warp(uint256(tinyVault.lastSeen()) + tinyVault.MIN_INACTIVITY());
+        tinyVault.requestClaim();
+        (,, uint64 executeAfter,,) = tinyVault.claimRequest();
+        vm.warp(executeAfter);
+        tinyVault.startDistribution();
+
+        assertEq(tinyVault.resolvedNonTerminalCount(), 2);
+        assertEq(tinyVault.terminalUnlockedAt(), block.timestamp);
+        tinyVault.executeTerminalPayout();
+        assertEq(usdc.balanceOf(terminalPrimary), 1);
+        assertEq(uint8(tinyVault.state()), uint8(HeirloomTypes.VaultState.Settled));
+    }
+
+    function testTerminalAbsorbsAtomicUnitRounding() public {
+        usdc.mint(address(vault), 7);
+        _startDistribution();
+        uint256 snapshot = vault.snapshotBalance();
+        uint256 first = vault.entitlement(0);
+        uint256 second = vault.entitlement(1);
+        uint256 terminalFloor = snapshot * 5000 / 10_000;
+
+        vault.executePayout(0);
+        vault.executePayout(1);
+        uint256 expectedTerminal = snapshot - first - second;
+        assertGt(expectedTerminal, terminalFloor);
+        vault.executeTerminalPayout();
+
+        assertEq(usdc.balanceOf(terminalPrimary), expectedTerminal);
+        assertEq(first + second + expectedTerminal, snapshot);
+    }
+
+    function testAccountingDeficitBlocksPayoutWithoutResolution() public {
+        _startDistribution();
+        uint256 snapshot = vault.snapshotBalance();
+        deal(address(usdc), address(vault), snapshot - 1);
+
+        vm.expectRevert(IHeirloomVault.AccountingDeficit.selector);
+        vault.executePayout(0);
+        assertEq(
+            uint8(vault.beneficiaryStatus(0)), uint8(HeirloomTypes.BeneficiaryStatus.Unresolved)
+        );
+        assertEq(vault.snapshotRemaining(), snapshot);
+    }
+
     function testGuardianRecoveryRequiresQuorumAndDelay() public {
         _matureAndRequestClaim();
         vm.prank(guardianA);

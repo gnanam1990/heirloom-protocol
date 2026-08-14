@@ -121,6 +121,67 @@ contract HeirloomConfigRecoveryTest is Test {
         vault.clearExpiredConfig();
     }
 
+    function testDistributionInvalidatesPendingConfigWithoutChangingEpoch() public {
+        bytes memory encoded = abi.encode(_config(91 days));
+        vm.prank(owner);
+        vault.proposeConfig(encoded);
+        bytes32 proposedHash = vault.proposalDigest(encoded);
+        uint64 beforeConfigNonce = vault.configNonce();
+
+        vm.warp(uint256(vault.lastSeen()) + 90 days);
+        vault.requestClaim();
+        (,, uint64 executeAfter,,) = vault.claimRequest();
+        vm.warp(executeAfter);
+        vm.expectEmit(true, false, false, true, address(vault));
+        emit IHeirloomVault.ConfigInvalidated(proposedHash, beforeConfigNonce);
+        vault.startDistribution();
+
+        (bytes32 pendingHash,,,) = vault.pendingConfig();
+        assertEq(pendingHash, bytes32(0));
+        assertEq(vault.configNonce(), beforeConfigNonce);
+    }
+
+    function testThresholdReachedRecoveryBlocksConfigUntilOwnerVeto() public {
+        bytes memory encoded = abi.encode(_config(91 days));
+        vm.prank(owner);
+        vault.proposeConfig(encoded);
+        (,, uint64 eta,) = vault.pendingConfig();
+
+        vm.prank(guardianA);
+        vault.requestRecovery();
+        (uint64 requestNonce,,,,,) = vault.recoveryRequest();
+        vm.prank(guardianB);
+        vault.approveRecovery(requestNonce);
+
+        vm.warp(eta);
+        vm.expectRevert(IHeirloomVault.RecoveryBlocksConfig.selector);
+        vm.prank(outsider);
+        vault.executeConfig(encoded);
+
+        vm.prank(owner);
+        vault.vetoRecovery();
+        vm.prank(outsider);
+        vault.executeConfig(encoded);
+        assertEq(vault.configNonce(), 2);
+    }
+
+    function testPreThresholdRecoveryIsInvalidatedByConfigExecution() public {
+        bytes memory encoded = abi.encode(_config(91 days));
+        vm.prank(owner);
+        vault.proposeConfig(encoded);
+        (,, uint64 eta,) = vault.pendingConfig();
+
+        vm.prank(guardianA);
+        vault.requestRecovery();
+        vm.warp(eta);
+        vm.prank(outsider);
+        vault.executeConfig(encoded);
+
+        (uint64 requestNonce,,,,,) = vault.recoveryRequest();
+        assertEq(requestNonce, 0);
+        assertEq(vault.configNonce(), 2);
+    }
+
     function testRecoveryActivationInvalidatesPendingConfigAndClaim() public {
         bytes memory encoded = abi.encode(_config(91 days));
         vm.prank(owner);
@@ -203,6 +264,59 @@ contract HeirloomConfigRecoveryTest is Test {
         invalid.terminal.fallbackAddress = invalid.beneficiaries[0].primary;
         vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
         factory.createVault(owner, keccak256("duplicate"), invalid);
+    }
+
+    function testVaultCannotConfigureItselfAsDestinationOrRecoveryAuthority() public {
+        HeirloomTypes.VaultConfig memory invalid = _config(91 days);
+        invalid.beneficiaries[0].primary = address(vault);
+        vm.prank(owner);
+        vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
+        vault.proposeConfig(abi.encode(invalid));
+
+        invalid = _config(91 days);
+        invalid.terminal.fallbackAddress = address(vault);
+        vm.prank(owner);
+        vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
+        vault.proposeConfig(abi.encode(invalid));
+
+        invalid = _config(91 days);
+        invalid.recoveryAddress = address(vault);
+        vm.prank(owner);
+        vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
+        vault.proposeConfig(abi.encode(invalid));
+
+        invalid = _config(91 days);
+        invalid.guardians[0] = address(vault);
+        vm.prank(owner);
+        vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
+        vault.proposeConfig(abi.encode(invalid));
+    }
+
+    function testMaximumEightTotalBeneficiariesAcceptedAndNinthRejected() public {
+        HeirloomTypes.VaultConfig memory maximum = _config(90 days);
+        maximum.beneficiaries = new HeirloomTypes.Beneficiary[](7);
+        for (uint256 i; i < 7; ++i) {
+            maximum.beneficiaries[i] = HeirloomTypes.Beneficiary(
+                makeAddr(string.concat("max-primary-", vm.toString(i))),
+                makeAddr(string.concat("max-fallback-", vm.toString(i))),
+                i == 6 ? 1000 : 500
+            );
+        }
+        maximum.terminal.bps = 6000;
+        address deployed = factory.createVault(owner, keccak256("maximum-beneficiaries"), maximum);
+        assertEq(HeirloomVault(deployed).beneficiaryCount(), 7);
+
+        maximum.beneficiaries = new HeirloomTypes.Beneficiary[](8);
+        for (uint256 i; i < 8; ++i) {
+            maximum.beneficiaries[i] = HeirloomTypes.Beneficiary(
+                makeAddr(string.concat("too-many-primary-", vm.toString(i))),
+                makeAddr(string.concat("too-many-fallback-", vm.toString(i))),
+                500
+            );
+        }
+        maximum.terminal.bps = 6000;
+        vm.expectRevert(IHeirloomVault.InvalidConfiguration.selector);
+        factory.createVault(owner, keccak256("too-many-beneficiaries"), maximum);
     }
 
     function testConfigDigestBindsVaultAndCurrentNonce() public {

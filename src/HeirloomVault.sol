@@ -184,6 +184,12 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
             revert StaleClaimRequest();
         }
 
+        bytes32 invalidatedConfigHash = pendingConfig.configHash;
+        if (invalidatedConfigHash != bytes32(0)) {
+            delete pendingConfig;
+            emit ConfigInvalidated(invalidatedConfigHash, configNonce);
+        }
+
         if (recoveryRequest.nonce != 0) {
             uint64 recoveryRequestNonce = recoveryRequest.nonce;
             delete recoveryRequest;
@@ -355,6 +361,8 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
         if (block.timestamp < pending.eta) revert ConfigNotReady();
         if (block.timestamp > pending.expiresAt) revert ConfigProposalExpired();
         if (_proposalDigest(encodedConfig) != pending.configHash) revert ConfigHashMismatch();
+
+        if (recoveryRequest.thresholdReached) revert RecoveryBlocksConfig();
 
         HeirloomTypes.VaultConfig memory proposed =
             abi.decode(encodedConfig, (HeirloomTypes.VaultConfig));
@@ -722,7 +730,7 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
     function _validateConfig(
         HeirloomTypes.VaultConfig memory config,
         address currentOwner
-    ) internal pure {
+    ) internal view {
         uint256 nonTerminalCount = config.beneficiaries.length;
         if (nonTerminalCount == 0 || nonTerminalCount + 1 > MAX_TOTAL_BENEFICIARIES) {
             revert InvalidConfiguration();
@@ -762,7 +770,10 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
         if (config.guardianThreshold < 2 || config.guardianThreshold > guardianLength) {
             revert InvalidConfiguration();
         }
-        if (config.recoveryAddress == address(0) || config.recoveryAddress == currentOwner) {
+        if (
+            config.recoveryAddress == address(0) || config.recoveryAddress == currentOwner
+                || config.recoveryAddress == address(this)
+        ) {
             revert InvalidConfiguration();
         }
 
@@ -770,7 +781,7 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
             address guardianAddress = config.guardians[i];
             if (
                 guardianAddress == address(0) || guardianAddress == currentOwner
-                    || guardianAddress == config.recoveryAddress
+                    || guardianAddress == config.recoveryAddress || guardianAddress == address(this)
             ) revert InvalidConfiguration();
             for (uint256 j = i + 1; j < guardianLength; ++j) {
                 if (guardianAddress == config.guardians[j]) revert InvalidConfiguration();
@@ -780,10 +791,11 @@ contract HeirloomVault is IHeirloomVault, ReentrancyGuard {
 
     function _validateBeneficiary(
         HeirloomTypes.Beneficiary memory item
-    ) internal pure {
+    ) internal view {
         if (
             item.primary == address(0) || item.fallbackAddress == address(0)
-                || item.primary == item.fallbackAddress || item.bps == 0
+                || item.primary == item.fallbackAddress || item.primary == address(this)
+                || item.fallbackAddress == address(this) || item.bps == 0
         ) revert InvalidConfiguration();
     }
 

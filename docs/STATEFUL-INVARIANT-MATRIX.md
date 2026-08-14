@@ -43,7 +43,7 @@ attempts adversarial payouts against every beneficiary while checking token and 
 | I7 | Payout is unavailable after rollover | Random payout and rollover attempts at and after `rolloverAt` |
 | I8 | Each entitlement resolves once | Random pay/rollover ordering plus explicit second-resolution calls |
 | I9 | Terminal stays locked until all non-terminal entries resolve | Mixed paid and rolled statuses with terminal attempts throughout |
-| I10 | BPS entitlements conserve the snapshot | Every state after randomized payout ordering, using an exactly divisible snapshot |
+| I10 | Floored non-terminal entitlements plus terminal remainder conserve the snapshot | Every state after randomized payout ordering, using a snapshot not divisible by 10,000 and bounding the absorbed atomic-unit remainder |
 | I11 | Rolled amounts remain in `snapshotRemaining` exactly once | Mixed payout/rollover paths and recomputed rolled-status sum |
 | I12 | Inexact transfers change no balance, status or accounting | 100,000 stateful calls against the extra-debit token vault |
 | I13 | Successful payouts match both outgoing balance delta and snapshot delta | Every primary/fallback payout plus excess-balance arrivals |

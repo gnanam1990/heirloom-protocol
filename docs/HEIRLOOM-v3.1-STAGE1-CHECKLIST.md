@@ -28,11 +28,15 @@
 - [ ] Activation invalidates claim, config and old nonces atomically.
 - [ ] Config hash binds chain, vault, version, nonce and full payload.
 - [ ] Config is frozen from ClaimRequested onward.
+- [x] Guardian quorum blocks permissionless config execution until recovery is resolved.
+- [x] Distribution clears unreachable pending config state.
+- [x] Vault self-address is rejected from destinations and recovery authorities.
 
 ## Evidence and testing
 
 - [ ] All four P0 regression suites are green.
 - [x] I1-I16 pass under stateful fuzzing.
+- [x] Atomic-unit rounding and positive-snapshot zero entitlements are covered.
 - [x] Each I1-I16 invariant has a compiling source mutant killed by its mapped regression test.
 - [ ] Exact timestamp boundaries are exhaustively tested.
 - [ ] Base Sepolia lifecycle is source-verified and reproducible.
