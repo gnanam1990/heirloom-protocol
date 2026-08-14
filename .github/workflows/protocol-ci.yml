@@ -58,3 +58,32 @@ jobs:
             echo "- Profile: 10,000 fuzz runs; 1,000 invariant runs × 100 calls"
             echo "- Gates: formatting, EVM bytecode size, tests, gas snapshot"
           } >> "${GITHUB_STEP_SUMMARY}"
+
+  web:
+    name: Web lint, build, and render
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout pinned source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22.19.0
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Check product UI
+        run: npm run lint
+
+      - name: Build and server-render
+        run: npm test
