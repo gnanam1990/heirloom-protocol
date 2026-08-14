@@ -38,8 +38,7 @@ const navigation = [
 ];
 
 const beneficiaries = [
-  { initials: "AK", label: "Anika K.", share: "30%", phase: "Primary", color: "blue" },
-  { initials: "RM", label: "Ravi M.", share: "20%", phase: "Primary", color: "ink" },
+  { initials: "S", label: "Standard route", share: "40%", phase: "Configured", color: "blue" },
 ];
 
 function shortAddress(address?: string) {
@@ -220,26 +219,27 @@ function Overview() {
             </span>
             <span>
               <span className="eyebrow">Vault status</span>
-              <strong>Active and healthy</strong>
+              <strong>Factory active and verified</strong>
             </span>
           </div>
           <p>
-            Only a fresh action signed by the current owner can extend this vault&apos;s liveness.
+            Create an owner vault above. After creation, only current-owner actions can extend its
+            liveness.
           </p>
           <button
             className="heartbeat-button"
             disabled
-            title="Connect the owner account to send a heartbeat"
+            title="Available after an owner vault is created"
           >
             <RefreshCw size={17} /> Send heartbeat
           </button>
         </div>
         <div className="deadline-panel">
           <span className="eyebrow">Next claim boundary</span>
-          <strong>84 days</strong>
-          <span>November 6, 2026 · 14:32 IST</span>
+          <strong>90 days</strong>
+          <span>Measured from the latest owner-authenticated action</span>
           <div className="progress-track">
-            <span style={{ width: "7%" }} />
+            <span style={{ width: "0%" }} />
           </div>
           <div className="progress-labels">
             <span>Last owner action</span>
@@ -249,9 +249,9 @@ function Overview() {
       </section>
 
       <section className="metric-grid">
-        <Metric icon={WalletCards} label="Vault balance" value="$250,000.00" meta="250,000 USDC" />
-        <Metric icon={Users} label="Destinations" value="3 configured" meta="2 standard · 1 terminal" />
-        <Metric icon={ShieldCheck} label="Recovery quorum" value="2 of 3" meta="No request pending" />
+        <Metric icon={WalletCards} label="Factory" value="Deployed" meta="Source verified on Base Sepolia" />
+        <Metric icon={Users} label="Asset" value="USDC" meta="Official Circle test token" />
+        <Metric icon={ShieldCheck} label="Recovery quorum" value="2 of 3" meta="Configured per owner vault" />
         <Metric icon={Clock3} label="Challenge window" value="7 days" meta="Begins after a valid claim" />
       </section>
 
@@ -271,11 +271,11 @@ function Overview() {
                 <LockKeyhole size={17} />
               </div>
               <div className="beneficiary-copy">
-                <strong>Continuity reserve</strong>
+                <strong>Terminal route</strong>
                 <span>Terminal · executes last</span>
               </div>
               <div className="beneficiary-phase terminal-phase">Terminal locked</div>
-              <strong className="share-value">50%</strong>
+              <strong className="share-value">60%</strong>
             </div>
           </div>
           <div className="destination-legend">
@@ -293,10 +293,10 @@ function Overview() {
             subtitle="Current state and irreversible boundaries."
           />
           <ol className="timeline">
-            <TimelineItem state="done" title="Vault configured" meta="Version HEIRLOOM_V3_1" />
-            <TimelineItem state="current" title="Owner liveness" meta="84 days until claim request" />
-            <TimelineItem title="Challenge" meta="7-day owner response window" />
-            <TimelineItem title="Distribution" meta="Primary → fallback → rollover" />
+            <TimelineItem state="done" title="Factory deployed" meta="Version HEIRLOOM_V3_1 · source verified" />
+            <TimelineItem state="current" title="Create and fund vault" meta="Owner-controlled addresses required" />
+            <TimelineItem title="Owner liveness" meta="90-day inactivity threshold" />
+            <TimelineItem title="Challenge and distribution" meta="7 days, then primary → fallback → rollover" />
             <TimelineItem title="Terminal settlement" meta="Only after all standard shares resolve" />
           </ol>
         </div>
@@ -334,9 +334,8 @@ function Beneficiaries() {
         <div className="schedule-head" role="row">
           <span>Beneficiary</span><span>Primary phase</span><span>Fallback phase</span><span>Share</span>
         </div>
-        <ScheduleRow name="Anika K." primary="0x71C4…A290" fallback="0x4DA3…312A" share="30%" />
-        <ScheduleRow name="Ravi M." primary="0x03F2…8E11" fallback="0x882D…0D64" share="20%" />
-        <ScheduleRow name="Continuity reserve" primary="0x62A1…EE90" fallback="0x901F…20C8" share="50%" terminal />
+        <ScheduleRow name="Standard route" primary="Selected at creation" fallback="Selected at creation" share="40%" />
+        <ScheduleRow name="Terminal route" primary="Selected at creation" fallback="Selected at creation" share="60%" terminal />
       </div>
       <div className="info-callout">
         <Clock3 size={19} />
@@ -377,9 +376,9 @@ function ActivityView() {
     <section className="panel detail-panel">
       <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." action="Open explorer" />
       <div className="activity-list">
-        <ActivityRow icon={HeartPulse} title="Owner deposit and liveness" meta="Aug 8, 2026 · 14:32" hash="0x72be…903d" />
-        <ActivityRow icon={FileCheck2} title="Vault created" meta="Aug 8, 2026 · 14:29" hash="0x108f…11a9" />
-        <ActivityRow icon={BadgeCheck} title="Configuration committed" meta="Aug 8, 2026 · 14:29" hash="0xa4c1…e20b" />
+        <ActivityRow icon={FileCheck2} title="Factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45473582" hash="0x09ba…8fc7" />
+        <ActivityRow icon={BadgeCheck} title="Factory source verified" meta="Blockscout standard JSON verification" hash="0x524A…eEcf" />
+        <ActivityRow icon={ShieldCheck} title="Implementation locked" meta="Initializer flag and runtime hash verified" hash="0xd746…3E80" />
       </div>
     </section>
   );
