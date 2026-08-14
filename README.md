@@ -23,9 +23,9 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. Current evidence includes 49 core
-test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case, four stateful
-invariants and 16 of 16 killed production-source mutants. CI publishes:
+The project is delivered through reviewable milestone commits. Current evidence includes 50 core
+test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case, five stateful
+I1-I16 coverage groups and 16 of 16 killed production-source mutants. CI publishes:
 
 - Build and test results.
 - Unit, fuzz and stateful invariant evidence.

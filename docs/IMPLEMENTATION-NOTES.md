@@ -31,5 +31,5 @@ remains the irreversible boundary.
 ## Production boundary
 
 The contracts and UI are pre-production. Base Sepolia deployment evidence, pinned/latest Base
-mainnet USDC fork compatibility and I1-I16 source-mutation evidence are recorded. Broader stateful
-coverage, an independent audit and remediation remain mandatory before a mainnet release.
+mainnet USDC fork compatibility, I1-I16 source-mutation evidence and full I1-I16 stateful coverage
+are recorded. An independent audit and remediation remain mandatory before a mainnet release.

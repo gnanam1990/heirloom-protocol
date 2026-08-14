@@ -112,10 +112,13 @@ Active --requestClaim--> ClaimRequested --startDistribution--> Distributing --te
 | I15 | Recovery installs only the precommitted address and atomically invalidates old claims, configs, approvals and nonces. |
 | I16 | Vault version, asset, factory and runtime bytecode identity remain publicly verifiable. |
 
-The stateful suite exercises four aggregate accounting invariants. A separate deterministic matrix
-maps every I1-I16 invariant to a compiling production-source mutant and a regression test that kills
-it; the executable evidence is documented in `docs/INVARIANT-MUTATION-MATRIX.md`. This is a
-one-to-one mutation gate, not an exhaustive formal proof or a replacement for independent review.
+Five stateful property groups exercise every I1-I16 invariant across randomized control-plane,
+recovery, distribution, excess-balance and inexact-transfer sequences. The coverage mapping and
+reproduction command are documented in `docs/STATEFUL-INVARIANT-MATRIX.md`. A separate
+deterministic matrix maps every I1-I16 invariant to a compiling production-source mutant and a
+regression test that kills it; that evidence is documented in
+`docs/INVARIANT-MUTATION-MATRIX.md`. Neither gate is an exhaustive formal proof or a replacement
+for independent review.
 
 ## Mandatory attack questions
 
