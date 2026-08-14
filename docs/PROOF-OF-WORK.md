@@ -37,7 +37,7 @@ Verified locally from clean committed source on 2026-08-14:
 | Funded-vault release monitor | Passed: registry, identity, state, balance, allowance, config, runtime and liveness | `./script/check-base-sepolia-vault.sh` |
 | Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no app-origin console errors | Manual local preview inspection |
 | Private Sites deployment | Version 1 succeeded | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
-| Hosted protocol CI | Passed: protocol and web jobs | [GitHub Actions run 31803767578](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31803767578) |
+| Hosted protocol CI | Passed: core protocol, Base mainnet USDC fork and web jobs | [GitHub Actions run 31815537732](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31815537732) |
 | Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |
 | Base Sepolia owner vault creation | Success at block `45474409` | [`0x2d02…e077`](https://base-sepolia.blockscout.com/tx/0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077) |
 | Base Sepolia 20 USDC funding | Success at block `45475123` | [`0xec16…6e97`](https://base-sepolia.blockscout.com/tx/0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97) |

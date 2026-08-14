@@ -36,7 +36,7 @@
 - [ ] Each invariant has mutation evidence.
 - [ ] Exact timestamp boundaries are exhaustively tested.
 - [ ] Base Sepolia lifecycle is source-verified and reproducible.
-- [x] Pinned and latest Base mainnet-fork USDC tests are green locally; hosted CI must confirm the audit candidate.
+- [x] Pinned and latest Base mainnet-fork USDC tests are green locally and in hosted CI.
 - [ ] Runtime bytecode hash matches the announced factory version.
 
 ## Prohibited shortcuts
