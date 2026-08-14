@@ -3,8 +3,8 @@
   "sessionId": "local-8990da6b-54e4-4f0c-881a-25f10ac3908c",
   "model": "gpt-5.6-sol",
   "startedAt": "2026-08-14T12:44:06.241Z",
-  "endedAt": "2026-08-14T15:01:41.414Z",
-  "durationMs": 8255164,
+  "endedAt": "2026-08-14T16:35:53.539Z",
+  "durationMs": 13907288,
   "status": "running",
   "tokens": {
     "total": 0,
@@ -16,26 +16,26 @@
   },
   "toolCalls": 0,
   "lines": {
-    "added": 552,
-    "removed": 81
+    "added": 815,
+    "removed": 84
   },
   "filesChanged": [
+    ".gas-snapshot",
     "README.md",
-    "apps/web/README.md",
     "apps/web/app/components/Dashboard.tsx",
-    "apps/web/app/components/LiveVault.tsx",
-    "apps/web/app/protocol.ts",
     "apps/web/tests/rendered-html.test.mjs",
-    "docs/BASE-SEPOLIA-RUNBOOK.md",
-    "docs/PROOF-OF-WORK.md",
-    "script/check-base-sepolia-vault.sh"
+    "docs/HEIRLOOM-v3.1-STAGE1-CHECKLIST.md",
+    "docs/IMPLEMENTATION-NOTES.md",
+    "docs/INDEPENDENT-AUDIT-PACK.md",
+    "docs/STATEFUL-INVARIANT-MATRIX.md",
+    "test/HeirloomVaultInvariant.t.sol"
   ],
   "git": {
     "branch": "main",
-    "headBefore": "e272c65f3c7f4d5f87c468a3ade83797ce35a2ea",
-    "headAfter": "e272c65f3c7f4d5f87c468a3ade83797ce35a2ea",
+    "headBefore": "64d2c418ea6605bdaa8b585399088d2ede9bdfbe",
+    "headAfter": "64d2c418ea6605bdaa8b585399088d2ede9bdfbe",
     "commitShas": [
-      "e272c65f3c7f4d5f87c468a3ade83797ce35a2ea"
+      "64d2c418ea6605bdaa8b585399088d2ede9bdfbe"
     ]
   },
   "summary": "",
