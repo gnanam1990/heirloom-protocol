@@ -15,6 +15,7 @@ command that reproduces it.
 | CI and gas gates | `0765cd3` | Pinned GitHub workflow and committed gas snapshot |
 | M3: Base product UI | `0f9580d` | Base Account connector, responsive dashboard, production build and server-render test |
 | M4 preparation: Base Sepolia | `eaf30c6` | Chain-locked deployment script, pinned official test USDC, manifest and runbook |
+| M5 preparation: independent audit | `93ea145` | Pinned/latest Base mainnet USDC fork suite, machine-readable evidence and auditor handoff pack |
 
 ## Current verified results
 
@@ -22,10 +23,11 @@ Verified locally from clean committed source on 2026-08-14:
 
 | Gate | Result | Reproduction |
 |---|---:|---|
-| Deterministic tests | 28 passed | `FOUNDRY_PROFILE=ci forge test` |
-| Fuzz test | 10,000 runs passed | `FOUNDRY_PROFILE=ci forge test` |
-| Stateful invariants | 4 × 1,000 runs × 100 calls passed | `FOUNDRY_PROFILE=ci forge test` |
-| Total Forge test entries | 33 passed | `FOUNDRY_PROFILE=ci forge test` |
+| Deterministic tests | 28 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Fuzz test | 10,000 runs passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Stateful invariants | 4 × 1,000 runs × 100 calls passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Core Forge test entries | 33 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Base mainnet USDC fork | 9 passed: pinned/latest compatibility, exact deltas, pause, vault/primary/fallback/terminal blacklist paths and lifecycle | `./script/check-base-mainnet-usdc-fork.sh` |
 | Vault runtime size | 23,602 bytes; 974-byte EIP-170 margin | `forge build --sizes` |
 | Factory runtime size | 2,995 bytes | `forge build --sizes` |
 | Gas snapshot | Matches committed baseline | `forge snapshot --check` |
@@ -99,7 +101,9 @@ forge --version
 forge fmt --check
 forge build --sizes
 forge test -vv
-FOUNDRY_PROFILE=ci forge test
+FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest
+forge snapshot --check --no-match-contract BaseMainnetUSDCForkTest
+./script/check-base-mainnet-usdc-fork.sh
 ```
 
 Frontend reproduction:
