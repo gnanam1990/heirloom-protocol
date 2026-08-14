@@ -1,0 +1,91 @@
+{
+  "status": "active-and-funded",
+  "chainId": 84532,
+  "network": "base-sepolia",
+  "factory": "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+  "vault": "0x45004e3a5992606201B53Cd0FBab7f9439B4476C",
+  "owner": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+  "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "versionId": "0x7cd4187df3151f8b6dba7f8b29a43eb0d551f30262c0c0885dd40f776328670f",
+  "configHash": "0xbdc507dcc83036b928e0a56ee2040435e270a56b6ad1543d1d767e528da4e7ff",
+  "creationSalt": "0x2a04e87c996aee0290946138bc06ceee040d5228a84c34b415ad15880b0e1684",
+  "runtimeCodeHash": "0xc20bd075c8734260925eaf1f285e15f554734510cc81c3a3b45bcda05680bed2",
+  "configuration": {
+    "standard": {
+      "primary": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+      "fallback": "0xe88872F94013E4584BCeafb5d5f87dA291d086D2",
+      "bps": 4000
+    },
+    "terminal": {
+      "primary": "0xb6e55668efB27a1571DBe14A9e388eed8A654fAC",
+      "fallback": "0x0628AD59B4f8a6fb06ae7de31D6d82c3963AD8d5",
+      "bps": 6000
+    },
+    "guardians": [
+      "0xe88872F94013E4584BCeafb5d5f87dA291d086D2",
+      "0xb6e55668efB27a1571DBe14A9e388eed8A654fAC",
+      "0x390926899aD79D93e735Acc1F6d58001F31b027f"
+    ],
+    "guardianThreshold": 2,
+    "recoveryAddress": "0x0628AD59B4f8a6fb06ae7de31D6d82c3963AD8d5",
+    "durationsSeconds": {
+      "inactivityPeriod": 7776000,
+      "challengePeriod": 604800,
+      "primaryWindow": 2592000,
+      "fallbackWindow": 2592000,
+      "configDelay": 172800,
+      "configExecutionWindow": 2592000,
+      "recoveryDelay": 172800,
+      "recoveryExecutionWindow": 2592000
+    }
+  },
+  "transactions": {
+    "create": {
+      "hash": "0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077",
+      "block": 45474409,
+      "blockHash": "0xbb746b7182f82a83c27d1171ba887914ffdc8373469f8d7d4b807273fed98447",
+      "timestamp": "2026-08-14T14:18:26Z",
+      "status": "success",
+      "gasUsed": 799903
+    },
+    "approve": {
+      "hash": "0x49e3e654c5b8b7ddf1fdb907920a8cc65a7d258f025d0a5a8753be266269d617",
+      "block": 45474672,
+      "blockHash": "0x6560de01f71ec66eeea2b2a9052abc0659412136c4f08721d3afec1507f8811f",
+      "timestamp": "2026-08-14T14:27:12Z",
+      "status": "success",
+      "gasUsed": 170593,
+      "amount": "20000000"
+    },
+    "deposit": {
+      "hash": "0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97",
+      "block": 45475123,
+      "blockHash": "0x432b62cdc5955d9bd2a563ceae76dae7f7949db0f6e413e9a85bd7b406cc3dd2",
+      "timestamp": "2026-08-14T14:42:14Z",
+      "status": "success",
+      "gasUsed": 107588,
+      "amount": "20000000"
+    }
+  },
+  "postDepositState": {
+    "vaultState": "Active",
+    "vaultStateRaw": 0,
+    "vaultUsdcBalance": "20000000",
+    "ownerUsdcBalance": "0",
+    "ownerToVaultAllowance": "0",
+    "lastSeen": 1786718534,
+    "lastSeenUtc": "2026-08-14T14:42:14Z",
+    "claimEligibleAt": 1794494534,
+    "claimEligibleAtUtc": "2026-11-12T14:42:14Z",
+    "livenessNonce": 2,
+    "configNonce": 1,
+    "factoryRegistryConfirmed": true
+  },
+  "explorer": {
+    "vault": "https://base-sepolia.blockscout.com/address/0x45004e3a5992606201B53Cd0FBab7f9439B4476C",
+    "createTransaction": "https://base-sepolia.blockscout.com/tx/0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077",
+    "approveTransaction": "https://base-sepolia.blockscout.com/tx/0x49e3e654c5b8b7ddf1fdb907920a8cc65a7d258f025d0a5a8753be266269d617",
+    "depositTransaction": "https://base-sepolia.blockscout.com/tx/0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97"
+  },
+  "verifiedAt": "2026-08-14T14:42:14Z"
+}
