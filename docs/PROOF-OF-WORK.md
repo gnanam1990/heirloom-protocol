@@ -28,6 +28,7 @@ command that reproduces it.
 | M15: R1 funded vault | `4c64ee2` | 20-USDC approval/deposit receipts, exact post-funding state, hardened remaining-amount UI and release monitor |
 | M16: historical external audit candidate | `02fd204` | Immutable but superseded candidate; later randomized CI exposed a zero-balance state-model assumption |
 | M17: corrected external audit candidate | `7ea6617` | Zero-snapshot state-model correction, deterministic regression, unchanged production hashes and immutable candidate-2 tag |
+| M18: Base mainnet release preparation | `34bbecd` | Updated multi-pass review, fail-closed deployment script, pinned deployer/nonce/factory/runtime identity, ten release-gate tests, runbook and fork-only evidence |
 
 ## Current verified results
 
@@ -35,10 +36,11 @@ Verified locally from committed source on 2026-08-15:
 
 | Gate | Result | Reproduction |
 |---|---:|---|
-| Deterministic tests | 52 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Deterministic tests | 62 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
 | Fuzz test | 10,000 runs passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
 | Stateful invariants | 5 groups × 1,000 runs × 100 calls = 500,000 calls passed with zero unexpected handler reverts | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
-| Core Forge test entries | 59 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Core Forge test entries | 69 passed | `FOUNDRY_PROFILE=ci forge test --no-match-contract BaseMainnetUSDCForkTest` |
+| Base mainnet deployment gates | 10 passed: wrong chain, missing asset, wrong deployer, changed nonce, audit/release approvals, exact candidate, report hash and pinned runtime identity | `FOUNDRY_PROFILE=ci forge test --match-contract DeployBaseMainnetTest` |
 | I1-I16 source mutation gate | 16 of 16 compiling mutants killed | `./script/check-invariant-mutations.mjs --all` |
 | Base mainnet USDC fork | 9 passed: pinned/latest compatibility, exact deltas, pause, vault/primary/fallback/terminal blacklist paths and lifecycle | `./script/check-base-mainnet-usdc-fork.sh` |
 | Vault runtime size | 23,818 bytes; 758-byte EIP-170 margin | `forge build --sizes` |
@@ -58,6 +60,7 @@ Verified locally from committed source on 2026-08-15:
 | Historical audit-candidate CI | Passed all four jobs on immutable tag commit `02fd204`, but the candidate was later superseded when a different randomized seed exposed a test-model gap; it is not the current audit authority | [GitHub Actions run 31873954459](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31873954459) |
 | Randomized harness-gap detection | A later hosted seed correctly blocked release evidence because the model expected an empty vault to remain `Distributing` instead of atomically settling; exact seed reproduced locally before correction | [GitHub Actions run 31874342355](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31874342355) |
 | Hosted candidate-2 CI | Passed all four jobs on immutable audit commit `7ea6617`: 59 core entries, 500,000 stateful calls, gas, 16/16 source mutations, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31875147068](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875147068) |
+| Base mainnet preparation | Local fork dry-run and authorization mechanics passed with predicted factory `0x524A…eEcf`; deployer, nonce, factory and both runtime hashes are pinned. The intended deployer had `0 ETH` on Base, so no direct Base transaction was signed or broadcast | `proof/base-mainnet-preparation-fork-50000700.json` |
 | v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
 | v3.1-R1 smoke vault creation | Success at block `45500300`; predicted address, registry, config and runtime identity match | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312) |
 | v3.1-R1 20 USDC funding | Approval and two deposits verified; final state is Active with 20 USDC, zero owner balance/allowance and liveness nonce 3 | [`0x233b…f615`](https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615) |
