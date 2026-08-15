@@ -6,8 +6,9 @@ distribution without giving the executor payout authority.
 
 ## Status
 
-**Pre-production v3.1-R1 audit-remediated candidate, source verified on Base Sepolia. No mainnet
-asset deployment before an independent external audit and remediation re-verification.**
+**Pre-production v3.1-R1 audit-remediated candidate. An explicitly unaudited, proposal-only
+factory is source verified on Base mainnet. Mainnet vault creation, deposits and user onboarding
+remain unauthorized until an independent external audit and remediation re-verification.**
 
 The normative implementation source is
 [`docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md`](docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md).
@@ -33,6 +34,7 @@ I1-I16 coverage groups and 16 of 16 killed production-source mutants. CI publish
 - Coverage and gas reports.
 - Runtime and creation bytecode hashes.
 - Base Sepolia deployment manifests and explorer links.
+- Base mainnet proposal-factory receipt, runtime identity and source-verification evidence.
 - Reproduction commands for every claimed property.
 
 See [`docs/PROOF-OF-WORK.md`](docs/PROOF-OF-WORK.md).
@@ -41,6 +43,12 @@ The current R1 testnet factory is
 [`0x935e5101d7563429BC152889603D3A17f466f4e4`](https://base-sepolia.blockscout.com/address/0x935e5101d7563429BC152889603D3A17f466f4e4).
 Its deployment manifest is
 [`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](deployments/base-sepolia-02b0ea5-v3.1-r1.json).
+
+The unaudited proposal-only Base mainnet factory is
+[`0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf`](https://base.blockscout.com/address/0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf).
+Its receipt-bound manifest is
+[`deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json`](deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json).
+This address is public proof for the proposal, not production authorization.
 
 ## Pinned toolchain
 
@@ -77,7 +85,7 @@ The quote-request and private-access workflow is
 The remediation ledger is
 [`docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md`](docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md).
 
-The fail-closed Base mainnet preparation path is
+The fail-closed Base mainnet release path is
 [`docs/BASE-MAINNET-RUNBOOK.md`](docs/BASE-MAINNET-RUNBOOK.md). It supports dry-run evidence but
 cannot authorize or replace the required independent audit and release-owner approval.
 
@@ -102,15 +110,17 @@ claim lifecycle or a production audit.
 
 ## Base Builder proposal
 
-The reviewer-ready proposal package is intentionally scoped to the Base Sepolia prototype:
+The reviewer-ready proposal package is based on the Base Sepolia prototype and the separately
+labelled, unaudited Base mainnet factory proof:
 
 - [`docs/BASE-BUILDER-GRANT-PROPOSAL.md`](docs/BASE-BUILDER-GRANT-PROPOSAL.md) — application narrative, evidence, risks, milestones and form-ready copy.
 - [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second reviewer walkthrough and recording checklist.
 - [`outputs/Heirloom_Base_Proposal_Deck.pptx`](outputs/Heirloom_Base_Proposal_Deck.pptx) — shareable Base-themed proposal deck.
 
 The grant nomination has not been submitted. A public unauthenticated demo URL, public one-minute
-video and owner-controlled application identity fields are still required. Mainnet remains outside
-the proposal scope until independent audit, remediation and re-verification are complete.
+video and owner-controlled application identity fields are still required. Mainnet vault use,
+funding and onboarding remain outside the proposal scope until independent audit, remediation and
+re-verification are complete.
 
 ## Release track
 
@@ -119,8 +129,9 @@ v3.1 specification
     -> executable model
     -> contract implementation
     -> Base Sepolia evidence
+    -> unaudited Base mainnet proposal-factory proof
     -> independent audit and remediation
-    -> guarded Base mainnet release
+    -> guarded Base mainnet product release
 ```
 
 ## License

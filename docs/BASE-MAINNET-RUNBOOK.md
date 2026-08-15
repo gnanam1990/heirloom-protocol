@@ -1,7 +1,8 @@
 # Base Mainnet Preparation and Release Runbook
 
-**Status:** An unaudited, factory-only proposal deployment is requested. Production use is not
-authorized.
+**Status:** The unaudited, factory-only proposal deployment completed at Base block `50005381`.
+Production use is not authorized. The independent external audit and production release gates
+remain open; no mainnet vault creation, funding or user onboarding is authorized.
 
 The mainnet script is intentionally fail-closed. A dry-run may execute before the external audit,
 but `--broadcast` and `--resume` require all release-authorization inputs. Environment flags are
@@ -131,6 +132,13 @@ Never use a raw private key in this repository, shell history, CI, a browser pag
 message. Never treat a wallet review screen as a successful transaction.
 
 ## Post-deployment evidence
+
+The proposal-only deployment is recorded in
+[`deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json`](../deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json).
+Transaction `0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270`
+deployed factory `0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf`; the reviewed dry-run and
+mined input hashes match exactly. Factory and implementation source are verified on Base
+Blockscout. `vaultCount()` was `0` at verification.
 
 Copy `deployments/base-mainnet.example.json` to a commit-bound manifest. Confirm from two RPC or
 explorer reads:

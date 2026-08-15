@@ -30,6 +30,7 @@ command that reproduces it.
 | M17: corrected external audit candidate | `7ea6617` | Zero-snapshot state-model correction, deterministic regression, unchanged production hashes and immutable candidate-2 tag |
 | M18: Base mainnet release preparation | `34bbecd` | Updated multi-pass review, fail-closed deployment script, pinned deployer/nonce/factory/runtime identity, ten release-gate tests, runbook and fork-only evidence |
 | M19: unaudited proposal release mode | `fd2d5db` | Separately named proposal entrypoint, explicit unaudited-risk acknowledgement, exact candidate binding, no-funding policy and fourteen release-gate tests |
+| M20: Base mainnet proposal factory | pending evidence commit | Exact reviewed-input deployment, receipt/runtime/config verification, Blockscout source verification and explicit no-vault/no-funding status |
 
 ## Current verified results
 
@@ -61,7 +62,9 @@ Verified locally from committed source on 2026-08-15:
 | Historical audit-candidate CI | Passed all four jobs on immutable tag commit `02fd204`, but the candidate was later superseded when a different randomized seed exposed a test-model gap; it is not the current audit authority | [GitHub Actions run 31873954459](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31873954459) |
 | Randomized harness-gap detection | A later hosted seed correctly blocked release evidence because the model expected an empty vault to remain `Distributing` instead of atomically settling; exact seed reproduced locally before correction | [GitHub Actions run 31874342355](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31874342355) |
 | Hosted candidate-2 CI | Passed all four jobs on immutable audit commit `7ea6617`: 59 core entries, 500,000 stateful calls, gas, 16/16 source mutations, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31875147068](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875147068) |
-| Base mainnet preparation | Production and explicitly unaudited proposal paths are separate and fail closed. Local fork mechanics passed with predicted factory `0x524A…eEcf`; deployer, nonce, factory and both runtime hashes are pinned. The intended deployer had `0 ETH` on Base, so no direct Base transaction was signed or broadcast | `proof/base-mainnet-preparation-fork-50000700.json` |
+| Hosted proposal-preparation CI | Passed all four jobs on exact release-proof commit `4ce1d86`: protocol/gas, 16/16 source mutation, Base USDC fork and web lint/build/render | [GitHub Actions run 31882181868](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31882181868) |
+| Base mainnet preparation | Production and explicitly unaudited proposal paths are separate and fail closed. Local fork mechanics passed with predicted factory `0x524A…eEcf`; deployer, nonce, factory and both runtime hashes were pinned before broadcast | `proof/base-mainnet-preparation-fork-50000700.json` |
+| Base mainnet unaudited proposal factory | Success at block `50005381`; reviewed dry-run/live input exact match; runtime/config identity and both sources verified; factory vault count remains zero | [`0xf049…9270`](https://base.blockscout.com/tx/0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270) |
 | v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
 | v3.1-R1 smoke vault creation | Success at block `45500300`; predicted address, registry, config and runtime identity match | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312) |
 | v3.1-R1 20 USDC funding | Approval and two deposits verified; final state is Active with 20 USDC, zero owner balance/allowance and liveness nonce 3 | [`0x233b…f615`](https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615) |
@@ -71,6 +74,29 @@ Verified locally from committed source on 2026-08-15:
 
 The original hosted workflow allocation blocker was cleared on 2026-08-14. The rerun completed
 both the protocol and web jobs successfully.
+
+## Base mainnet unaudited proposal-factory evidence
+
+This transaction deploys public proposal proof only. It does not assert completion of an
+independent audit and does not authorize a mainnet vault, deposit or user onboarding.
+
+| Field | Verified value |
+|---|---|
+| Transaction | [`0xf049…9270`](https://base.blockscout.com/tx/0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270), block `50005381`, success |
+| Factory | [`0x524A…eEcf`](https://base.blockscout.com/address/0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf) — source verified |
+| Implementation | [`0xd746…3E80`](https://base.blockscout.com/address/0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80) — source verified and initializer locked |
+| Bound asset | Official Base USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |
+| Deployment chain | `8453` |
+| Version ID | `0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56` |
+| Dry-run/live input hash | `0xb8246c25cd4b0432ba8baf6513d2c8bd1ae8d34fd350ac08663ee4e7d3bb0498` — exact match |
+| Factory runtime code hash | `0xbce0f26e2d6fc4eb3cfea3184113b7cdd01ae123b775ca6ac16938a6b18ec547` |
+| Implementation runtime code hash | `0x48bfce26a7b15d9f7ceaa248db541a41a5afdc84ca9ac27252ff8d6dc2770ab9` |
+| Factory vault count | `0` |
+| Actual deployment fee | `0.000044855512122058 ETH` |
+| Product authorization | External audit: no; production release: no; vault creation: no; user funding: no |
+
+The machine-readable record is
+[`deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json`](../deployments/base-mainnet-4ce1d86-v3.1-r1-proposal.json).
 
 ## Base Sepolia v3.1-R1 deployment evidence
 
