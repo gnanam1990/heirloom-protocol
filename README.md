@@ -141,5 +141,4 @@ v3.1 specification
 
 ## License
 
-All rights reserved while the protocol is under private development. Contract licensing will
-be selected before public source verification.
+Heirloom is open-source software released under the [MIT License](LICENSE).
