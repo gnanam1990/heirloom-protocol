@@ -1,6 +1,6 @@
 {
   "status": "base-mainnet-fork-preparation-passed-no-base-transaction",
-  "verifiedAt": "2026-08-15T10:46:23Z",
+  "verifiedAt": "2026-08-15T11:22:34Z",
   "chainId": 8453,
   "fork": {
     "upstream": "https://mainnet.base.org",
@@ -37,6 +37,34 @@
     "error": "ExternalAuditNotApproved()",
     "baseTransaction": false
   },
+  "proposalMode": {
+    "label": "unaudited-proposal-factory-only",
+    "externalAuditClaimed": false,
+    "productionUseAuthorized": false,
+    "vaultCreationAuthorized": false,
+    "userFundingAuthorized": false,
+    "negativeBroadcastGuardTest": {
+      "environment": "local Base fork only",
+      "proposalDeploymentApproved": false,
+      "result": "reverted-before-startBroadcast",
+      "error": "ProposalDeploymentNotApproved()",
+      "baseTransaction": false
+    },
+    "authorizedGateMechanicsTest": {
+      "environment": "local Base fork only",
+      "proposalDeploymentApproved": true,
+      "unauditedRiskAccepted": true,
+      "candidateCommitExactMatch": true,
+      "localTransaction": "0xab9d7a1721b61c38ee973c7325200dbf83446efd6c956bf6231087331ddfa86f",
+      "localBlock": 50000701,
+      "localBlockHash": "0x755e6daa4fba3e6c4ac4f782e8bde20bacf1114db5c0972f0ff6aa9abfdae39f",
+      "gasUsed": 5905862,
+      "status": 1,
+      "factory": "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+      "implementation": "0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+      "baseTransaction": false
+    }
+  },
   "authorizedGateMechanicsTest": {
     "environment": "local Base fork only",
     "syntheticAuditReportHash": "0xab7ae342c6b4a77269c56df610a551a11e91ac1d075b43385f07d0f83e40c670",
@@ -61,6 +89,7 @@
     "The local transaction hash and block exist only inside an ephemeral Anvil fork.",
     "The synthetic report hash tests gate mechanics and is not an audit report.",
     "No Base mainnet transaction was signed or broadcast.",
-    "A direct Base RPC dry-run remains blocked until the intended deployer has real gas."
+    "A direct Base RPC dry-run remains blocked until the intended deployer has real gas.",
+    "The proposal entrypoint makes no external-audit or production-readiness claim."
   ]
 }

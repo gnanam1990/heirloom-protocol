@@ -36,8 +36,8 @@ green in run `31877143185`.
 2. The 16-source-mutant suite covers I1-I16 but not the later H-01/M-01/L-01 remediation lines. The
    scratch gut-the-fix proved them manually; dedicated automated mutants remain desirable.
 3. The product UI still stated `58 core` after the candidate added the fifty-ninth test. The
-   remediated mainnet-preparation suite adds ten deployment-gate tests, so the current UI and render
-   assertion now state `69`; historical candidate evidence remains `59` and historical release evidence
+   mainnet preparation and explicit proposal-mode suite add fourteen deployment-gate tests, so the
+   current UI and render assertion now state `73`; historical candidate evidence remains `59` and historical release evidence
    remains intact.
 4. Post-settlement direct USDC transfers are sweepable to the settled terminal destination by
    design. This behavior must remain explicit in the independent report and product copy.

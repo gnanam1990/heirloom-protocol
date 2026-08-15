@@ -7,9 +7,9 @@ import { VmSafe } from "forge-std/Vm.sol";
 
 import { HeirloomFactory } from "../src/HeirloomFactory.sol";
 
-/// @notice Fail-closed Base mainnet deployment path for the audited v3.1-R1 candidate.
-/// @dev Dry-runs are allowed before audit completion. Broadcast/resume always requires the
-///      external-audit and release-owner environment gates documented in the mainnet runbook.
+/// @notice Fail-closed Base mainnet deployment paths for the v3.1-R1 candidate.
+/// @dev The production path requires an external audit. The separately named proposal path can
+///      deploy the same pinned bytecode only after explicit unaudited/proposal acknowledgements.
 contract DeployBaseMainnet is Script {
     uint256 public constant EXPECTED_CHAIN_ID = 8453;
     address public constant EXPECTED_DEPLOYER = 0xE8405844a45C209895afE2e49be6aA2C6C6202a6;
@@ -32,6 +32,9 @@ contract DeployBaseMainnet is Script {
     error MainnetReleaseNotApproved();
     error AuditedCommitMismatch(bytes32 actual, bytes32 expected);
     error AuditReportHashMissing();
+    error ProposalDeploymentNotApproved();
+    error UnauditedRiskNotAccepted();
+    error ProposalCommitMismatch(bytes32 actual, bytes32 expected);
     error DeploymentInvariantFailed();
     error FactoryAddressMismatch(address actual, address expected);
     error FactoryRuntimeHashMismatch(bytes32 actual, bytes32 expected);
@@ -39,6 +42,10 @@ contract DeployBaseMainnet is Script {
 
     function run() external returns (HeirloomFactory factory) {
         return deploy(vm.envAddress("DEPLOYER_ADDRESS"));
+    }
+
+    function runProposal() external returns (HeirloomFactory factory) {
+        return deployProposal(vm.envAddress("DEPLOYER_ADDRESS"));
     }
 
     /// @dev Public for deterministic tests. Broadcast and resume contexts still enforce every
@@ -68,6 +75,58 @@ contract DeployBaseMainnet is Script {
             );
         }
 
+        factory = _deployPinnedFactory(
+            deployer,
+            deployerNonce,
+            enforceReleaseGate,
+            "AUDITED_PRODUCTION",
+            auditedCommit,
+            auditReportHash
+        );
+    }
+
+    /// @notice Explicitly unaudited, factory-only proposal path. It does not authorize vault use.
+    /// @dev Public for deterministic tests. Broadcast/resume contexts enforce every proposal gate.
+    function deployProposal(
+        address deployer
+    ) public returns (HeirloomFactory factory) {
+        if (block.chainid != EXPECTED_CHAIN_ID) {
+            revert WrongChain(block.chainid, EXPECTED_CHAIN_ID);
+        }
+
+        uint64 deployerNonce = vm.getNonce(deployer);
+        validateDeploymentIdentity(deployer, deployerNonce);
+        if (OFFICIAL_USDC.code.length == 0) revert AssetCodeMissing();
+
+        bool enforceReleaseGate = _mustEnforceReleaseGate();
+        bytes32 proposalCommit;
+        if (enforceReleaseGate) {
+            proposalCommit = vm.envOr("HEIRLOOM_PROPOSAL_CANDIDATE_COMMIT", bytes32(0));
+            validateProposalAuthorization(
+                vm.envOr("HEIRLOOM_PROPOSAL_DEPLOYMENT_APPROVED", false),
+                vm.envOr("HEIRLOOM_UNAUDITED_RISK_ACCEPTED", false),
+                proposalCommit
+            );
+        }
+
+        factory = _deployPinnedFactory(
+            deployer,
+            deployerNonce,
+            enforceReleaseGate,
+            "UNAUDITED_PROPOSAL",
+            proposalCommit,
+            bytes32(0)
+        );
+    }
+
+    function _deployPinnedFactory(
+        address deployer,
+        uint64 deployerNonce,
+        bool enforceReleaseGate,
+        string memory releaseMode,
+        bytes32 commitBinding,
+        bytes32 reportBinding
+    ) internal returns (HeirloomFactory factory) {
         vm.startBroadcast(deployer);
         factory = new HeirloomFactory(IERC20(OFFICIAL_USDC));
         vm.stopBroadcast();
@@ -102,11 +161,12 @@ contract DeployBaseMainnet is Script {
         console2.log("Pinned deployer", deployer);
         console2.log("Pinned deployer nonce", deployerNonce);
         console2.log("Official Base USDC", OFFICIAL_USDC);
+        console2.log("Release mode", releaseMode);
         console2.log("Release gates enforced", enforceReleaseGate);
         console2.logBytes32(factory.VERSION_ID());
         if (enforceReleaseGate) {
-            console2.logBytes32(auditedCommit);
-            console2.logBytes32(auditReportHash);
+            console2.logBytes32(commitBinding);
+            if (reportBinding != bytes32(0)) console2.logBytes32(reportBinding);
         }
     }
 
@@ -132,6 +192,18 @@ contract DeployBaseMainnet is Script {
             revert AuditedCommitMismatch(auditedCommit, AUDIT_CANDIDATE_COMMIT);
         }
         if (auditReportHash == bytes32(0)) revert AuditReportHashMissing();
+    }
+
+    function validateProposalAuthorization(
+        bool proposalDeploymentApproved,
+        bool unauditedRiskAccepted,
+        bytes32 proposalCommit
+    ) public pure {
+        if (!proposalDeploymentApproved) revert ProposalDeploymentNotApproved();
+        if (!unauditedRiskAccepted) revert UnauditedRiskNotAccepted();
+        if (proposalCommit != AUDIT_CANDIDATE_COMMIT) {
+            revert ProposalCommitMismatch(proposalCommit, AUDIT_CANDIDATE_COMMIT);
+        }
     }
 
     function _mustEnforceReleaseGate() internal view returns (bool) {

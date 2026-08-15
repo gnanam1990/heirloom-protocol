@@ -1,11 +1,18 @@
 # Base Mainnet Preparation and Release Runbook
 
-**Status:** Preparation only; no Base mainnet deployment is authorized.
+**Status:** An unaudited, factory-only proposal deployment is requested. Production use is not
+authorized.
 
 The mainnet script is intentionally fail-closed. A dry-run may execute before the external audit,
 but `--broadcast` and `--resume` require all release-authorization inputs. Environment flags are
 operational guardrails; they are not a substitute for an independent report or release-owner
 review.
+
+The proposal path is separately named and does not claim an external audit. It is permitted only
+as public proof for the proposal. The project UI must not create a mainnet vault or accept mainnet
+funding. The factory itself is permissionless, so this operational restriction cannot prevent an
+unrelated third party from calling it; all public material must label the deployment experimental
+and unaudited.
 
 ## Pinned identity
 
@@ -62,6 +69,31 @@ The first fork preparation receipt is recorded in
 `proof/base-mainnet-preparation-fork-50000700.json`. Its successful transaction exists only on an
 ephemeral local Anvil fork and uses a plainly labeled synthetic report hash to test gate mechanics;
 it is not a Base transaction or release evidence.
+
+## Unaudited proposal-only authorization
+
+This exception authorizes only the factory deployment and source verification. It does not close
+the production audit gate and does not authorize vault creation, USDC deposits or user onboarding.
+
+```bash
+export HEIRLOOM_PROPOSAL_DEPLOYMENT_APPROVED=true
+export HEIRLOOM_UNAUDITED_RISK_ACCEPTED=true
+export HEIRLOOM_PROPOSAL_CANDIDATE_COMMIT=0x7ea6617625615e41469e153bc19f020eeb692d4a000000000000000000000000
+```
+
+Force the proposal gates during the final simulation:
+
+```bash
+HEIRLOOM_ENFORCE_RELEASE_GATES=true \
+forge script script/DeployBaseMainnet.s.sol:DeployBaseMainnet \
+  --sig "runProposal()" \
+  --rpc-url base \
+  --sender "$DEPLOYER_ADDRESS"
+```
+
+After the simulation input, nonce, destination, value and gas are independently reviewed, the
+release owner must separately confirm the wallet transaction. The broadcast command must use
+`--sig "runProposal()"`; using `run()` invokes the audited-production gates instead.
 
 ## Future broadcast authorization
 

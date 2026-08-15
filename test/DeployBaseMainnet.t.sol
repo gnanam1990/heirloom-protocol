@@ -101,6 +101,31 @@ contract DeployBaseMainnetTest is Test {
         );
     }
 
+    function testProposalAuthorizationFailsClosedWithoutApproval() public {
+        vm.expectRevert(DeployBaseMainnet.ProposalDeploymentNotApproved.selector);
+        deployment.validateProposalAuthorization(false, false, bytes32(0));
+    }
+
+    function testProposalAuthorizationRequiresUnauditedRiskAcceptance() public {
+        vm.expectRevert(DeployBaseMainnet.UnauditedRiskNotAccepted.selector);
+        deployment.validateProposalAuthorization(true, false, bytes32(0));
+    }
+
+    function testProposalAuthorizationRequiresExactCandidateCommit() public {
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                DeployBaseMainnet.ProposalCommitMismatch.selector,
+                bytes32(0),
+                deployment.AUDIT_CANDIDATE_COMMIT()
+            )
+        );
+        deployment.validateProposalAuthorization(true, true, bytes32(0));
+    }
+
+    function testProposalAuthorizationAcceptsExplicitUnauditedRelease() public view {
+        deployment.validateProposalAuthorization(true, true, deployment.AUDIT_CANDIDATE_COMMIT());
+    }
+
     function _prepareMainnet() internal {
         vm.chainId(8453);
         vm.etch(deployment.OFFICIAL_USDC(), hex"00");
