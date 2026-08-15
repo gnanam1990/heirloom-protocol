@@ -51,6 +51,10 @@ The complete machine-readable record is
 [`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](../deployments/base-sepolia-02b0ea5-v3.1-r1.json).
 The first R1 smoke vault was created at
 [`0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371`](https://base-sepolia.blockscout.com/address/0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371),
-with prediction, registry, version, asset, config and runtime identity verified. It remains unfunded
-because the release owner held zero Base Sepolia USDC at verification time. No mainnet script or
-authorization is created by this testnet deployment.
+with prediction, registry, version, asset, config and runtime identity verified. It was subsequently
+funded with 20 official Base Sepolia USDC. The final deposit transaction
+[`0x233b…f615`](https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615)
+left the vault Active with balance `20,000,000`, owner balance and allowance zero, `lastSeen =
+1786773534` and liveness nonce `3`. The complete real-time claim lifecycle remains time-gated by
+the 90-day inactivity and later protocol windows. No mainnet script or authorization is created by
+this testnet deployment.

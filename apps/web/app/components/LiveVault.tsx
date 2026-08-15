@@ -102,7 +102,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
     functionName: "balanceOf",
     args: address ? [address] : undefined,
     chainId: 84_532,
-    query: { enabled: Boolean(address) },
+    query: { enabled: Boolean(address), refetchInterval: 30_000 },
   });
   const createdVaultAddress = useMemo(() => {
     if (!createReceipt.data) return undefined;
@@ -128,7 +128,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
     functionName: "balanceOf",
     args: vaultAddress ? [vaultAddress] : undefined,
     chainId: 84_532,
-    query: { enabled: Boolean(vaultAddress) },
+    query: { enabled: Boolean(vaultAddress), refetchInterval: 30_000 },
   });
   const vaultOwner = useReadContract({
     address: vaultAddress,
@@ -142,7 +142,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
     abi: vaultAbi,
     functionName: "lastSeen",
     chainId: 84_532,
-    query: { enabled: Boolean(vaultAddress) },
+    query: { enabled: Boolean(vaultAddress), refetchInterval: 30_000 },
   });
   const vaultState = useReadContract({
     address: vaultAddress,
@@ -343,8 +343,10 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
   const transactionError =
     createWrite.error || approveWrite.error || depositWrite.error || heartbeatWrite.error;
   const fundingAmount = parseUnits("20", 6);
-  const funded = (vaultUsdc.data ?? 0n) >= fundingAmount;
-  const approved = (allowance.data ?? 0n) >= fundingAmount || approveReceipt.isSuccess;
+  const vaultBalance = vaultUsdc.data ?? 0n;
+  const remainingFunding = vaultBalance >= fundingAmount ? 0n : fundingAmount - vaultBalance;
+  const funded = remainingFunding === 0n;
+  const approved = remainingFunding > 0n && (allowance.data ?? 0n) >= remainingFunding;
   const connectedOwner =
     isConnected &&
     chainId === 84_532 &&
@@ -413,23 +415,23 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
   }
 
   async function approveUsdc() {
-    if (!vaultAddress) return;
+    if (!vaultAddress || remainingFunding === 0n) return;
     await approveWrite.writeContractAsync({
       address: USDC_ADDRESS,
       abi: erc20Abi,
       functionName: "approve",
-      args: [vaultAddress, fundingAmount],
+      args: [vaultAddress, remainingFunding],
       chainId: 84_532,
     });
   }
 
   async function depositUsdc() {
-    if (!vaultAddress) return;
+    if (!vaultAddress || remainingFunding === 0n) return;
     await depositWrite.writeContractAsync({
       address: vaultAddress,
       abi: vaultAbi,
       functionName: "deposit",
-      args: [fundingAmount],
+      args: [remainingFunding],
       chainId: 84_532,
     });
   }
@@ -504,8 +506,8 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
           </div>
           <div className="vault-balance"><span>Vault balance</span><strong>{vaultUsdc.data === undefined ? "—" : formatUnits(vaultUsdc.data, 6)} USDC</strong></div>
           <div className="vault-actions">
-            <button className="secondary-button" onClick={approveUsdc} disabled={busy || funded || approved || !connectedOwner}>1. {funded ? "Funding complete" : approved ? "USDC approved" : "Approve 20 USDC"}</button>
-            <button className="primary-button" onClick={depositUsdc} disabled={busy || funded || !approved || !connectedOwner || (walletUsdc.data ?? 0n) < fundingAmount}>2. {funded ? "20 USDC funded" : "Deposit 20 USDC"}</button>
+            <button className="secondary-button" onClick={approveUsdc} disabled={busy || funded || approved || !connectedOwner}>1. {funded ? "Funding complete" : approved ? "USDC approved" : `Approve ${formatUnits(remainingFunding, 6)} USDC`}</button>
+            <button className="primary-button" onClick={depositUsdc} disabled={busy || funded || !approved || !connectedOwner || (walletUsdc.data ?? 0n) < remainingFunding}>2. {funded ? "20 USDC funded" : `Deposit ${formatUnits(remainingFunding, 6)} USDC`}</button>
             <button className="secondary-button" onClick={heartbeat} disabled={busy || !connectedOwner}>Send heartbeat</button>
           </div>
         </div>

@@ -86,10 +86,11 @@ npm run lint
 npm test
 ```
 
-The dashboard is pinned to the R1 factory and verified smoke vault. Funding, allowance, liveness,
-routing and recovery state are reconstructed from public contract reads. The R1 vault is currently
-unfunded because the release owner has no Base Sepolia USDC; no historical balance is presented as
-R1 evidence.
+The dashboard is pinned to the R1 factory and verified owner vault. Funding, allowance, liveness,
+routing and recovery state are reconstructed from public contract reads. The R1 vault holds 20
+official Base Sepolia USDC; its approval, deposits, final zero allowance and liveness nonce are
+recorded in the release-vault manifest. This is funded testnet evidence, not a completed real-time
+claim lifecycle or a production audit.
 
 ## Release track
 

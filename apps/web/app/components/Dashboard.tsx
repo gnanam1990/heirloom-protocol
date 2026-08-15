@@ -486,7 +486,11 @@ function ActivityView({ snapshot }: { snapshot: VaultSnapshot }) {
       <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." />
       <div className="activity-list">
         {isReleaseVault && (
-          <ActivityRow icon={Vault} title="R1 smoke vault created" meta="Aug 15, 2026 · Base Sepolia block 45500300" hash="0x8f68…6312" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.create}`} />
+          <>
+            <ActivityRow icon={WalletCards} title="R1 vault funded with 20 USDC" meta="Aug 15, 2026 · Base Sepolia block 45502623 · liveness nonce 3" hash="0x233b…f615" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.deposit}`} />
+            <ActivityRow icon={FileCheck2} title="20 USDC approval recorded" meta="Aug 15, 2026 · Base Sepolia block 45501588" hash="0xaeb3…6df6" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.approve}`} />
+            <ActivityRow icon={Vault} title="R1 vault created" meta="Aug 15, 2026 · Base Sepolia block 45500300" hash="0x8f68…6312" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.create}`} />
+          </>
         )}
         <ActivityRow icon={FileCheck2} title="R1 factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45483268" hash="0x839c…f0732" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.factory}`} />
       </div>

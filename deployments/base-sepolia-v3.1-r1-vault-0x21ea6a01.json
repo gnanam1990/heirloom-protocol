@@ -1,5 +1,5 @@
 {
-  "status": "active-unfunded",
+  "status": "active-and-funded",
   "release": "v3.1-R1",
   "chainId": 84532,
   "network": "base-sepolia",
@@ -68,6 +68,60 @@
     "livenessNonce": 1,
     "configNonce": 1
   },
+  "fundingTransactions": {
+    "approve20Usdc": {
+      "hash": "0xaeb3787db2c64bbf6c62d6cba71d6e8cacc5a24f2643765b82b823d4bc596df6",
+      "block": 45501588,
+      "blockHash": "0x99ac37f8e3989e3c295714709def79ba1f74de2d6b4f162567196d85d885ac66",
+      "timestamp": "2026-08-15T05:24:24Z",
+      "status": "success",
+      "gasUsed": 170617,
+      "outerSender": "0xB42F812A44c22cc6b861478900401ee759EbEAD6",
+      "outerTarget": "0xdb9B1e94B5b69Df7e401DDbedE43491141047dB3",
+      "approvalOwner": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+      "approvalSpender": "0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371",
+      "amountAtomic": "20000000",
+      "executionNote": "Owner-authorized delegated account execution; the USDC Approval event binds owner, vault and amount."
+    },
+    "atomicUnitPreflightDeposit": {
+      "hash": "0xef168d573323b2cfaa76f24ea78129520562917f8aad342b3e7227f51d644e1a",
+      "block": 45501693,
+      "blockHash": "0xe72169bbb9792a710839fae797443d6eae0b80dd0f24480900877b5aa4efb516",
+      "timestamp": "2026-08-15T05:27:54Z",
+      "status": "success",
+      "gasUsed": 231190,
+      "outerSender": "0xB01caEa8c6C47bbf4F4b4c5080Ca642043359C2E",
+      "outerTarget": "0xdb9B1e94B5b69Df7e401DDbedE43491141047dB3",
+      "amountAtomic": "1",
+      "livenessNonceAfter": 2,
+      "executionNote": "A temporary local gate encoded one atomic unit. The unit reached the intended vault; the gate was corrected before the remaining deposit."
+    },
+    "remainingDeposit": {
+      "hash": "0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615",
+      "block": 45502623,
+      "blockHash": "0x3398a00ab520048f4479c383e5ebc96a1c382ccdee18e0e64c371709e96da5da",
+      "timestamp": "2026-08-15T05:58:54Z",
+      "status": "success",
+      "gasUsed": 70600,
+      "sender": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+      "target": "0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371",
+      "amountAtomic": "19999999",
+      "livenessNonceAfter": 3
+    }
+  },
+  "postFundingState": {
+    "vaultState": "Active",
+    "vaultStateRaw": 0,
+    "vaultUsdcBalance": "20000000",
+    "ownerUsdcBalance": "0",
+    "ownerToVaultAllowance": "0",
+    "lastSeen": 1786773534,
+    "lastSeenUtc": "2026-08-15T05:58:54Z",
+    "claimEligibleAt": 1794549534,
+    "claimEligibleAtUtc": "2026-11-13T05:58:54Z",
+    "livenessNonce": 3,
+    "configNonce": 1
+  },
   "sourceVerification": {
     "verifier": "blockscout",
     "cloneVerified": true,
@@ -76,7 +130,10 @@
   },
   "explorer": {
     "vault": "https://base-sepolia.blockscout.com/address/0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371",
-    "createTransaction": "https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312"
+    "createTransaction": "https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312",
+    "approveTransaction": "https://base-sepolia.blockscout.com/tx/0xaeb3787db2c64bbf6c62d6cba71d6e8cacc5a24f2643765b82b823d4bc596df6",
+    "atomicUnitPreflightDeposit": "https://base-sepolia.blockscout.com/tx/0xef168d573323b2cfaa76f24ea78129520562917f8aad342b3e7227f51d644e1a",
+    "remainingDeposit": "https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615"
   },
-  "verifiedAt": "2026-08-15T04:44:13Z"
+  "verifiedAt": "2026-08-15T06:00:56Z"
 }

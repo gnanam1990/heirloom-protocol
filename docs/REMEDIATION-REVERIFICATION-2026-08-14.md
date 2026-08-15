@@ -91,7 +91,7 @@ admin role, arbitrary destination argument or new external call was added.
 - [ ] Independent auditor confirms exact source hashes and toolchain.
 - [ ] Independent report resolves all Critical/High findings and records accepted lower risks.
 - [ ] Independent auditor re-verifies the remediation diff.
-- [ ] Remediated version is redeployed and source-verified on Base Sepolia.
+- [x] Remediated version is redeployed and source-verified on Base Sepolia as v3.1-R1.
 - [x] Hosted CI passed all four jobs on evidence commit `1f3b682` in
   [GitHub Actions run 31827335863](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863).
 - [ ] Base USDC identity, proxy implementation and roles are refreshed immediately before release.

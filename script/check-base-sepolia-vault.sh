@@ -39,15 +39,15 @@ assert_equal "vault asset" "$USDC" "$(read_call "$VAULT" 'asset()(address)')"
 assert_equal "version id" "$VERSION_ID" "$(read_call "$VAULT" 'versionId()(bytes32)')"
 assert_equal "vault state" "0" "$(read_call "$VAULT" 'vaultState()(uint8)')"
 assert_equal "config hash" "$CONFIG_HASH" "$(read_call "$VAULT" 'currentConfigHash()(bytes32)')"
-assert_equal "vault USDC" "0" "$(read_call "$USDC" 'balanceOf(address)(uint256)' "$VAULT")"
+assert_equal "vault USDC" "20000000" "$(read_call "$USDC" 'balanceOf(address)(uint256)' "$VAULT")"
 assert_equal "owner allowance" "0" "$(read_call "$USDC" 'allowance(address,address)(uint256)' "$OWNER" "$VAULT")"
 assert_equal "runtime hash" "$RUNTIME_HASH" "$(cast codehash --rpc-url "$RPC_URL" "$VAULT")"
 
 liveness_nonce="$(read_call "$VAULT" 'livenessNonce()(uint64)')"
-if (( liveness_nonce >= 1 )); then
+if (( liveness_nonce >= 3 )); then
   printf 'PASS  liveness nonce: %s\n' "$liveness_nonce"
 else
-  printf 'FAIL  liveness nonce: expected at least 1, got %s\n' "$liveness_nonce" >&2
+  printf 'FAIL  liveness nonce: expected at least 3, got %s\n' "$liveness_nonce" >&2
   failures=$((failures + 1))
 fi
 

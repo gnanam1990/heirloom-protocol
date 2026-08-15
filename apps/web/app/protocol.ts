@@ -11,6 +11,9 @@ export const RELEASE_VAULT_ADDRESS = "0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371
 export const RELEASE_TRANSACTIONS = {
   factory: "0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732",
   create: "0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312",
+  approve: "0xaeb3787db2c64bbf6c62d6cba71d6e8cacc5a24f2643765b82b823d4bc596df6",
+  atomicUnitDeposit: "0xef168d573323b2cfaa76f24ea78129520562917f8aad342b3e7227f51d644e1a",
+  deposit: "0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615",
 } as const;
 
 const beneficiaryComponents = [

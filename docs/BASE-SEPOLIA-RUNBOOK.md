@@ -50,9 +50,11 @@ from RPC or explorer evidence. Before accepting the deployment:
    audit-remediated bytecode and distinguishes it from the historical pre-remediation factory.
 4. Confirm the implementation initializer is permanently locked.
 5. Create a vault and confirm predicted and deployed addresses match.
-6. Run a funded lifecycle: deposit, heartbeat, claim, challenge, primary payout, fallback payout,
-   rollover, terminal payout and excess sweep.
-7. Record every transaction, block, code hash and explorer verification link.
+6. Fund the release vault and record approval, deposit, exact balances, zero residual allowance and
+   liveness. Then observe the real-time claim stages as their configured windows become eligible;
+   do not claim completion before those timestamps actually elapse.
+7. Record every completed transaction, block, code hash and explorer verification link. Use local
+   time-warp and Base-fork tests for full lifecycle regression coverage while real time is pending.
 8. Configure the UI only after the manifest is reviewed.
 
 ## Release-vault monitor
