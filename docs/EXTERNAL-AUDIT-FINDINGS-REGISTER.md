@@ -1,7 +1,7 @@
 # Heirloom v3.1-R1 External Audit Findings Register
 
 **Audit tag:** `v3.1-r1-audit-candidate-2`
-**Audit commit:** Resolve with `git rev-list -n 1 v3.1-r1-audit-candidate-2`; also recorded in the candidate-2 proof manifest
+**Audit commit:** `7ea6617625615e41469e153bc19f020eeb692d4a`
 **Provider:** Not selected  
 **Status:** Waiting for independent engagement
 
@@ -10,7 +10,9 @@ must never mark a finding verified without evidence from the independent reviewe
 
 The original `v3.1-r1-audit-candidate` is historical and must not be used for a new engagement. It
 was superseded before auditor selection after a randomized CI seed found an incorrect zero-balance
-state assumption in the invariant harness. No production contract hash changed.
+state assumption in the invariant harness. No production contract hash changed. The exact tag,
+commit and green hosted receipt are sealed in
+`proof/external-audit-candidate-2-7ea6617.json`.
 
 ## Engagement identity
 

@@ -248,7 +248,7 @@ Quote-request instructions, provider comparison criteria and the ready-to-send i
 in `docs/EXTERNAL-AUDIT-OUTREACH.md`.
 
 The frozen tag, commit, source hashes, deployed R1 identity and candidate CI receipt are recorded in
-the candidate-2 machine manifest under `proof/`. External findings and fix re-verification must be
+`proof/external-audit-candidate-2-7ea6617.json`. External findings and fix re-verification must be
 tracked in `docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md` without converting internal verification into
 external sign-off. The original `v3.1-r1-audit-candidate` remains immutable but is retired because a
 later randomized run exposed a zero-snapshot assumption defect in its stateful test model. This was

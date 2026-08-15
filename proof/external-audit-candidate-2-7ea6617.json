@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "status": "audit-candidate-frozen-not-engaged",
+  "repository": "https://github.com/gnanam1990/heirloom-protocol",
+  "auditTag": "v3.1-r1-audit-candidate-2",
+  "auditCommit": "7ea6617625615e41469e153bc19f020eeb692d4a",
+  "annotatedTagObject": "ef6b90f3e1581632c9f802617d670647e7fab531",
+  "taggedAt": "2026-08-15T14:12:32+05:30",
+  "supersedes": {
+    "auditTag": "v3.1-r1-audit-candidate",
+    "auditCommit": "02fd2046c96ef1c4117d6ab637cb4052faab5c6f",
+    "reason": "A later randomized CI seed exposed an incorrect zero-balance state assumption in the stateful test model.",
+    "productionSourceChanged": false,
+    "externalReviewHadStarted": false,
+    "detectionRun": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31874342355"
+  },
+  "release": {
+    "name": "Heirloom v3.1-R1",
+    "versionPreimage": "HEIRLOOM_V3_1_R1",
+    "versionId": "0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56",
+    "targetChain": "Base",
+    "mainnetAuthorized": false
+  },
+  "productionScope": {
+    "physicalLinesIncludingCommentsAndInterfaces": 1179,
+    "files": [
+      {
+        "path": "src/HeirloomFactory.sol",
+        "sha256": "456373f6ae289df7b973a6f483e3676962ff7168ca8063f84ab137ed536dd90a"
+      },
+      {
+        "path": "src/HeirloomVault.sol",
+        "sha256": "7f5e61cf51e80739e30315003a7c7f14c1d0f261d9d22115bec901e1baef7c71"
+      },
+      {
+        "path": "src/HeirloomTypes.sol",
+        "sha256": "98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285"
+      },
+      {
+        "path": "src/interfaces/IHeirloomVault.sol",
+        "sha256": "651f44819a90794d2b4597538f9567b9fb413639da1c64ecac2bcf7fa4621e78"
+      }
+    ]
+  },
+  "toolchain": {
+    "foundry": "1.7.1",
+    "solidity": "0.8.30",
+    "openzeppelinContracts": "5.7.0",
+    "forgeStd": "1.16.2"
+  },
+  "localVerification": {
+    "exactRegressionSeed": "0xc8886cca7c28b8d0600b168ec33fbfb234066538873365a2e7289698267861e",
+    "coreTestEntries": 59,
+    "fuzzRuns": 10000,
+    "statefulCalls": 500000,
+    "sourceMutantsKilled": 16,
+    "sourceMutantsTotal": 16,
+    "conclusion": "success"
+  },
+  "deployedEvidence": {
+    "network": "base-sepolia",
+    "chainId": 84532,
+    "factory": "0x935e5101d7563429BC152889603D3A17f466f4e4",
+    "implementation": "0x93C9a8b47d558F8C30F1e1754Ad2b050933F0FE3",
+    "fundedVault": "0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371",
+    "vaultUsdcAtomic": "20000000",
+    "vaultRuntimeCodeHash": "0x100016fa0ed9ba6b03d57af1e255e6e1c475093a2dce36b8d407f9e0cc7b2aaa"
+  },
+  "candidateVerification": {
+    "githubActionsRunId": 31875147068,
+    "url": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875147068",
+    "headSha": "7ea6617625615e41469e153bc19f020eeb692d4a",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": {
+      "protocolAndGas": "success",
+      "baseMainnetUsdcFork": "success",
+      "invariantMutations": "success",
+      "web": "success"
+    }
+  },
+  "externalEngagement": {
+    "providerSelected": false,
+    "provider": null,
+    "statementOfWorkSigned": false,
+    "namedReviewersConfirmed": false,
+    "fixReviewIncluded": false,
+    "reportDelivered": false,
+    "remediationReverified": false
+  }
+}

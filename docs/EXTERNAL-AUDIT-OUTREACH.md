@@ -3,6 +3,7 @@
 **Status:** Ready for quote requests; no auditor engaged yet  
 **Target:** Independent Solidity/EVM review before any Base mainnet deployment  
 **Audit authority:** Annotated Git tag `v3.1-r1-audit-candidate-2`
+**Resolved commit:** `7ea6617625615e41469e153bc19f020eeb692d4a`
 **Repository:** Private; grant named reviewers read-only access after a quote is shortlisted
 
 ## Recommended procurement path
