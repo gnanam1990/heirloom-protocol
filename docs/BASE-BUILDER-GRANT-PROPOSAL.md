@@ -136,12 +136,12 @@ where only the project owner can supply or authorize the answer.
 | Email | `[OWNER EMAIL REQUIRED]` |
 | Nominator name | `[OWNER NAME REQUIRED]` |
 | Project name | `Heirloom` |
-| Project URL | `[PUBLIC DEMO URL REQUIRED — current private URL returns 401]` |
+| Project URL | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
 | Project Twitter | `[PROJECT X HANDLE REQUIRED]` |
 | Project Farcaster/channel | `[PROJECT FARCASTER REQUIRED]` |
 | Builder Twitter | `[BUILDER X HANDLE REQUIRED]` |
 | Builder Farcaster | `[BUILDER FARCASTER REQUIRED]` |
-| Is the project live on Base? | `No — live on Base testnet` |
+| Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
 | One-minute demo | `[PUBLIC VIDEO URL REQUIRED]` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
 | Marketing communications | `[OWNER CHOICE REQUIRED]` |

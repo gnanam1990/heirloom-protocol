@@ -31,6 +31,7 @@ command that reproduces it.
 | M18: Base mainnet release preparation | `34bbecd` | Updated multi-pass review, fail-closed deployment script, pinned deployer/nonce/factory/runtime identity, ten release-gate tests, runbook and fork-only evidence |
 | M19: unaudited proposal release mode | `fd2d5db` | Separately named proposal entrypoint, explicit unaudited-risk acknowledgement, exact candidate binding, no-funding policy and fourteen release-gate tests |
 | M20: Base mainnet proposal factory | `5ca330d` | Exact reviewed-input deployment, receipt/runtime/config verification, Blockscout source verification and explicit no-vault/no-funding status |
+| M21: public proposal product surface | `b0e5fc3` | Read-only Base mainnet proof, completed dashboard controls, social metadata, render regressions and public Sites Version 2 |
 
 ## Current verified results
 
@@ -53,7 +54,8 @@ Verified locally from committed source on 2026-08-15:
 | Web production build/render | Passed | `cd apps/web && npm test` |
 | R1 funded-vault release monitor | Passed: registry, identity, Active state, 20 USDC balance, zero allowance, config, runtime and liveness nonce at least 3 | `./script/check-base-sepolia-vault.sh` |
 | Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no app-origin console errors | Manual local preview inspection |
-| Private Sites deployment | Version 1 succeeded | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
+| Public Sites deployment | Version 2 succeeded from exact source commit `b0e5fc3`; anonymous request and social image both returned HTTP 200 | [Heirloom public product](https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site) |
+| Hosted public-product CI | Passed all four jobs on exact Sites source commit `b0e5fc3`: protocol/gas, 16/16 source mutation, 9/9 Base USDC fork and web lint/build/render | [GitHub Actions run 31888690289](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31888690289) |
 | Prior hosted protocol CI | Passed on the pre-remediation M7 source commit; retained as historical evidence, not final-candidate approval | [GitHub Actions run 31820092793](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31820092793) |
 | Internal audit remediation | H-01, M-01, L-01 and L-02 closed internally on exact source commit `50461c5`; independent review still pending | `proof/internal-remediation-50461c5.json` |
 | Hosted remediation CI | Passed all four jobs on exact evidence commit `1f3b682`: high-intensity protocol/gas, 16/16 source mutation, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31827335863](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863) |
