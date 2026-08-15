@@ -136,7 +136,7 @@ where only the project owner can supply or authorize the answer.
 | Email | `gamingtushar04@gmail.com` |
 | Nominator name | `Gnanasekaran Jaganathan` |
 | Project name | `Heirloom` |
-| Project URL | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
+| Project URL | `https://heirloom-protocol-production.up.railway.app` |
 | Project Twitter | `@pindropsx` |
 | Project Farcaster/channel | `gnanam` |
 | Builder Twitter | `@pindropsx` |

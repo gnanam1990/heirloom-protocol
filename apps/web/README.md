@@ -2,6 +2,8 @@
 
 The owner dashboard and public evidence surface for Heirloom on Base.
 
+Public product: `https://heirloom-protocol-production.up.railway.app`
+
 ## Prerequisites
 
 - Node.js `>=22.13.0`

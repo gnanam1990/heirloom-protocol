@@ -5,7 +5,7 @@ const title = "Heirloom — Asset continuity on Base";
 const description =
   "A non-custodial continuity vault with owner-only liveness and destination-locked payouts.";
 
-const canonical = "https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site";
+const canonical = "https://heirloom-protocol-production.up.railway.app";
 const socialImage = `${canonical}/heirloom-social-card.png`;
 
 export const metadata: Metadata = {

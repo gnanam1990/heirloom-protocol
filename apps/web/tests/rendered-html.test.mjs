@@ -36,7 +36,7 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(html, /16\/16 mutants/);
   assert.match(html, /0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf/i);
   assert.match(html, /0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270/i);
-  assert.match(html, /property="og:image" content="https:\/\/heirloom-base-v31\.gnanasekaran-sekaree\.chatgpt\.site\/heirloom-social-card\.png"/i);
+  assert.match(html, /property="og:image" content="https:\/\/heirloom-protocol-production\.up\.railway\.app\/heirloom-social-card\.png"/i);
   assert.match(html, /name="twitter:card" content="summary_large_image"/i);
   assert.doesNotMatch(html, /codex-preview/i);
 });
