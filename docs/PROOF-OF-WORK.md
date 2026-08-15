@@ -29,6 +29,7 @@ command that reproduces it.
 | M16: historical external audit candidate | `02fd204` | Immutable but superseded candidate; later randomized CI exposed a zero-balance state-model assumption |
 | M17: corrected external audit candidate | `7ea6617` | Zero-snapshot state-model correction, deterministic regression, unchanged production hashes and immutable candidate-2 tag |
 | M18: Base mainnet release preparation | `34bbecd` | Updated multi-pass review, fail-closed deployment script, pinned deployer/nonce/factory/runtime identity, ten release-gate tests, runbook and fork-only evidence |
+| M19: unaudited proposal release mode | `fd2d5db` | Separately named proposal entrypoint, explicit unaudited-risk acknowledgement, exact candidate binding, no-funding policy and fourteen release-gate tests |
 
 ## Current verified results
 
