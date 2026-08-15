@@ -1,6 +1,6 @@
 # Heirloom — Base Builder Grant Proposal
 
-**Submission status:** Submission package complete; owner review and submission pending
+**Submission status:** Submitted to Coinbase/Base on 2026-08-15; Google Forms confirmed the response was recorded
 
 **Current network:** Base Sepolia
 
@@ -67,6 +67,8 @@ This makes execution open while keeping payout economics destination-locked.
 | Mutation evidence | `16/16` production-source mutants killed |
 | Base USDC evidence | `9/9` pinned/latest fork cases passed |
 | Hosted release evidence | GitHub Actions run `31875566790`, four jobs passed |
+| Base.dev app | `Heirloom` — app ID `6a809111e4a8a41598e7a375` |
+| Base Builder Code | `bc_dsenshfx` |
 
 These are engineering and testnet milestones, not user-adoption claims. The public Railway demo and
 its text-led one-minute HTML walkthrough, with optional ambient music and no narration, open without authentication.
@@ -126,28 +128,28 @@ as zero until measured.
 - Distribution is intentionally irreversible after its snapshot boundary.
 - The current deployment is testnet evidence, not a public mainnet product.
 
-## Current Base Grant nomination form
+## Submitted Base Builder Grant form
 
 Official form:
-`https://docs.google.com/forms/d/e/1FAIpQLSfXuEzmiAzRhie_z9raFCF1BXweXgVt18o-DvBuRRgyTygL2A/viewform`
+`https://docs.google.com/forms/d/e/1FAIpQLSeEFi9BLm5XCm7KrFzRZC-rxcAqCNZPzWZ9He4aZkxsKuRXjw/viewform`
 
-The current official form requests the fields below. Placeholders remain only where the project
-owner must grant consent or make a personal communications choice.
+The response was submitted on 2026-08-15 with honest pre-launch metrics and the fields below.
 
-| Field | Proposed answer |
+| Field | Submitted answer |
 |---|---|
 | Email | `gamingtushar04@gmail.com` |
-| Nominator name | `Gnanasekaran Jaganathan` |
-| Project name | `Heirloom` |
-| Project URL | `https://heirloom-protocol-production.up.railway.app` |
-| Project Twitter | `@pindropsx` |
-| Project Farcaster/channel | `gnanam` |
-| Builder Twitter | `@pindropsx` |
-| Builder Farcaster | `gnanam` |
-| Is the project live on Base? | `No - live on Base testnet` |
-| One-minute demo | `https://heirloom-protocol-production.up.railway.app/demo` |
-| Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
-| Marketing communications | `[OWNER CHOICE REQUIRED]` |
+| Full name | `Gnanasekaran Jaganathan` |
+| X | `@pindropsx` |
+| Telegram | `@gnanamccnOOb` |
+| Product | `Heirloom` — non-custodial USDC continuity vault on Base |
+| Live product | `https://heirloom-protocol-production.up.railway.app` |
+| Product demo | `https://heirloom-protocol-production.up.railway.app/demo` |
+| Base contract | `0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf` |
+| Track | `Payments / Stable coins` |
+| Production usage | `0 users`, `0 DAU`, `0 WAU`, `$0 volume`; testnet evidence stated separately |
+| Revenue | Pre-revenue; no production fees |
+| Builder Code | `bc_dsenshfx` |
+| Bottlenecks | User acquisition, GTM, smart-contract auditing, and UI/UX |
 
 Owner-supplied public identity:
 
@@ -180,16 +182,12 @@ The answer is 133 words and remains below the form's 150-word limit.
   `https://base-sepolia.blockscout.com/address/0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371`
 - Hosted verification:
   `https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875566790`
-- Repository: private during proposal development; reviewer access requires an explicit decision.
+- Public repository:
+  `https://github.com/gnanam1990/heirloom-protocol`
 - One-minute demo:
   `https://heirloom-protocol-production.up.railway.app/demo`
 
-## Submission gate
+## Submission record
 
-The public project and one-minute video URLs are ready. Submission remains blocked only on the
-owner's review of the form's multimedia license and privacy terms, the owner's marketing
-communications choice, and the final form submission.
-
-The form's required multimedia confirmation grants Coinbase a non-exclusive, worldwide,
-irrevocable, sublicensable and royalty-free license to use the submitted multimedia assets,
-including for Base or Coinbase marketing. The owner must personally accept this before submission.
+The application was submitted on 2026-08-15. The browser confirmation page displayed
+`Your response has been recorded.` No response identifier was provided by Google Forms.
