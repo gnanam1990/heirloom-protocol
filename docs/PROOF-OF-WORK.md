@@ -25,10 +25,11 @@ command that reproduces it.
 | M12: v3.1-R1 Base Sepolia release | `ddfdf79` | Hosted CI-bound deployment, exact dry-run/live input match, runtime identity and source verification |
 | M13: v3.1-R1 smoke vault | `a759889` | Predicted/deployed address match, registry/config/runtime identity and empty-vault manifest |
 | M14: R1 product binding | `ee30657` | Dashboard, release activity, browser storage namespace and rendered proof pinned to the R1 factory/vault |
+| M15: R1 funded vault | `4c64ee2` | 20-USDC approval/deposit receipts, exact post-funding state, hardened remaining-amount UI and release monitor |
 
 ## Current verified results
 
-Verified locally from clean committed source on 2026-08-14:
+Verified locally from committed source on 2026-08-15:
 
 | Gate | Result | Reproduction |
 |---|---:|---|

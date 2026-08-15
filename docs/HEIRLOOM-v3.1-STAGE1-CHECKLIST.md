@@ -39,7 +39,8 @@
 - [x] Atomic-unit rounding and positive-snapshot zero entitlements are covered.
 - [x] Each I1-I16 invariant has a compiling source mutant killed by its mapped regression test.
 - [x] Exact timestamp boundaries are exhaustively tested.
-- [ ] Base Sepolia lifecycle is source-verified and reproducible.
+- [x] R1 Base Sepolia creation, funding and owner-liveness evidence is source-verified and reproducible.
+- [ ] Complete R1 real-time claim-to-settlement lifecycle has elapsed and is independently reproduced.
 - [x] Pinned and latest Base mainnet-fork USDC tests are green locally and in hosted CI.
 - [x] Runtime bytecode hash matches the announced factory version.
 
