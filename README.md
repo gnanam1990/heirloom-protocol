@@ -96,6 +96,18 @@ official Base Sepolia USDC; its approval, deposits, final zero allowance and liv
 recorded in the release-vault manifest. This is funded testnet evidence, not a completed real-time
 claim lifecycle or a production audit.
 
+## Base Builder proposal
+
+The reviewer-ready proposal package is intentionally scoped to the Base Sepolia prototype:
+
+- [`docs/BASE-BUILDER-GRANT-PROPOSAL.md`](docs/BASE-BUILDER-GRANT-PROPOSAL.md) — application narrative, evidence, risks, milestones and form-ready copy.
+- [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second reviewer walkthrough and recording checklist.
+- [`outputs/Heirloom_Base_Proposal_Deck.pptx`](outputs/Heirloom_Base_Proposal_Deck.pptx) — shareable Base-themed proposal deck.
+
+The grant nomination has not been submitted. A public unauthenticated demo URL, public one-minute
+video and owner-controlled application identity fields are still required. Mainnet remains outside
+the proposal scope until independent audit, remediation and re-verification are complete.
+
 ## Release track
 
 ```text
