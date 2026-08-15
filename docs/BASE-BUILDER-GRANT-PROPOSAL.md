@@ -128,8 +128,11 @@ as zero until measured.
 
 ## Current Base Grant nomination form
 
-The official form currently requests the fields below. Placeholders are intentionally unresolved
-where only the project owner can supply or authorize the answer.
+Official form:
+`https://docs.google.com/forms/d/e/1FAIpQLSfXuEzmiAzRhie_z9raFCF1BXweXgVt18o-DvBuRRgyTygL2A/viewform`
+
+The current official form requests the fields below. Placeholders remain only where the project
+owner must grant consent or make a personal communications choice.
 
 | Field | Proposed answer |
 |---|---|
@@ -141,7 +144,7 @@ where only the project owner can supply or authorize the answer.
 | Project Farcaster/channel | `gnanam` |
 | Builder Twitter | `@pindropsx` |
 | Builder Farcaster | `gnanam` |
-| Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
+| Is the project live on Base? | `No - live on Base testnet` |
 | One-minute demo | `https://heirloom-protocol-production.up.railway.app/demo` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
 | Marketing communications | `[OWNER CHOICE REQUIRED]` |
@@ -186,3 +189,7 @@ The answer is 133 words and remains below the form's 150-word limit.
 The public project and one-minute video URLs are ready. Submission remains blocked only on the
 owner's review of the form's multimedia license and privacy terms, the owner's marketing
 communications choice, and the final form submission.
+
+The form's required multimedia confirmation grants Coinbase a non-exclusive, worldwide,
+irrevocable, sublicensable and royalty-free license to use the submitted multimedia assets,
+including for Base or Coinbase marketing. The owner must personally accept this before submission.
