@@ -58,7 +58,7 @@
     "implementation": "https://base.blockscout.com/address/0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80"
   },
   "releaseCommit": "4ce1d86b597eecf7aa38442ebb85c324f4c65df6",
-  "evidenceCommit": null,
-  "hostedCiRun": null,
+  "evidenceCommit": "5ca330d5070938217a9563f42c8f361e293a0182",
+  "hostedCiRun": "https://github.com/gnanam1990/heirloom-protocol/actions/runs/31887270792",
   "verifiedAt": "2026-08-15T13:25:05Z"
 }

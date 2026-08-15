@@ -30,7 +30,7 @@ command that reproduces it.
 | M17: corrected external audit candidate | `7ea6617` | Zero-snapshot state-model correction, deterministic regression, unchanged production hashes and immutable candidate-2 tag |
 | M18: Base mainnet release preparation | `34bbecd` | Updated multi-pass review, fail-closed deployment script, pinned deployer/nonce/factory/runtime identity, ten release-gate tests, runbook and fork-only evidence |
 | M19: unaudited proposal release mode | `fd2d5db` | Separately named proposal entrypoint, explicit unaudited-risk acknowledgement, exact candidate binding, no-funding policy and fourteen release-gate tests |
-| M20: Base mainnet proposal factory | pending evidence commit | Exact reviewed-input deployment, receipt/runtime/config verification, Blockscout source verification and explicit no-vault/no-funding status |
+| M20: Base mainnet proposal factory | `5ca330d` | Exact reviewed-input deployment, receipt/runtime/config verification, Blockscout source verification and explicit no-vault/no-funding status |
 
 ## Current verified results
 
@@ -65,6 +65,7 @@ Verified locally from committed source on 2026-08-15:
 | Hosted proposal-preparation CI | Passed all four jobs on exact release-proof commit `4ce1d86`: protocol/gas, 16/16 source mutation, Base USDC fork and web lint/build/render | [GitHub Actions run 31882181868](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31882181868) |
 | Base mainnet preparation | Production and explicitly unaudited proposal paths are separate and fail closed. Local fork mechanics passed with predicted factory `0x524A…eEcf`; deployer, nonce, factory and both runtime hashes were pinned before broadcast | `proof/base-mainnet-preparation-fork-50000700.json` |
 | Base mainnet unaudited proposal factory | Success at block `50005381`; reviewed dry-run/live input exact match; runtime/config identity and both sources verified; factory vault count remains zero | [`0xf049…9270`](https://base.blockscout.com/tx/0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270) |
+| Hosted mainnet-deployment evidence CI | Passed all four jobs on exact evidence commit `5ca330d`: high-intensity protocol/gas, 16/16 source mutation, 9/9 Base USDC fork and web lint/build/render | [GitHub Actions run 31887270792](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31887270792) |
 | v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
 | v3.1-R1 smoke vault creation | Success at block `45500300`; predicted address, registry, config and runtime identity match | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312) |
 | v3.1-R1 20 USDC funding | Approval and two deposits verified; final state is Active with 20 USDC, zero owner balance/allowance and liveness nonce 3 | [`0x233b…f615`](https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615) |
