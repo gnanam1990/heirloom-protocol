@@ -4,6 +4,10 @@
 
 **Audit candidate; not approved for Base mainnet deployment.**
 
+The external engagement must use the annotated Git tag `v3.1-r1-audit-candidate` as its immutable
+review authority. The statement of work and report must record the commit resolved by
+`git rev-list -n 1 v3.1-r1-audit-candidate`. Reviewers must not audit a moving `main` branch.
+
 This package freezes the security claims, review scope, trust assumptions, reproduction steps and
 release gates for Heirloom v3.1. The internal findings were remediated at commit
 `50461c50f5dd9d8505d684286d75ba6e3ed58ee1`. Release candidate
@@ -239,3 +243,6 @@ Low for defense-in-depth or operational mismatch; Informational for non-security
 - [ ] UI warnings accurately describe inactivity, irreversibility, key loss, privacy and issuer risk.
 
 Until every required gate is recorded, the only valid release status is **pre-production**.
+
+Quote-request instructions, provider comparison criteria and the ready-to-send intake message are
+in `docs/EXTERNAL-AUDIT-OUTREACH.md`.

@@ -72,6 +72,8 @@ wallet or Foundry keystore; raw private keys are never stored in this repository
 
 The independent review handoff is
 [`docs/INDEPENDENT-AUDIT-PACK.md`](docs/INDEPENDENT-AUDIT-PACK.md).
+The quote-request and private-access workflow is
+[`docs/EXTERNAL-AUDIT-OUTREACH.md`](docs/EXTERNAL-AUDIT-OUTREACH.md).
 
 ## Product UI
 
