@@ -1,12 +1,16 @@
 # Heirloom v3.1-R1 External Audit Findings Register
 
-**Audit tag:** `v3.1-r1-audit-candidate`  
-**Audit commit:** `02fd2046c96ef1c4117d6ab637cb4052faab5c6f`  
+**Audit tag:** `v3.1-r1-audit-candidate-2`
+**Audit commit:** Resolve with `git rev-list -n 1 v3.1-r1-audit-candidate-2`; also recorded in the candidate-2 proof manifest
 **Provider:** Not selected  
 **Status:** Waiting for independent engagement
 
 This register is the project-side remediation ledger. It does not replace the auditor's report and
 must never mark a finding verified without evidence from the independent reviewer.
+
+The original `v3.1-r1-audit-candidate` is historical and must not be used for a new engagement. It
+was superseded before auditor selection after a randomized CI seed found an incorrect zero-balance
+state assumption in the invariant harness. No production contract hash changed.
 
 ## Engagement identity
 

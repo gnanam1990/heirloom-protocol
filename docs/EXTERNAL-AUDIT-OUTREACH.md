@@ -2,7 +2,7 @@
 
 **Status:** Ready for quote requests; no auditor engaged yet  
 **Target:** Independent Solidity/EVM review before any Base mainnet deployment  
-**Audit authority:** Annotated Git tag `v3.1-r1-audit-candidate`  
+**Audit authority:** Annotated Git tag `v3.1-r1-audit-candidate-2`
 **Repository:** Private; grant named reviewers read-only access after a quote is shortlisted
 
 ## Recommended procurement path
@@ -116,7 +116,7 @@ Please provide:
 4. Confirmation that remediation re-verification and a final commit-bound report are included.
 5. Your report-publication terms.
 
-Audit authority: `v3.1-r1-audit-candidate`  
+Audit authority: `v3.1-r1-audit-candidate-2`
 Detailed scope: `docs/INDEPENDENT-AUDIT-PACK.md`
 
 Thank you.
@@ -125,7 +125,7 @@ Thank you.
 
 1. Obtain the provider's legal entity, statement of work and named GitHub usernames.
 2. Give only named reviewers read-only repository access; never organization owner or admin access.
-3. Require checkout of `v3.1-r1-audit-candidate`, not a moving `main` branch.
+3. Require checkout of `v3.1-r1-audit-candidate-2`, not a moving `main` branch.
 4. Share no wallet secrets, private keys, recovery material, RPC secrets or production credentials.
 5. Use a dedicated communication channel for questions and record all scope decisions.
 6. During review, make no audit-scope code changes. Put proposed fixes on a separate remediation
@@ -148,5 +148,13 @@ Complete this table after quotes arrive. Until then, no provider is selected.
 - Do not deploy to Base mainnet while procurement, audit or fix verification is pending.
 - Do not describe an internal review, CI run, testnet deployment or contest as the required
   independent commit-bound audit.
-- Do not change the audit tag. If production scope changes, create a new candidate tag and require
-  the auditor to re-scope the delta.
+- Never move an existing audit tag. If production or review-evidence scope changes, create a new
+  immutable candidate tag and require the auditor to re-scope the delta.
+
+## Candidate lineage
+
+`v3.1-r1-audit-candidate` is retained as immutable historical evidence but is superseded. A later
+randomized CI seed exposed that its stateful test model incorrectly required every successful
+`startDistribution()` call to remain in `Distributing`; the specified zero-balance path settles
+atomically instead. Production source hashes were unchanged, no external review had begun, and the
+model was corrected with a deterministic regression before candidate 2 was frozen.

@@ -236,10 +236,12 @@ contract HeirloomLifecycleHandler is Test {
         controlVault.startDistribution();
         ++distributionStarts;
         (uint64 remainingClaimNonce,,,,) = controlVault.claimRequest();
+        HeirloomTypes.VaultState expectedState = beforeBalance == 0
+            ? HeirloomTypes.VaultState.Settled
+            : HeirloomTypes.VaultState.Distributing;
         if (
-            controlVault.state() != HeirloomTypes.VaultState.Distributing
-                || controlVault.snapshotBalance() != beforeBalance || remainingClaimNonce != 0
-                || distributionStarts != 1
+            controlVault.state() != expectedState || controlVault.snapshotBalance() != beforeBalance
+                || remainingClaimNonce != 0 || distributionStarts != 1
         ) distributionViolation = true;
         _recordPermissionlessLiveness(beforeSeen, beforeLiveness);
     }
@@ -626,6 +628,20 @@ contract HeirloomVaultInvariantTest is StdInvariant, Test {
 
         _assertIdentity(controlVault);
         _assertIdentity(distributionVault);
+    }
+
+    function testZeroBalanceDistributionMaySettleAtIrreversibleBoundary() public {
+        handler.ownerAction(2, uint96(DEPOSIT));
+        assertEq(usdc.balanceOf(address(controlVault)), 0);
+
+        handler.permissionlessRequestClaim();
+        handler.permissionlessStartDistribution();
+
+        assertFalse(handler.distributionViolation());
+        assertEq(handler.distributionStarts(), 1);
+        assertEq(uint8(controlVault.state()), uint8(HeirloomTypes.VaultState.Settled));
+        assertEq(controlVault.snapshotBalance(), 0);
+        assertTrue(controlVault.terminalPaid());
     }
 
     function _assertIdentity(

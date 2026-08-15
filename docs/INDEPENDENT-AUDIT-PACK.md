@@ -4,9 +4,9 @@
 
 **Audit candidate; not approved for Base mainnet deployment.**
 
-The external engagement must use the annotated Git tag `v3.1-r1-audit-candidate` as its immutable
+The external engagement must use the annotated Git tag `v3.1-r1-audit-candidate-2` as its immutable
 review authority. The statement of work and report must record the commit resolved by
-`git rev-list -n 1 v3.1-r1-audit-candidate`. Reviewers must not audit a moving `main` branch.
+`git rev-list -n 1 v3.1-r1-audit-candidate-2`. Reviewers must not audit a moving `main` branch.
 
 This package freezes the security claims, review scope, trust assumptions, reproduction steps and
 release gates for Heirloom v3.1. The internal findings were remediated at commit
@@ -248,6 +248,8 @@ Quote-request instructions, provider comparison criteria and the ready-to-send i
 in `docs/EXTERNAL-AUDIT-OUTREACH.md`.
 
 The frozen tag, commit, source hashes, deployed R1 identity and candidate CI receipt are recorded in
-`proof/external-audit-candidate-02fd204.json`. External findings and fix re-verification must be
+the candidate-2 machine manifest under `proof/`. External findings and fix re-verification must be
 tracked in `docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md` without converting internal verification into
-external sign-off.
+external sign-off. The original `v3.1-r1-audit-candidate` remains immutable but is retired because a
+later randomized run exposed a zero-snapshot assumption defect in its stateful test model. This was
+a test-harness correction; the four production source hashes above did not change.
