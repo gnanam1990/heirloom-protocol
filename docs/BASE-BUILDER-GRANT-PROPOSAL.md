@@ -134,13 +134,13 @@ where only the project owner can supply or authorize the answer.
 | Field | Proposed answer |
 |---|---|
 | Email | `gamingtushar04@gmail.com` |
-| Nominator name | `[OWNER NAME REQUIRED]` |
+| Nominator name | `Gnanasekaran Jaganathan` |
 | Project name | `Heirloom` |
 | Project URL | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
 | Project Twitter | `@pindropsx` |
-| Project Farcaster/channel | `[PROJECT FARCASTER REQUIRED]` |
+| Project Farcaster/channel | `gnanam` |
 | Builder Twitter | `@pindropsx` |
-| Builder Farcaster | `[BUILDER FARCASTER REQUIRED]` |
+| Builder Farcaster | `gnanam` |
 | Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
 | One-minute demo | `[PUBLIC VIDEO URL REQUIRED]` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
