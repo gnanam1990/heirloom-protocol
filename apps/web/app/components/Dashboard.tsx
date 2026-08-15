@@ -104,7 +104,7 @@ export function Dashboard() {
           </div>
           <p>Pre-production network</p>
           <div className="network-row">
-            <span>Protocol v3.1</span>
+            <span>Protocol v3.1-R1</span>
             <BadgeCheck size={15} />
           </div>
         </div>
@@ -380,7 +380,7 @@ function Overview({
             subtitle="Current state and irreversible boundaries."
           />
           <ol className="timeline">
-            <TimelineItem state="done" title="Factory deployed" meta="Version HEIRLOOM_V3_1 · source verified" />
+            <TimelineItem state="done" title="Factory deployed" meta="Version HEIRLOOM_V3_1_R1 · source verified" />
             <TimelineItem state={snapshot.address ? "done" : "current"} title="Vault configured" meta={snapshot.address ? shortAddress(snapshot.address) : "Owner-controlled addresses required"} />
             <TimelineItem state={funded ? "done" : snapshot.address ? "current" : undefined} title="Vault funded" meta={funded ? `${formatUnits(snapshot.balance ?? 0n, 6)} USDC confirmed on-chain` : "Awaiting owner deposit"} />
             <TimelineItem state={funded && active ? "current" : undefined} title="Owner liveness" meta={`${days(inactivity)} inactivity threshold`} />
@@ -396,11 +396,11 @@ function Overview({
         </div>
         <div>
           <span className="eyebrow">Protocol evidence</span>
-          <strong>50 core · 9 fork · 5 stateful · 16/16 mutants</strong>
+          <strong>58 core · 9 fork · 5 stateful · 16/16 mutants</strong>
         </div>
         <div className="proof-meta">
           <span>Runtime</span>
-          <strong>23,602 B</strong>
+          <strong>23,818 B</strong>
         </div>
         <a
           className="text-button"
@@ -463,7 +463,7 @@ function Security({ snapshot }: { snapshot: VaultSnapshot }) {
       <section className="panel detail-panel">
         <PanelHeader title="Verifiable identity" subtitle="Publicly inspectable for the life of every vault." />
         <SecurityRow icon={Network} label="Network" value="Base Sepolia · 84532" />
-        <SecurityRow icon={Vault} label="Version" value="HEIRLOOM_V3_1" />
+        <SecurityRow icon={Vault} label="Version" value="HEIRLOOM_V3_1_R1" />
         <SecurityRow icon={FileCheck2} label="Config epoch" value={snapshot.configNonce?.toString() ?? "—"} />
         <SecurityRow icon={Fingerprint} label="Config hash" value={shortAddress(snapshot.configHash)} />
         <SecurityRow icon={LockKeyhole} label="Upgrade authority" value="None" />
@@ -486,13 +486,9 @@ function ActivityView({ snapshot }: { snapshot: VaultSnapshot }) {
       <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." />
       <div className="activity-list">
         {isReleaseVault && (
-          <>
-            <ActivityRow icon={HeartPulse} title="20 USDC deposited" meta="Aug 14, 2026 · Base Sepolia block 45475123" hash="0xec16…6e97" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.deposit}`} />
-            <ActivityRow icon={ShieldCheck} title="20 USDC approved" meta="Aug 14, 2026 · Base Sepolia block 45474672" hash="0x49e3…d617" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.approve}`} />
-            <ActivityRow icon={Vault} title="Owner vault created" meta="Aug 14, 2026 · Base Sepolia block 45474409" hash="0x2d02…e077" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.create}`} />
-          </>
+          <ActivityRow icon={Vault} title="R1 smoke vault created" meta="Aug 15, 2026 · Base Sepolia block 45500300" hash="0x8f68…6312" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.create}`} />
         )}
-        <ActivityRow icon={FileCheck2} title="Factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45473582" hash="0x09ba…8fc7" href="https://base-sepolia.blockscout.com/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7" />
+        <ActivityRow icon={FileCheck2} title="R1 factory deployed" meta="Aug 14, 2026 · Base Sepolia block 45483268" hash="0x839c…f0732" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.factory}`} />
       </div>
     </section>
   );

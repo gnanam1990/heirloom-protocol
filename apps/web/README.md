@@ -14,8 +14,8 @@ npm run lint
 npm test
 ```
 
-The app targets Base Sepolia and pins the source-verified v3.1 factory at
-`0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf`. The launch panel reads factory identity and
+The app targets Base Sepolia and pins the source-verified v3.1-R1 factory at
+`0x935e5101d7563429BC152889603D3A17f466f4e4`. The launch panel reads factory identity and
 USDC balances live, validates the production minimum schedule, creates deterministic owner vaults,
 and exposes approval, deposit and heartbeat actions. After creation, the dashboard derives funding,
 allowance, liveness, configuration, routes, guardian quorum and recovery state from Base Sepolia.

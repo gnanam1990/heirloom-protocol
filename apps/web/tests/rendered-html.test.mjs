@@ -26,7 +26,9 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(html, /Live deployment · source verified/);
   assert.match(html, /Create the first owner vault/);
   assert.match(html, /Connect wallet/);
-  assert.match(html, /50 core/);
+  assert.match(html, /58 core/);
+  assert.match(html, /0x935e5101d7563429BC152889603D3A17f466f4e4/i);
+  assert.match(html, /HEIRLOOM_V3_1_R1/);
   assert.match(html, /9 fork/);
   assert.match(html, /16\/16 mutants/);
 });

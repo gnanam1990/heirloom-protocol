@@ -17,6 +17,7 @@ import {
   RELEASE_VAULT_ADDRESS,
   USDC_ADDRESS,
   VAULT_USER_SALT,
+  VAULT_STORAGE_SLOT,
   vaultAbi,
   VERSION_ID,
 } from "../protocol";
@@ -247,7 +248,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
 
   useEffect(() => {
     const hydrateVault = window.setTimeout(() => {
-      const stored = window.localStorage.getItem("heirloom.baseSepolia.vault");
+      const stored = window.localStorage.getItem(VAULT_STORAGE_SLOT);
       if (stored && isAddress(stored)) setStoredVaultAddress(stored);
     }, 0);
     return () => window.clearTimeout(hydrateVault);
@@ -255,7 +256,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
 
   useEffect(() => {
     if (createdVaultAddress) {
-      window.localStorage.setItem("heirloom.baseSepolia.vault", createdVaultAddress);
+      window.localStorage.setItem(VAULT_STORAGE_SLOT, createdVaultAddress);
     }
   }, [createdVaultAddress]);
 
@@ -458,7 +459,7 @@ export function LiveVault({ onSnapshot }: { onSnapshot?: (snapshot: VaultSnapsho
 
       <div className="live-proof-grid">
         <div><BadgeCheck size={17} /><span>Factory</span><strong>{shortAddress(FACTORY_ADDRESS)}</strong></div>
-        <div><ShieldCheck size={17} /><span>Identity</span><strong>{protocolVerified ? "Verified v3.1" : "Checking…"}</strong></div>
+        <div><ShieldCheck size={17} /><span>Identity</span><strong>{protocolVerified ? "Verified v3.1-R1" : "Checking…"}</strong></div>
         <div><WalletCards size={17} /><span>Wallet USDC</span><strong>{walletUsdc.data === undefined ? "—" : formatUnits(walletUsdc.data, 6)}</strong></div>
         <div><HeartPulse size={17} /><span>Minimum lifecycle</span><strong>90d + 7d</strong></div>
       </div>
