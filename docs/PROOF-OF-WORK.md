@@ -22,6 +22,7 @@ command that reproduces it.
 | M9: audit remediation | `50461c5` | Recovery/config ordering, vault self-address, stale config and atomic rounding fixes with regressions |
 | M10: hosted remediation re-verification | `1f3b682` | Exact remediation evidence commit passed protocol, mutation, Base USDC fork and web jobs |
 | M11: v3.1-R1 release identity | `286b0e9` | Unique audit-remediated version ID for the next Base Sepolia factory |
+| M12: v3.1-R1 Base Sepolia release | `ddfdf79` | Hosted CI-bound deployment, exact dry-run/live input match, runtime identity and source verification |
 
 ## Current verified results
 
@@ -47,6 +48,8 @@ Verified locally from clean committed source on 2026-08-14:
 | Prior hosted protocol CI | Passed on the pre-remediation M7 source commit; retained as historical evidence, not final-candidate approval | [GitHub Actions run 31820092793](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31820092793) |
 | Internal audit remediation | H-01, M-01, L-01 and L-02 closed internally on exact source commit `50461c5`; independent review still pending | `proof/internal-remediation-50461c5.json` |
 | Hosted remediation CI | Passed all four jobs on exact evidence commit `1f3b682`: high-intensity protocol/gas, 16/16 source mutation, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31827335863](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863) |
+| Hosted v3.1-R1 release CI | Passed all four jobs on exact deployment evidence commit `02b0ea5` | [GitHub Actions run 31829730293](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31829730293) |
+| v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
 | Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |
 | Base Sepolia owner vault creation | Success at block `45474409` | [`0x2d02…e077`](https://base-sepolia.blockscout.com/tx/0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077) |
 | Base Sepolia 20 USDC funding | Success at block `45475123` | [`0xec16…6e97`](https://base-sepolia.blockscout.com/tx/0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97) |
@@ -54,15 +57,36 @@ Verified locally from clean committed source on 2026-08-14:
 The original hosted workflow allocation blocker was cleared on 2026-08-14. The rerun completed
 both the protocol and web jobs successfully.
 
-## Base Sepolia deployment evidence
+## Base Sepolia v3.1-R1 deployment evidence
+
+The audit-remediated release was broadcast from hosted-CI-passed evidence commit
+`02b0ea56041f9b892215f599777fdc9b5f0a5bb6` using deployer
+`0xE8405844a45C209895afE2e49be6aA2C6C6202a6`.
+
+| Field | Verified value |
+|---|---|
+| Transaction | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732), block `45483268`, success |
+| Factory | [`0x935e5101d7563429BC152889603D3A17f466f4e4`](https://base-sepolia.blockscout.com/address/0x935e5101d7563429BC152889603D3A17f466f4e4) — source verified |
+| Implementation | [`0x93C9a8b47d558F8C30F1e1754Ad2b050933F0FE3`](https://base-sepolia.blockscout.com/address/0x93C9a8b47d558F8C30F1e1754Ad2b050933F0FE3) — source verified |
+| Bound asset | Circle Base Sepolia USDC `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
+| Deployment chain | `84532` |
+| Version ID | `0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56` |
+| Dry-run/live input hash | `0xddd96a3238f383db036ef8d7bcd97512a2985328024a876e3c3f0987aa7eb7eb` — exact match |
+| Factory runtime code hash | `0x40f3e848262c7f28cef2b0f803785d2baea93fbae940beab023954378d744e0e` |
+| Implementation runtime code hash | `0x48bfce26a7b15d9f7ceaa248db541a41a5afdc84ca9ac27252ff8d6dc2770ab9` — matches local artifact |
+| Implementation initializer lock | Storage slot `29` contains the constructor-set initialized flag |
+
+The machine-readable record is
+[`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](../deployments/base-sepolia-02b0ea5-v3.1-r1.json).
+
+## Historical pre-remediation Base Sepolia evidence
 
 The factory was deployed from clean source commit
 `770b05bfd44799cbb780e7bf8ee91116eb5dd01a` using the funded deployer
 `0xE8405844a45C209895afE2e49be6aA2C6C6202a6`.
 
 This deployment predates audit remediation commit `50461c5`. It remains useful historical and UI
-evidence but is not bytecode evidence for the remediated candidate. A new versioned Base Sepolia
-deployment is required before external sign-off.
+evidence but is not bytecode evidence for the remediated candidate.
 
 | Field | Verified value |
 |---|---|

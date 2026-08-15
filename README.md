@@ -6,8 +6,8 @@ distribution without giving the executor payout authority.
 
 ## Status
 
-**Pre-production v3.1-R1 audit-remediated candidate. Base Sepolia first. No mainnet asset deployment
-before an independent audit and remediation review.**
+**Pre-production v3.1-R1 audit-remediated candidate, source verified on Base Sepolia. No mainnet
+asset deployment before an independent external audit and remediation re-verification.**
 
 The normative implementation source is
 [`docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md`](docs/HEIRLOOM-BASE-PRD-TDD-v3.1.md).
@@ -36,6 +36,11 @@ I1-I16 coverage groups and 16 of 16 killed production-source mutants. CI publish
 - Reproduction commands for every claimed property.
 
 See [`docs/PROOF-OF-WORK.md`](docs/PROOF-OF-WORK.md).
+
+The current R1 testnet factory is
+[`0x935e5101d7563429BC152889603D3A17f466f4e4`](https://base-sepolia.blockscout.com/address/0x935e5101d7563429BC152889603D3A17f466f4e4).
+Its deployment manifest is
+[`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](deployments/base-sepolia-02b0ea5-v3.1-r1.json).
 
 ## Pinned toolchain
 
@@ -81,8 +86,10 @@ npm run lint
 npm test
 ```
 
-The dashboard is connected to the verified Base Sepolia factory and reconstructs owner-vault
-funding, allowance, liveness, routing and recovery state from public contract reads.
+The dashboard currently preserves the historical funded-vault evidence on the earlier verified
+Base Sepolia factory. It will move to the R1 factory only after an R1 smoke vault is created and its
+manifest is reviewed. Funding, allowance, liveness, routing and recovery state are reconstructed
+from public contract reads.
 
 ## Release track
 

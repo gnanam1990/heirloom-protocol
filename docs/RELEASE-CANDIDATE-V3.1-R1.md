@@ -30,7 +30,7 @@ commit `50461c50f5dd9d8505d684286d75ba6e3ed58ee1`.
 | `src/HeirloomTypes.sol` | `98181688a1ee2234c94bef8781f9629b269184735d99d7884b6ca1427aa48285` |
 | `src/interfaces/IHeirloomVault.sol` | `651f44819a90794d2b4597538f9567b9fb413639da1c64ecac2bcf7fa4621e78` |
 
-## Pre-deployment verification
+## Release verification
 
 - 58 core Forge entries passed.
 - Five stateful groups completed 500,000 calls with zero unexpected handler reverts.
@@ -38,6 +38,15 @@ commit `50461c50f5dd9d8505d684286d75ba6e3ed58ee1`.
 - The factory remains 2,995 bytes.
 - The gas snapshot matches.
 
-The candidate may be simulated and deployed on Base Sepolia only after its hosted CI run passes.
-The deployment transaction, addresses, hashes and explorer verification must be committed in a new
-manifest. No mainnet script or authorization is created by this release candidate.
+Hosted CI passed all four jobs on evidence commit `02b0ea56041f9b892215f599777fdc9b5f0a5bb6`
+in [run 31829730293](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31829730293).
+
+The reviewed dry-run was broadcast on Base Sepolia in
+[`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732).
+The live transaction input hash exactly matches the reviewed dry-run input hash. The resulting
+factory and implementation are source verified, their on-chain identity getters match this release,
+and the on-chain implementation runtime hash matches the locally compiled artifact.
+
+The complete machine-readable record is
+[`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](../deployments/base-sepolia-02b0ea5-v3.1-r1.json).
+No mainnet script or authorization is created by this testnet deployment.

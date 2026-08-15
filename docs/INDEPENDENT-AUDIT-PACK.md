@@ -162,7 +162,8 @@ cross-feature races:
 - Permissionless execution improves executability but does not guarantee that someone will pay gas.
 - Public configuration reveals owner, guardian and beneficiary addresses and shares.
 - Distribution cannot be cancelled after `startDistribution()`.
-- The current Base Sepolia deployment predates audit remediation and is not the final candidate.
+- The v3.1-R1 Base Sepolia factory is the audit-remediated candidate and has source/runtime evidence;
+  the earlier funded vault remains historical pre-remediation evidence only.
 - Base Sepolia evidence is not a production audit and the funded testnet vault has not yet elapsed
   through its complete real-time lifecycle.
 
