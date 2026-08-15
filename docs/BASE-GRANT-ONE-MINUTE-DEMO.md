@@ -47,6 +47,6 @@
 - Duration: `60.000 seconds`
 - Resolution: `1920 × 1080`
 - Public URL:
-  `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4`
+  `https://heirloom-protocol-production.up.railway.app/demo`
 - SHA-256: `dc251982618f7de8653256f78427571c48ef905968fd582ea35080306b951406`
 - Reproducible build: `./script/build-proposal-demo-video.sh`

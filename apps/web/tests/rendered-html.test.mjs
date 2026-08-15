@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
   return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    new Request(`http://localhost${path}`, { headers: { accept: "text/html" } }),
     { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
@@ -29,7 +29,7 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(html, /No mainnet vault creation, deposits, or user onboarding are authorized\./);
   assert.match(html, /Create the first owner vault/);
   assert.match(html, /Connect wallet/);
-  assert.match(html, /href="\/demo\/heirloom-one-minute-demo\.mp4"/i);
+  assert.match(html, /href="\/demo"/i);
   assert.match(html, /60-sec demo/);
   assert.match(html, /73 core/);
   assert.match(html, /0x935e5101d7563429BC152889603D3A17f466f4e4/i);
@@ -41,4 +41,19 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(html, /property="og:image" content="https:\/\/heirloom-protocol-production\.up\.railway\.app\/heirloom-social-card\.png"/i);
   assert.match(html, /name="twitter:card" content="summary_large_image"/i);
   assert.doesNotMatch(html, /codex-preview/i);
+});
+
+test("server-renders the public one-minute demo route", async () => {
+  const response = await render("/demo");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<title>Heirloom — One-minute Base demo<\/title>/i);
+  assert.match(html, /Permissionless execution without payout authority\./);
+  assert.match(html, /src="\/demo\/heirloom-one-minute-demo\.mp4"/i);
+  assert.match(html, /type="video\/mp4"/i);
+  assert.match(html, /20 USDC funded/);
+  assert.match(html, /Proposal prototype/);
+  assert.match(html, /property="og:title" content="Heirloom — One-minute Base demo"/i);
+  assert.match(html, /name="twitter:description" content="A 60-second walkthrough/i);
+  assert.doesNotMatch(html, /property="og:image"/i);
 });

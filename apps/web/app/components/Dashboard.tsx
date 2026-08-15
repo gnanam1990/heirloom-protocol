@@ -197,9 +197,7 @@ export function Dashboard() {
               <span className="preview-badge">Testnet live · mainnet proof verified</span>
               <a
                 className="secondary-button"
-                href="/demo/heirloom-one-minute-demo.mp4"
-                target="_blank"
-                rel="noreferrer"
+                href="/demo"
               >
                 <CirclePlay size={17} /> 60-sec demo
               </a>

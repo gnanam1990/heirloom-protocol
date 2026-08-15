@@ -142,7 +142,7 @@ where only the project owner can supply or authorize the answer.
 | Builder Twitter | `@pindropsx` |
 | Builder Farcaster | `gnanam` |
 | Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
-| One-minute demo | `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4` |
+| One-minute demo | `https://heirloom-protocol-production.up.railway.app/demo` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
 | Marketing communications | `[OWNER CHOICE REQUIRED]` |
 
@@ -179,7 +179,7 @@ The answer is 133 words and remains below the form's 150-word limit.
   `https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875566790`
 - Repository: private during proposal development; reviewer access requires an explicit decision.
 - One-minute demo:
-  `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4`
+  `https://heirloom-protocol-production.up.railway.app/demo`
 
 ## Submission gate
 
