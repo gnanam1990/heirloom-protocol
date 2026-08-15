@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Heirloom",
   description: "Non-custodial asset continuity on Base.",
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  other: { "base:app_id": "6a809111e4a8a41598e7a375" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

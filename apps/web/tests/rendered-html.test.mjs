@@ -18,6 +18,7 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /<title>Heirloom — Asset continuity on Base<\/title>/i);
+  assert.match(html, /name="base:app_id" content="6a809111e4a8a41598e7a375"/i);
   assert.match(html, /Factory ready/);
   assert.match(html, /Vault balance/);
   assert.match(html, /Liveness epoch/);
