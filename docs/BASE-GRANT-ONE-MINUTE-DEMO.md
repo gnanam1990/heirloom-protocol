@@ -9,7 +9,7 @@ traction.
 - The walkthrough is rendered entirely with HTML, CSS and public image assets.
 - It starts automatically when motion is allowed and remains fully controllable.
 - Reviewers can pause, restart, seek or jump directly to any chapter.
-- No wallet connection, account, audio or downloadable video is required.
+- No wallet connection, account, audio or downloadable video is required; optional ambient music is off by default.
 - Reduced-motion visitors start paused and can navigate manually.
 
 ## 60-second sequence
@@ -45,7 +45,7 @@ traction.
 
 ## Published artifact
 
-- Format: text-only interactive HTML/CSS animation with play, pause, seek and chapters
+- Format: text-led interactive HTML/CSS animation with play, pause, seek, chapters and optional low-volume ambient music
 - Duration: `60 seconds`
 - Visual sources: live Heirloom UI captures and Base Sepolia Blockscout proof
 - Public URL:

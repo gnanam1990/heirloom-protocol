@@ -69,7 +69,7 @@ This makes execution open while keeping payout economics destination-locked.
 | Hosted release evidence | GitHub Actions run `31875566790`, four jobs passed |
 
 These are engineering and testnet milestones, not user-adoption claims. The public Railway demo and
-its text-only one-minute HTML walkthrough open without authentication.
+its text-led one-minute HTML walkthrough, with optional ambient music and no narration, open without authentication.
 
 ## Differentiation
 
