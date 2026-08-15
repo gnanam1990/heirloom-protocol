@@ -72,5 +72,6 @@ and nonce only in the same commit as a verified funding or heartbeat receipt.
 
 ## Mainnet boundary
 
-There is intentionally no mainnet deployment script. Add one only after independent audit,
-remediation, Base Sepolia evidence review and an explicit mainnet release decision.
+The separate mainnet path is preparation-only and fail-closed. Its dry-run does not authorize a
+deployment; broadcast remains blocked until the independent audit, remediation, Base Sepolia
+evidence review and explicit release-owner decision recorded in `BASE-MAINNET-RUNBOOK.md`.

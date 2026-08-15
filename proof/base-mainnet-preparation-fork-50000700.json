@@ -1,0 +1,66 @@
+{
+  "status": "base-mainnet-fork-preparation-passed-no-base-transaction",
+  "verifiedAt": "2026-08-15T10:46:23Z",
+  "chainId": 8453,
+  "fork": {
+    "upstream": "https://mainnet.base.org",
+    "block": 50000700,
+    "blockHash": "0x25bc25f234e6807a264356c765c8c9a0f4077dab8745a9a43c561055a1c6bb1e"
+  },
+  "release": {
+    "versionPreimage": "HEIRLOOM_V3_1_R1",
+    "versionId": "0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56",
+    "auditCandidateCommit": "7ea6617625615e41469e153bc19f020eeb692d4a",
+    "officialUsdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "expectedImplementationRuntimeCodeHash": "0x48bfce26a7b15d9f7ceaa248db541a41a5afdc84ca9ac27252ff8d6dc2770ab9"
+  },
+  "intendedDeployer": {
+    "address": "0xE8405844a45C209895afE2e49be6aA2C6C6202a6",
+    "baseMainnetNonceAtPreflight": 0,
+    "baseMainnetBalanceWeiAtPreflight": "0",
+    "localForkBalanceWasSimulated": true,
+    "localForkImpersonationWasUsed": true
+  },
+  "dryRun": {
+    "forkBlock": 50000671,
+    "factory": "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+    "implementation": "0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+    "transactionInputHash": "0xb8246c25cd4b0432ba8baf6513d2c8bd1ae8d34fd350ac08663ee4e7d3bb0498",
+    "estimatedGasUsed": 7677620,
+    "estimatedAmountRequiredWei": "76782841141300",
+    "broadcast": false
+  },
+  "negativeBroadcastGuardTest": {
+    "environment": "local Base fork only",
+    "externalAuditApproved": false,
+    "result": "reverted-before-startBroadcast",
+    "error": "ExternalAuditNotApproved()",
+    "baseTransaction": false
+  },
+  "authorizedGateMechanicsTest": {
+    "environment": "local Base fork only",
+    "syntheticAuditReportHash": "0xab7ae342c6b4a77269c56df610a551a11e91ac1d075b43385f07d0f83e40c670",
+    "syntheticHashPreimage": "LOCAL_FORK_GATE_TEST_ONLY",
+    "localTransaction": "0xab9d7a1721b61c38ee973c7325200dbf83446efd6c956bf6231087331ddfa86f",
+    "localBlock": 50000701,
+    "localBlockHash": "0xbcc2b2fbacf0c4639e76e282e58ab97ea0c97a4dd0e89577414fadc2c3291623",
+    "gasUsed": 5905862,
+    "status": 1,
+    "factory": "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+    "implementation": "0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+    "factoryAsset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "factoryDeploymentChainId": 8453,
+    "factoryVersionId": "0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56",
+    "implementationRuntimeCodeHash": "0x48bfce26a7b15d9f7ceaa248db541a41a5afdc84ca9ac27252ff8d6dc2770ab9",
+    "factoryRuntimeCodeHash": "0xbce0f26e2d6fc4eb3cfea3184113b7cdd01ae123b775ca6ac16938a6b18ec547",
+    "transactionInputHash": "0xb8246c25cd4b0432ba8baf6513d2c8bd1ae8d34fd350ac08663ee4e7d3bb0498",
+    "baseTransaction": false,
+    "releaseApproval": false
+  },
+  "notes": [
+    "The local transaction hash and block exist only inside an ephemeral Anvil fork.",
+    "The synthetic report hash tests gate mechanics and is not an audit report.",
+    "No Base mainnet transaction was signed or broadcast.",
+    "A direct Base RPC dry-run remains blocked until the intended deployer has real gas."
+  ]
+}

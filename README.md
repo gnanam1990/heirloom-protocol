@@ -23,7 +23,7 @@ The normative implementation source is
 
 ## Repository proof
 
-The project is delivered through reviewable milestone commits. Current evidence includes 59 core
+The project is delivered through reviewable milestone commits. Current evidence includes 69 core
 test entries, nine Base mainnet USDC fork cases, 10,000 fuzz runs per CI fuzz case, five stateful
 I1-I16 coverage groups and 16 of 16 killed production-source mutants. CI publishes:
 
@@ -76,6 +76,10 @@ The quote-request and private-access workflow is
 [`docs/EXTERNAL-AUDIT-OUTREACH.md`](docs/EXTERNAL-AUDIT-OUTREACH.md).
 The remediation ledger is
 [`docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md`](docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md).
+
+The fail-closed Base mainnet preparation path is
+[`docs/BASE-MAINNET-RUNBOOK.md`](docs/BASE-MAINNET-RUNBOOK.md). It supports dry-run evidence but
+cannot authorize or replace the required independent audit and release-owner approval.
 
 ## Product UI
 
