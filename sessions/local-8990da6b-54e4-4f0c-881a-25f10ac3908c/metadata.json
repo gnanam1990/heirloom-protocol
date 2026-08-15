@@ -3,8 +3,8 @@
   "sessionId": "local-8990da6b-54e4-4f0c-881a-25f10ac3908c",
   "model": "gpt-5.6-sol",
   "startedAt": "2026-08-14T12:44:06.241Z",
-  "endedAt": "2026-08-15T08:22:58.606Z",
-  "durationMs": 70732359,
+  "endedAt": "2026-08-15T09:29:55.486Z",
+  "durationMs": 74749236,
   "status": "running",
   "tokens": {
     "total": 0,
@@ -16,22 +16,21 @@
   },
   "toolCalls": 0,
   "lines": {
-    "added": 145,
+    "added": 236,
     "removed": 0
   },
   "filesChanged": [
     "README.md",
-    "docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md",
-    "docs/INDEPENDENT-AUDIT-PACK.md",
-    "docs/PROOF-OF-WORK.md",
-    "proof/external-audit-candidate-02fd204.json"
+    "docs/BASE-BUILDER-GRANT-PROPOSAL.md",
+    "docs/BASE-GRANT-ONE-MINUTE-DEMO.md",
+    "outputs/Heirloom_Base_Proposal_Deck.pptx"
   ],
   "git": {
     "branch": "main",
-    "headBefore": "9e352226aa569c4d39868611b39e2048ee2c5f69",
-    "headAfter": "9e352226aa569c4d39868611b39e2048ee2c5f69",
+    "headBefore": "d9a6eba6ada16539358f1f1ec293254c33ecfdb2",
+    "headAfter": "d9a6eba6ada16539358f1f1ec293254c33ecfdb2",
     "commitShas": [
-      "9e352226aa569c4d39868611b39e2048ee2c5f69"
+      "d9a6eba6ada16539358f1f1ec293254c33ecfdb2"
     ]
   },
   "summary": "",
