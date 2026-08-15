@@ -110,7 +110,7 @@ claim lifecycle or a production audit.
 
 The public reviewer deployment is
 [`heirloom-protocol-production.up.railway.app`](https://heirloom-protocol-production.up.railway.app).
-Its narrated interactive 60-second walkthrough is available at
+Its text-only interactive 60-second walkthrough is available at
 [`/demo`](https://heirloom-protocol-production.up.railway.app/demo).
 
 ## Base Builder proposal
@@ -119,10 +119,10 @@ The reviewer-ready proposal package is based on the Base Sepolia prototype and t
 labelled, unaudited Base mainnet factory proof:
 
 - [`docs/BASE-BUILDER-GRANT-PROPOSAL.md`](docs/BASE-BUILDER-GRANT-PROPOSAL.md) — application narrative, evidence, risks, milestones and form-ready copy.
-- [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second reviewer walkthrough and recording checklist.
+- [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second interactive reviewer walkthrough.
 - [`outputs/Heirloom_Base_Proposal_Deck.pptx`](outputs/Heirloom_Base_Proposal_Deck.pptx) — shareable Base-themed proposal deck.
 
-The grant nomination has not been submitted. The public demo, one-minute video and application
+The grant nomination has not been submitted. The public interactive demo and application
 identity fields are prepared; owner review of the form terms and final submission remain. Mainnet
 vault use, funding and onboarding remain outside the proposal scope until independent audit,
 remediation and re-verification are complete.

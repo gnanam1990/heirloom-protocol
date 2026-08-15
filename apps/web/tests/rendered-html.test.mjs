@@ -50,10 +50,10 @@ test("server-renders the public one-minute demo route", async () => {
   assert.match(html, /<title>Heirloom — One-minute Base demo<\/title>/i);
   assert.match(html, /Permissionless execution without payout authority\./);
   assert.match(html, /Interactive Heirloom product walkthrough/i);
-  assert.match(html, /src="\/demo\/heirloom-demo-narration\.m4a"/i);
-  assert.match(html, /type="audio\/mp4"/i);
   assert.match(html, /Play demo/);
+  assert.match(html, /Text only/);
   assert.match(html, /Destination lock/);
+  assert.doesNotMatch(html, /<audio/i);
   assert.doesNotMatch(html, /<video/i);
   assert.match(html, /20 USDC funded/);
   assert.match(html, /Proposal prototype/);

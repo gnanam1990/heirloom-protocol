@@ -1,6 +1,6 @@
 "use client";
 
-import { Pause, Play, RotateCcw, Volume2 } from "lucide-react";
+import { Pause, Play, RotateCcw, Type } from "lucide-react";
 import Image from "next/image";
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
@@ -92,8 +92,8 @@ function timeLabel(value: number) {
 }
 
 export function AnimatedDemo() {
-  const audioRef = useRef<HTMLAudioElement>(null);
   const frameRef = useRef<number | null>(null);
+  const startRef = useRef<number | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [playing, setPlaying] = useState(false);
 
@@ -111,8 +111,16 @@ export function AnimatedDemo() {
 
   useEffect(() => {
     if (!playing) return;
-    const sync = () => {
-      if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
+    const sync = (now: number) => {
+      startRef.current ??= now;
+      const next = (now - startRef.current) / 1000;
+      if (next >= TOTAL_DURATION) {
+        setCurrentTime(TOTAL_DURATION);
+        setPlaying(false);
+        startRef.current = null;
+        return;
+      }
+      setCurrentTime(next);
       frameRef.current = requestAnimationFrame(sync);
     };
     frameRef.current = requestAnimationFrame(sync);
@@ -121,31 +129,37 @@ export function AnimatedDemo() {
     };
   }, [playing]);
 
-  async function togglePlayback() {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (audio.ended || currentTime >= TOTAL_DURATION) {
-      audio.currentTime = 0;
-      setCurrentTime(0);
-    }
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const autoplayFrame = requestAnimationFrame((now) => {
+      startRef.current = now;
+      setPlaying(true);
+    });
+    return () => cancelAnimationFrame(autoplayFrame);
+  }, []);
+
+  function togglePlayback() {
     if (playing) {
-      audio.pause();
       setPlaying(false);
+      startRef.current = null;
     } else {
-      await audio.play();
+      const next = currentTime >= TOTAL_DURATION ? 0 : currentTime;
+      setCurrentTime(next);
+      startRef.current = performance.now() - next * 1000;
       setPlaying(true);
     }
   }
 
   function seek(value: number) {
     const next = Math.max(0, Math.min(TOTAL_DURATION, value));
-    if (audioRef.current) audioRef.current.currentTime = next;
     setCurrentTime(next);
+    if (playing) startRef.current = performance.now() - next * 1000;
   }
 
   function restart() {
-    seek(0);
-    if (audioRef.current && playing) void audioRef.current.play();
+    setCurrentTime(0);
+    startRef.current = performance.now();
+    setPlaying(true);
   }
 
   const stageStyle = {
@@ -154,25 +168,6 @@ export function AnimatedDemo() {
 
   return (
     <section className="html-demo" aria-label="Interactive Heirloom product walkthrough">
-      <audio
-        ref={audioRef}
-        preload="metadata"
-        onEnded={() => {
-          setPlaying(false);
-          setCurrentTime(TOTAL_DURATION);
-        }}
-        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
-      >
-        <source src="/demo/heirloom-demo-narration.m4a" type="audio/mp4" />
-        <track
-          kind="captions"
-          src="/demo/heirloom-one-minute-demo.vtt"
-          srcLang="en"
-          label="English"
-          default
-        />
-      </audio>
-
       <div className="html-demo-stage" style={stageStyle}>
         <div className="demo-ambient demo-ambient-one" />
         <div className="demo-ambient demo-ambient-two" />
@@ -234,7 +229,9 @@ export function AnimatedDemo() {
           onChange={(event) => seek(Number(event.currentTarget.value))}
         />
         <span className="html-demo-time">1:00</span>
-        <Volume2 className="html-demo-volume" size={17} aria-label="Narration enabled" />
+        <span className="html-demo-text-mode">
+          <Type size={16} aria-hidden="true" /> Text only
+        </span>
       </div>
 
       <div className="html-demo-chapters" aria-label="Demo chapters">

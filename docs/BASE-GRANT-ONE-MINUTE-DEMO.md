@@ -4,18 +4,17 @@
 60 seconds through an interactive HTML walkthrough without claiming mainnet readiness or user
 traction.
 
-## Recording setup
+## Interactive setup
 
-- Use a clean 16:9 desktop recording at 1080p.
-- Show the public demo URL in the browser address bar at the beginning.
-- Connect only a Base Sepolia demo wallet with no meaningful-value assets.
-- Keep the Base Sepolia network label visible whenever an action is shown.
-- Never expose a seed phrase, private key, recovery secret, email or browser notification.
-- Open the three Blockscout proof links and the green CI receipt in background tabs before recording.
+- The walkthrough is rendered entirely with HTML, CSS and public image assets.
+- It starts automatically when motion is allowed and remains fully controllable.
+- Reviewers can pause, restart, seek or jump directly to any chapter.
+- No wallet connection, account, audio or downloadable video is required.
+- Reduced-motion visitors start paused and can navigate manually.
 
 ## 60-second sequence
 
-| Time | Screen | Spoken line |
+| Time | Screen | On-screen explanation |
 |---:|---|---|
 | 0–7s | Heirloom landing/owner view | “Self-custody works until the only key holder becomes unavailable. Heirloom adds a precommitted USDC continuity plan on Base.” |
 | 7–17s | Connect wallet and Base Sepolia network | “The owner connects with a wallet or passkey-backed Base Account and remains in control while active.” |
@@ -33,11 +32,12 @@ traction.
 - `73 contract tests · 5 stateful groups · 16/16 mutants`
 - `Proposal prototype — not public mainnet`
 
-## Recording acceptance checks
+## Acceptance checks
 
-- Duration is 55–60 seconds.
-- Public video plays in a logged-out/incognito window.
+- The automatic sequence lasts exactly 60 seconds.
 - Public demo opens in a logged-out/incognito window.
+- Every claim is readable without audio.
+- Play, pause, restart, seek and chapter controls work from keyboard and touch input.
 - Every address shown matches the committed deployment manifests.
 - No screen implies that Heirloom detects death or lost keys.
 - No screen says externally audited, production-ready or live on Base mainnet.
@@ -45,11 +45,9 @@ traction.
 
 ## Published artifact
 
-- Format: interactive HTML/CSS animation with play, pause, seek, chapters and synchronized narration
+- Format: text-only interactive HTML/CSS animation with play, pause, seek and chapters
 - Duration: `60 seconds`
 - Visual sources: live Heirloom UI captures and Base Sepolia Blockscout proof
 - Public URL:
   `https://heirloom-protocol-production.up.railway.app/demo`
-- Accessibility: visible captions, keyboard controls and reduced-motion support
-- Fallback MP4 SHA-256: `dc251982618f7de8653256f78427571c48ef905968fd582ea35080306b951406`
-- Media rebuild: `./script/build-proposal-demo-video.sh`
+- Accessibility: persistent explanations, keyboard controls and reduced-motion support
