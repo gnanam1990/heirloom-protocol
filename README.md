@@ -118,14 +118,15 @@ Its text-led interactive 60-second walkthrough, with optional ambient music and 
 The reviewer-ready proposal package is based on the Base Sepolia prototype and the separately
 labelled, unaudited Base mainnet factory proof:
 
+- [`docs/BASE-REVIEWER-INFORMATION-PACK.md`](docs/BASE-REVIEWER-INFORMATION-PACK.md) — concise reviewer index for the product, demo, documentation, source and onchain evidence.
 - [`docs/BASE-BUILDER-GRANT-PROPOSAL.md`](docs/BASE-BUILDER-GRANT-PROPOSAL.md) — application narrative, evidence, risks, milestones and form-ready copy.
 - [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second interactive reviewer walkthrough.
 - [`outputs/Heirloom_Base_Proposal_Deck.pptx`](outputs/Heirloom_Base_Proposal_Deck.pptx) — shareable Base-themed proposal deck.
 
-The grant nomination has not been submitted. The public interactive demo and application
-identity fields are prepared; owner review of the form terms and final submission remain. Mainnet
-vault use, funding and onboarding remain outside the proposal scope until independent audit,
-remediation and re-verification are complete.
+The Base Builder Grant application was submitted on 2026-08-15, and Google Forms confirmed that
+the response was recorded. Base.dev app ID `6a809111e4a8a41598e7a375` and Builder Code
+`bc_dsenshfx` are registered for Heirloom. Mainnet vault use, funding and onboarding remain outside
+the proposal scope until independent audit, remediation and auditor re-verification are complete.
 
 ## Release track
 
