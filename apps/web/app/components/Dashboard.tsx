@@ -2,6 +2,7 @@
 
 import {
   Activity,
+  AlertTriangle,
   ArrowUpRight,
   BadgeCheck,
   Bell,
@@ -25,7 +26,11 @@ import { useEffect, useState } from "react";
 import { formatUnits } from "viem";
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
-import { RELEASE_TRANSACTIONS, RELEASE_VAULT_ADDRESS } from "../protocol";
+import {
+  MAINNET_PROPOSAL,
+  RELEASE_TRANSACTIONS,
+  RELEASE_VAULT_ADDRESS,
+} from "../protocol";
 import { LiveVault, type VaultSnapshot } from "./LiveVault";
 
 type View = "overview" | "beneficiaries" | "security" | "activity";
@@ -108,7 +113,13 @@ export function Dashboard() {
             <BadgeCheck size={15} />
           </div>
         </div>
-        <button className="help-link">
+        <button
+          className="help-link"
+          onClick={() => {
+            setView("security");
+            setMobileOpen(false);
+          }}
+        >
           <CircleHelp size={17} /> Safety guide
         </button>
       </aside>
@@ -134,7 +145,11 @@ export function Dashboard() {
             <span className="status-dot" /> Base Sepolia
           </div>
           <div className="topbar-actions">
-            <button className="icon-button" aria-label="Notifications">
+            <button
+              className="icon-button"
+              aria-label="Open activity"
+              onClick={() => setView("activity")}
+            >
               <Bell size={19} />
             </button>
             {isConnected ? (
@@ -178,7 +193,7 @@ export function Dashboard() {
               </p>
             </div>
             <div className="heading-actions">
-              <span className="preview-badge">Live deployment · source verified</span>
+              <span className="preview-badge">Testnet live · mainnet proof verified</span>
               <a
                 className="secondary-button"
                 href="https://github.com/gnanam1990/heirloom-protocol/blob/main/docs/PROOF-OF-WORK.md"
@@ -205,7 +220,11 @@ export function Dashboard() {
           )}
 
           {view === "overview" && (
-            <Overview snapshot={vaultSnapshot} onSnapshot={setVaultSnapshot} />
+            <Overview
+              snapshot={vaultSnapshot}
+              onSnapshot={setVaultSnapshot}
+              onNavigate={setView}
+            />
           )}
           {view === "beneficiaries" && <Beneficiaries snapshot={vaultSnapshot} />}
           {view === "security" && <Security snapshot={vaultSnapshot} />}
@@ -219,9 +238,11 @@ export function Dashboard() {
 function Overview({
   snapshot,
   onSnapshot,
+  onNavigate,
 }: {
   snapshot: VaultSnapshot;
   onSnapshot: (snapshot: VaultSnapshot) => void;
+  onNavigate: (view: View) => void;
 }) {
   const [now, setNow] = useState<number>();
   useEffect(() => {
@@ -264,6 +285,7 @@ function Overview({
   return (
     <>
       <LiveVault onSnapshot={onSnapshot} />
+      <MainnetProposalProof />
       <section className="status-hero">
         <div className="status-copy">
           <div className="status-title-row">
@@ -342,6 +364,7 @@ function Overview({
             title="Destination schedule"
             subtitle="Executor cannot choose where funds go."
             action="View all"
+            onAction={() => onNavigate("beneficiaries")}
           />
           <div className="beneficiary-list">
             <BeneficiaryRow
@@ -485,6 +508,13 @@ function ActivityView({ snapshot }: { snapshot: VaultSnapshot }) {
     <section className="panel detail-panel">
       <PanelHeader title="Protocol activity" subtitle="Every material transition is independently verifiable on Base." />
       <div className="activity-list">
+        <ActivityRow
+          icon={AlertTriangle}
+          title="Unaudited proposal factory deployed"
+          meta={`Aug 15, 2026 · Base mainnet block ${MAINNET_PROPOSAL.block} · no vaults authorized`}
+          hash="0xf049…9270"
+          href={MAINNET_PROPOSAL.explorer.transaction}
+        />
         {isReleaseVault && (
           <>
             <ActivityRow icon={WalletCards} title="R1 vault funded with 20 USDC" meta="Aug 15, 2026 · Base Sepolia block 45502623 · liveness nonce 3" hash="0x233b…f615" href={`https://base-sepolia.blockscout.com/tx/${RELEASE_TRANSACTIONS.deposit}`} />
@@ -502,8 +532,47 @@ function Metric({ icon: Icon, label, value, meta }: { icon: IconType; label: str
   return <div className="metric-card"><div className="metric-icon"><Icon size={19} /></div><span>{label}</span><strong>{value}</strong><p>{meta}</p></div>;
 }
 
-function PanelHeader({ title, subtitle, action }: { title: string; subtitle: string; action?: string }) {
-  return <div className="panel-header"><div><h2>{title}</h2><p>{subtitle}</p></div>{action && <button className="text-button">{action} <ChevronRight size={15} /></button>}</div>;
+function PanelHeader({ title, subtitle, action, onAction }: { title: string; subtitle: string; action?: string; onAction?: () => void }) {
+  return <div className="panel-header"><div><h2>{title}</h2><p>{subtitle}</p></div>{action && <button className="text-button" onClick={onAction}>{action} <ChevronRight size={15} /></button>}</div>;
+}
+
+function MainnetProposalProof() {
+  return (
+    <section className="mainnet-proof-panel" aria-labelledby="mainnet-proof-title">
+      <div className="mainnet-proof-head">
+        <div>
+          <span className="proposal-pill"><BadgeCheck size={14} /> Base mainnet · proposal proof</span>
+          <h2 id="mainnet-proof-title">Factory live. Product writes remain locked.</h2>
+          <p>
+            The reviewed proposal factory and implementation are source verified on Base. This is
+            public technical evidence, not a production launch.
+          </p>
+        </div>
+        <a
+          className="secondary-button"
+          href={MAINNET_PROPOSAL.explorer.transaction}
+          target="_blank"
+          rel="noreferrer"
+        >
+          View transaction <ArrowUpRight size={16} />
+        </a>
+      </div>
+      <div className="mainnet-proof-facts">
+        <a href={MAINNET_PROPOSAL.explorer.factory} target="_blank" rel="noreferrer">
+          <span>Factory</span><strong>{shortAddress(MAINNET_PROPOSAL.factory)}</strong>
+        </a>
+        <a href={MAINNET_PROPOSAL.explorer.implementation} target="_blank" rel="noreferrer">
+          <span>Implementation</span><strong>{shortAddress(MAINNET_PROPOSAL.implementation)}</strong>
+        </a>
+        <div><span>Deployment block</span><strong>{MAINNET_PROPOSAL.block.toLocaleString("en-US")}</strong></div>
+        <div><span>Vault count verified</span><strong>{MAINNET_PROPOSAL.vaultCountAtVerification}</strong></div>
+      </div>
+      <div className="mainnet-risk-note">
+        <AlertTriangle size={18} />
+        <p><strong>Unaudited proposal deployment.</strong> No mainnet vault creation, deposits, or user onboarding are authorized.</p>
+      </div>
+    </section>
+  );
 }
 
 function BeneficiaryRow({ initials, label, share, phase, color }: { initials: string; label: string; share: string; phase: string; color: string }) {

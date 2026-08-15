@@ -23,9 +23,13 @@ Reloading between approval and deposit is safe because the approval gate is reco
 token contract rather than browser memory. Injected wallets are preferred when present; Base
 Account remains available through the shared Wagmi configuration.
 
+The dashboard also presents the source-verified Base mainnet proposal factory as read-only public
+evidence. Mainnet vault creation, deposits and user onboarding remain intentionally unavailable;
+all product write actions stay bound to Base Sepolia.
+
 ## Brand direction
 
 - Base Blue `#0000FF` is a restrained action and state accent.
 - White, gray and black remain dominant.
-- No gradients.
+- A restrained dark proof surface separates mainnet evidence from testnet product controls.
 - Technical identity and addresses use the mono typeface.

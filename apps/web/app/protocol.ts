@@ -16,6 +16,25 @@ export const RELEASE_TRANSACTIONS = {
   deposit: "0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615",
 } as const;
 
+export const MAINNET_PROPOSAL = {
+  chainId: 8_453,
+  network: "Base mainnet",
+  factory: "0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+  implementation: "0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+  asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  transaction: "0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270",
+  block: 50_005_381,
+  vaultCountAtVerification: 0,
+  explorer: {
+    transaction:
+      "https://base.blockscout.com/tx/0xf04990ce21cbe3a3a78d3ae347c1250f10d23cccd6437aa5bdba090ddcce9270",
+    factory:
+      "https://base.blockscout.com/address/0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf",
+    implementation:
+      "https://base.blockscout.com/address/0xd746Ca02cCFd0CA86d61eDd026810fdb8a0b3E80",
+  },
+} as const;
+
 const beneficiaryComponents = [
   { name: "primary", type: "address" },
   { name: "fallbackAddress", type: "address" },
