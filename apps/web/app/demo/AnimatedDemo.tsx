@@ -97,7 +97,7 @@ export function AnimatedDemo() {
   const startRef = useRef<number | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [musicEnabled, setMusicEnabled] = useState(false);
+  const [musicEnabled, setMusicEnabled] = useState(true);
 
   const activeIndex = useMemo(() => {
     const index = scenes.findIndex(
@@ -144,11 +144,21 @@ export function AnimatedDemo() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    audio.volume = 0.4;
     if (!musicEnabled || !playing) {
       audio.pause();
       return;
     }
-    void audio.play().catch(() => setMusicEnabled(false));
+    const startMusic = () => {
+      void audio.play().catch(() => undefined);
+    };
+    startMusic();
+    window.addEventListener("pointerdown", startMusic, { once: true });
+    window.addEventListener("keydown", startMusic, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", startMusic);
+      window.removeEventListener("keydown", startMusic);
+    };
   }, [musicEnabled, playing]);
 
   function togglePlayback() {
@@ -188,9 +198,9 @@ export function AnimatedDemo() {
     }
     setMusicEnabled(true);
     if (!audio) return;
-    audio.volume = 0.18;
+    audio.volume = 0.4;
     audio.currentTime = currentTime >= TOTAL_DURATION ? 0 : currentTime;
-    if (playing) void audio.play().catch(() => setMusicEnabled(false));
+    if (playing) void audio.play().catch(() => undefined);
   }
 
   const stageStyle = {
@@ -203,8 +213,9 @@ export function AnimatedDemo() {
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <audio
         ref={audioRef}
-        src="/demo/heirloom-ambient.mp3"
+        src="/demo/heirloom-gentle-melody.mp3"
         preload="metadata"
+        autoPlay
         loop
         aria-hidden="true"
       />

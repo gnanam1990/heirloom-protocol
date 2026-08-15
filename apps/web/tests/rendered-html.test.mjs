@@ -52,8 +52,8 @@ test("server-renders the public one-minute demo route", async () => {
   assert.match(html, /Interactive Heirloom product walkthrough/i);
   assert.match(html, /Play demo/);
   assert.match(html, /Text-led · no narration/);
-  assert.match(html, /Music off/);
-  assert.match(html, /heirloom-ambient\.mp3/);
+  assert.match(html, /Music on/);
+  assert.match(html, /heirloom-gentle-melody\.mp3/);
   assert.match(html, /Destination lock/);
   assert.match(html, /<audio/i);
   assert.doesNotMatch(html, /<video/i);
