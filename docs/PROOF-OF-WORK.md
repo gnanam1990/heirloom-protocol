@@ -26,6 +26,7 @@ command that reproduces it.
 | M13: v3.1-R1 smoke vault | `a759889` | Predicted/deployed address match, registry/config/runtime identity and empty-vault manifest |
 | M14: R1 product binding | `ee30657` | Dashboard, release activity, browser storage namespace and rendered proof pinned to the R1 factory/vault |
 | M15: R1 funded vault | `4c64ee2` | 20-USDC approval/deposit receipts, exact post-funding state, hardened remaining-amount UI and release monitor |
+| M16: external audit candidate | `02fd204` | Immutable audit tag, private-review procurement pack, provider-neutral scope and ready-to-send intake |
 
 ## Current verified results
 
@@ -53,6 +54,7 @@ Verified locally from committed source on 2026-08-15:
 | Hosted remediation CI | Passed all four jobs on exact evidence commit `1f3b682`: high-intensity protocol/gas, 16/16 source mutation, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31827335863](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863) |
 | Hosted v3.1-R1 release CI | Passed all four jobs on exact deployment evidence commit `02b0ea5` | [GitHub Actions run 31829730293](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31829730293) |
 | Hosted v3.1-R1 funded-vault CI | Passed all four jobs on exact funded-evidence index commit `6cbe47d`: protocol/gas, 16/16 source mutation, Base USDC fork and web lint/build/render | [GitHub Actions run 31868538265](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31868538265) |
+| Hosted external-audit candidate CI | Passed all four jobs on immutable tag commit `02fd204`; the tag resolves to the reviewed source hashes recorded in the audit manifest | [GitHub Actions run 31873954459](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31873954459) |
 | v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
 | v3.1-R1 smoke vault creation | Success at block `45500300`; predicted address, registry, config and runtime identity match | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312) |
 | v3.1-R1 20 USDC funding | Approval and two deposits verified; final state is Active with 20 USDC, zero owner balance/allowance and liveness nonce 3 | [`0x233b…f615`](https://base-sepolia.blockscout.com/tx/0x233bec0ae165905a397616be5222132225c368f1400765a47f8b26cb3433f615) |

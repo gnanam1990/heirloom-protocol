@@ -74,6 +74,8 @@ The independent review handoff is
 [`docs/INDEPENDENT-AUDIT-PACK.md`](docs/INDEPENDENT-AUDIT-PACK.md).
 The quote-request and private-access workflow is
 [`docs/EXTERNAL-AUDIT-OUTREACH.md`](docs/EXTERNAL-AUDIT-OUTREACH.md).
+The remediation ledger is
+[`docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md`](docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md).
 
 ## Product UI
 

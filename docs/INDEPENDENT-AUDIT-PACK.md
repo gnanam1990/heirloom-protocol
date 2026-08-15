@@ -246,3 +246,8 @@ Until every required gate is recorded, the only valid release status is **pre-pr
 
 Quote-request instructions, provider comparison criteria and the ready-to-send intake message are
 in `docs/EXTERNAL-AUDIT-OUTREACH.md`.
+
+The frozen tag, commit, source hashes, deployed R1 identity and candidate CI receipt are recorded in
+`proof/external-audit-candidate-02fd204.json`. External findings and fix re-verification must be
+tracked in `docs/EXTERNAL-AUDIT-FINDINGS-REGISTER.md` without converting internal verification into
+external sign-off.
