@@ -133,18 +133,23 @@ where only the project owner can supply or authorize the answer.
 
 | Field | Proposed answer |
 |---|---|
-| Email | `[OWNER EMAIL REQUIRED]` |
+| Email | `gamingtushar04@gmail.com` |
 | Nominator name | `[OWNER NAME REQUIRED]` |
 | Project name | `Heirloom` |
 | Project URL | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
-| Project Twitter | `[PROJECT X HANDLE REQUIRED]` |
+| Project Twitter | `@pindropsx` |
 | Project Farcaster/channel | `[PROJECT FARCASTER REQUIRED]` |
-| Builder Twitter | `[BUILDER X HANDLE REQUIRED]` |
+| Builder Twitter | `@pindropsx` |
 | Builder Farcaster | `[BUILDER FARCASTER REQUIRED]` |
 | Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
 | One-minute demo | `[PUBLIC VIDEO URL REQUIRED]` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
 | Marketing communications | `[OWNER CHOICE REQUIRED]` |
+
+Owner-supplied public identity:
+
+- GitHub: [`gnanam1990`](https://github.com/gnanam1990)
+- Basename: `kratoss.base.eth`
 
 ## Form-ready answer: why Heirloom deserves a Base grant
 
