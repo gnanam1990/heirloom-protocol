@@ -49,11 +49,15 @@ test("server-renders the public one-minute demo route", async () => {
   const html = await response.text();
   assert.match(html, /<title>Heirloom — One-minute Base demo<\/title>/i);
   assert.match(html, /Permissionless execution without payout authority\./);
-  assert.match(html, /src="\/demo\/heirloom-one-minute-demo\.mp4"/i);
-  assert.match(html, /type="video\/mp4"/i);
+  assert.match(html, /Interactive Heirloom product walkthrough/i);
+  assert.match(html, /src="\/demo\/heirloom-demo-narration\.m4a"/i);
+  assert.match(html, /type="audio\/mp4"/i);
+  assert.match(html, /Play demo/);
+  assert.match(html, /Destination lock/);
+  assert.doesNotMatch(html, /<video/i);
   assert.match(html, /20 USDC funded/);
   assert.match(html, /Proposal prototype/);
   assert.match(html, /property="og:title" content="Heirloom — One-minute Base demo"/i);
-  assert.match(html, /name="twitter:description" content="A 60-second walkthrough/i);
+  assert.match(html, /name="twitter:description" content="An interactive 60-second walkthrough/i);
   assert.doesNotMatch(html, /property="og:image"/i);
 });

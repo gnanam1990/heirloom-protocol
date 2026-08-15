@@ -110,7 +110,7 @@ claim lifecycle or a production audit.
 
 The public reviewer deployment is
 [`heirloom-protocol-production.up.railway.app`](https://heirloom-protocol-production.up.railway.app).
-Its narrated 60-second walkthrough is available at
+Its narrated interactive 60-second walkthrough is available at
 [`/demo`](https://heirloom-protocol-production.up.railway.app/demo).
 
 ## Base Builder proposal

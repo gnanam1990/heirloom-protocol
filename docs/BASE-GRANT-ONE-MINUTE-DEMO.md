@@ -1,7 +1,8 @@
 # Heirloom — One-Minute Base Grant Demo
 
 **Goal:** Give a Base grants reviewer enough evidence to understand, verify and remember Heirloom in
-60 seconds without claiming mainnet readiness or user traction.
+60 seconds through an interactive HTML walkthrough without claiming mainnet readiness or user
+traction.
 
 ## Recording setup
 
@@ -44,9 +45,11 @@
 
 ## Published artifact
 
-- Duration: `60.000 seconds`
-- Resolution: `1920 × 1080`
+- Format: interactive HTML/CSS animation with play, pause, seek, chapters and synchronized narration
+- Duration: `60 seconds`
+- Visual sources: live Heirloom UI captures and Base Sepolia Blockscout proof
 - Public URL:
   `https://heirloom-protocol-production.up.railway.app/demo`
-- SHA-256: `dc251982618f7de8653256f78427571c48ef905968fd582ea35080306b951406`
-- Reproducible build: `./script/build-proposal-demo-video.sh`
+- Accessibility: visible captions, keyboard controls and reduced-motion support
+- Fallback MP4 SHA-256: `dc251982618f7de8653256f78427571c48ef905968fd582ea35080306b951406`
+- Media rebuild: `./script/build-proposal-demo-video.sh`

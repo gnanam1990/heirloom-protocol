@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AnimatedDemo } from "./AnimatedDemo";
 
 const title = "Heirloom — One-minute Base demo";
 const description =
-  "A 60-second walkthrough of Heirloom's funded Base Sepolia continuity-vault prototype.";
+  "An interactive 60-second walkthrough of Heirloom's funded Base Sepolia continuity-vault prototype.";
 
 export const metadata: Metadata = {
   title,
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     description,
     url: "https://heirloom-protocol-production.up.railway.app/demo",
     siteName: "Heirloom",
-    type: "video.other",
+    type: "website",
     images: [],
   },
   twitter: {
@@ -42,7 +43,7 @@ export default function DemoPage() {
 
       <section className="demo-shell">
         <div className="demo-copy">
-          <p className="page-kicker">Base Sepolia · 60 seconds</p>
+          <p className="page-kicker">Base Sepolia · interactive 60 seconds</p>
           <h1>Permissionless execution without payout authority.</h1>
           <p>
             See the funded vault, destination-locked schedule, owner-only liveness,
@@ -50,25 +51,7 @@ export default function DemoPage() {
           </p>
         </div>
 
-        <div className="demo-player-frame">
-          <video
-            controls
-            playsInline
-            preload="metadata"
-            poster="/heirloom-social-card.png"
-            aria-label="Heirloom one-minute Base proposal demo"
-          >
-            <source src="/demo/heirloom-one-minute-demo.mp4" type="video/mp4" />
-            <track
-              kind="captions"
-              src="/demo/heirloom-one-minute-demo.vtt"
-              srcLang="en"
-              label="English"
-              default
-            />
-            Your browser does not support embedded video. You can download the MP4 below.
-          </video>
-        </div>
+        <AnimatedDemo />
 
         <div className="demo-proof-row">
           <div>
@@ -83,13 +66,6 @@ export default function DemoPage() {
             <span>Evidence</span>
             <strong>73 tests · 16/16 mutants</strong>
           </div>
-          <a
-            className="secondary-button"
-            href="/demo/heirloom-one-minute-demo.mp4"
-            download
-          >
-            Download MP4
-          </a>
         </div>
 
         <p className="demo-disclaimer">

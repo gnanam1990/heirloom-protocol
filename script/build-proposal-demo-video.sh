@@ -47,6 +47,14 @@ ffmpeg -y -i "$video_only" -i "$audio_only" \
 
 mkdir -p "$public_dir"
 cp "$output" "$public_dir/heirloom-one-minute-demo.mp4"
+ffmpeg -y -i "$output" -vn -c:a aac -b:a 160k "$public_dir/heirloom-demo-narration.m4a"
+mkdir -p "$public_dir/scenes"
+cp "$frames/01-overview.png" "$public_dir/scenes/overview.png"
+cp "$frames/06-vault-tokens.png" "$public_dir/scenes/funded-vault.png"
+cp "$frames/04-activity.png" "$public_dir/scenes/activity.png"
+cp "$frames/02-beneficiaries.png" "$public_dir/scenes/beneficiaries.png"
+cp "$frames/03-security.png" "$public_dir/scenes/security.png"
+cp "$frames/05-blockscout.png" "$public_dir/scenes/blockscout.png"
 
 printf 'Created %s\n' "$output"
 shasum -a 256 "$output"
