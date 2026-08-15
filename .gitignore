@@ -20,6 +20,9 @@ apps/web/.env.local
 
 # Editors and OS
 .DS_Store
+outputs/demo-video/rendered/
+outputs/demo-video/*.aiff
+outputs/demo-video/Heirloom_One_Minute_Demo.mp4
 .idea/
 .vscode/
 

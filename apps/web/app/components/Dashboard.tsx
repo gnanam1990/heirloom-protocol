@@ -8,6 +8,7 @@ import {
   Bell,
   ChevronRight,
   CircleHelp,
+  CirclePlay,
   Clock3,
   FileCheck2,
   Fingerprint,
@@ -194,6 +195,14 @@ export function Dashboard() {
             </div>
             <div className="heading-actions">
               <span className="preview-badge">Testnet live · mainnet proof verified</span>
+              <a
+                className="secondary-button"
+                href="/demo/heirloom-one-minute-demo.mp4"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <CirclePlay size={17} /> 60-sec demo
+              </a>
               <a
                 className="secondary-button"
                 href="https://github.com/gnanam1990/heirloom-protocol/blob/main/docs/PROOF-OF-WORK.md"

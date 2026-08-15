@@ -1,6 +1,6 @@
 # Heirloom — Base Builder Grant Proposal
 
-**Submission status:** Draft complete; not submitted
+**Submission status:** Submission package complete; owner review and submission pending
 
 **Current network:** Base Sepolia
 
@@ -62,14 +62,14 @@ This makes execution open while keeping payout economics destination-locked.
 | Implementation | `0x93C9a8b47d558F8C30F1e1754Ad2b050933F0FE3` |
 | Funded vault | `0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371` |
 | Test vault funding | `20 USDC` |
-| Core Forge entries | `59` passed |
+| Core Forge entries | `73` passed |
 | Stateful evidence | `500,000` randomized calls per high-intensity run |
 | Mutation evidence | `16/16` production-source mutants killed |
 | Base USDC evidence | `9/9` pinned/latest fork cases passed |
 | Hosted release evidence | GitHub Actions run `31875566790`, four jobs passed |
 
-These are engineering and testnet milestones, not user-adoption claims. The current externally hosted
-demo requires authentication and must be replaced with a public reviewer URL before submission.
+These are engineering and testnet milestones, not user-adoption claims. The public Railway demo and
+its narrated one-minute walkthrough open without authentication.
 
 ## Differentiation
 
@@ -142,7 +142,7 @@ where only the project owner can supply or authorize the answer.
 | Builder Twitter | `@pindropsx` |
 | Builder Farcaster | `gnanam` |
 | Is the project live on Base? | `Base Sepolia product is live; a read-only, unaudited proposal factory is source verified on Base mainnet, with no mainnet vault creation or funding authorized` |
-| One-minute demo | `[PUBLIC VIDEO URL REQUIRED]` |
+| One-minute demo | `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4` |
 | Multimedia license | `[OWNER MUST REVIEW AND CONFIRM]` |
 | Marketing communications | `[OWNER CHOICE REQUIRED]` |
 
@@ -158,7 +158,7 @@ Owner-supplied public identity:
 > after inactivity, anyone can execute the precommitted plan without choosing recipients, amounts,
 > or payout phases. This makes execution permissionless without making funds aimable. The prototype
 > includes a deployed factory and implementation, a funded 20 USDC vault, a Base-themed owner
-> dashboard, public explorer evidence, 59 passing Forge entries, 500,000-call stateful runs, 16/16
+> dashboard, public explorer evidence, 73 passing Forge entries, 500,000-call stateful runs, 16/16
 > killed source mutants, and Base USDC fork tests. Heirloom expands Base beyond trading into
 > long-duration self-custody continuity for individuals, solo operators, and small onchain teams.
 > Grant support would help us publish a frictionless public demo, run an opt-in testnet pilot,
@@ -178,9 +178,11 @@ The answer is 133 words and remains below the form's 150-word limit.
 - Hosted verification:
   `https://github.com/gnanam1990/heirloom-protocol/actions/runs/31875566790`
 - Repository: private during proposal development; reviewer access requires an explicit decision.
+- One-minute demo:
+  `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4`
 
 ## Submission gate
 
-Do not submit until every required placeholder above is resolved, the one-minute video is publicly
-accessible, the project URL opens without authentication, and the owner has reviewed the form's
-multimedia license and privacy terms.
+The public project and one-minute video URLs are ready. Submission remains blocked only on the
+owner's review of the form's multimedia license and privacy terms, the owner's marketing
+communications choice, and the final form submission.

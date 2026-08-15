@@ -108,6 +108,11 @@ official Base Sepolia USDC; its approval, deposits, final zero allowance and liv
 recorded in the release-vault manifest. This is funded testnet evidence, not a completed real-time
 claim lifecycle or a production audit.
 
+The public reviewer deployment is
+[`heirloom-protocol-production.up.railway.app`](https://heirloom-protocol-production.up.railway.app).
+Its narrated 60-second walkthrough is available at
+[`/demo/heirloom-one-minute-demo.mp4`](https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4).
+
 ## Base Builder proposal
 
 The reviewer-ready proposal package is based on the Base Sepolia prototype and the separately
@@ -117,10 +122,10 @@ labelled, unaudited Base mainnet factory proof:
 - [`docs/BASE-GRANT-ONE-MINUTE-DEMO.md`](docs/BASE-GRANT-ONE-MINUTE-DEMO.md) — exact 60-second reviewer walkthrough and recording checklist.
 - [`outputs/Heirloom_Base_Proposal_Deck.pptx`](outputs/Heirloom_Base_Proposal_Deck.pptx) — shareable Base-themed proposal deck.
 
-The grant nomination has not been submitted. A public unauthenticated demo URL, public one-minute
-video and owner-controlled application identity fields are still required. Mainnet vault use,
-funding and onboarding remain outside the proposal scope until independent audit, remediation and
-re-verification are complete.
+The grant nomination has not been submitted. The public demo, one-minute video and application
+identity fields are prepared; owner review of the form terms and final submission remain. Mainnet
+vault use, funding and onboarding remain outside the proposal scope until independent audit,
+remediation and re-verification are complete.
 
 ## Release track
 

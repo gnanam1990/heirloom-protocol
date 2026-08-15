@@ -29,7 +29,7 @@
 - `Base Sepolia · 84532`
 - `20 USDC funded test vault`
 - `Destination-locked payouts`
-- `59 Forge entries · 500,000 stateful calls · 16/16 mutants`
+- `73 contract tests · 5 stateful groups · 16/16 mutants`
 - `Proposal prototype — not public mainnet`
 
 ## Recording acceptance checks
@@ -41,3 +41,12 @@
 - No screen implies that Heirloom detects death or lost keys.
 - No screen says externally audited, production-ready or live on Base mainnet.
 - The owner has reviewed and accepted the nomination form's multimedia license before submission.
+
+## Published artifact
+
+- Duration: `60.000 seconds`
+- Resolution: `1920 × 1080`
+- Public URL:
+  `https://heirloom-protocol-production.up.railway.app/demo/heirloom-one-minute-demo.mp4`
+- SHA-256: `dc251982618f7de8653256f78427571c48ef905968fd582ea35080306b951406`
+- Reproducible build: `./script/build-proposal-demo-video.sh`

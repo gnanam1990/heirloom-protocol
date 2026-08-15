@@ -29,6 +29,8 @@ test("server-renders the Heirloom product shell", async () => {
   assert.match(html, /No mainnet vault creation, deposits, or user onboarding are authorized\./);
   assert.match(html, /Create the first owner vault/);
   assert.match(html, /Connect wallet/);
+  assert.match(html, /href="\/demo\/heirloom-one-minute-demo\.mp4"/i);
+  assert.match(html, /60-sec demo/);
   assert.match(html, /73 core/);
   assert.match(html, /0x935e5101d7563429BC152889603D3A17f466f4e4/i);
   assert.match(html, /HEIRLOOM_V3_1_R1/);
