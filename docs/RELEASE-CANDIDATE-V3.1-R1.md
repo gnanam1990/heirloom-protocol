@@ -49,4 +49,8 @@ and the on-chain implementation runtime hash matches the locally compiled artifa
 
 The complete machine-readable record is
 [`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](../deployments/base-sepolia-02b0ea5-v3.1-r1.json).
-No mainnet script or authorization is created by this testnet deployment.
+The first R1 smoke vault was created at
+[`0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371`](https://base-sepolia.blockscout.com/address/0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371),
+with prediction, registry, version, asset, config and runtime identity verified. It remains unfunded
+because the release owner held zero Base Sepolia USDC at verification time. No mainnet script or
+authorization is created by this testnet deployment.

@@ -3,13 +3,13 @@ set -euo pipefail
 shopt -s nocasematch
 
 RPC_URL="${BASE_SEPOLIA_RPC_URL:-https://sepolia.base.org}"
-FACTORY="0x524A95082dAD59fd8bf18FA27F89E3f55202eEcf"
-VAULT="0x45004e3a5992606201B53Cd0FBab7f9439B4476C"
+FACTORY="0x935e5101d7563429BC152889603D3A17f466f4e4"
+VAULT="0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371"
 OWNER="0xE8405844a45C209895afE2e49be6aA2C6C6202a6"
 USDC="0x036CbD53842c5426634e7929541eC2318f3dCF7e"
-VERSION_ID="0x7cd4187df3151f8b6dba7f8b29a43eb0d551f30262c0c0885dd40f776328670f"
+VERSION_ID="0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56"
 CONFIG_HASH="0xbdc507dcc83036b928e0a56ee2040435e270a56b6ad1543d1d767e528da4e7ff"
-RUNTIME_HASH="0xc20bd075c8734260925eaf1f285e15f554734510cc81c3a3b45bcda05680bed2"
+RUNTIME_HASH="0x100016fa0ed9ba6b03d57af1e255e6e1c475093a2dce36b8d407f9e0cc7b2aaa"
 
 failures=0
 
@@ -39,15 +39,15 @@ assert_equal "vault asset" "$USDC" "$(read_call "$VAULT" 'asset()(address)')"
 assert_equal "version id" "$VERSION_ID" "$(read_call "$VAULT" 'versionId()(bytes32)')"
 assert_equal "vault state" "0" "$(read_call "$VAULT" 'vaultState()(uint8)')"
 assert_equal "config hash" "$CONFIG_HASH" "$(read_call "$VAULT" 'currentConfigHash()(bytes32)')"
-assert_equal "vault USDC" "20000000" "$(read_call "$USDC" 'balanceOf(address)(uint256)' "$VAULT")"
+assert_equal "vault USDC" "0" "$(read_call "$USDC" 'balanceOf(address)(uint256)' "$VAULT")"
 assert_equal "owner allowance" "0" "$(read_call "$USDC" 'allowance(address,address)(uint256)' "$OWNER" "$VAULT")"
 assert_equal "runtime hash" "$RUNTIME_HASH" "$(cast codehash --rpc-url "$RPC_URL" "$VAULT")"
 
 liveness_nonce="$(read_call "$VAULT" 'livenessNonce()(uint64)')"
-if (( liveness_nonce >= 2 )); then
+if (( liveness_nonce >= 1 )); then
   printf 'PASS  liveness nonce: %s\n' "$liveness_nonce"
 else
-  printf 'FAIL  liveness nonce: expected at least 2, got %s\n' "$liveness_nonce" >&2
+  printf 'FAIL  liveness nonce: expected at least 1, got %s\n' "$liveness_nonce" >&2
   failures=$((failures + 1))
 fi
 

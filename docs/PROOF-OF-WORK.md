@@ -23,6 +23,8 @@ command that reproduces it.
 | M10: hosted remediation re-verification | `1f3b682` | Exact remediation evidence commit passed protocol, mutation, Base USDC fork and web jobs |
 | M11: v3.1-R1 release identity | `286b0e9` | Unique audit-remediated version ID for the next Base Sepolia factory |
 | M12: v3.1-R1 Base Sepolia release | `ddfdf79` | Hosted CI-bound deployment, exact dry-run/live input match, runtime identity and source verification |
+| M13: v3.1-R1 smoke vault | `a759889` | Predicted/deployed address match, registry/config/runtime identity and empty-vault manifest |
+| M14: R1 product binding | `ee30657` | Dashboard, release activity, browser storage namespace and rendered proof pinned to the R1 factory/vault |
 
 ## Current verified results
 
@@ -42,7 +44,7 @@ Verified locally from clean committed source on 2026-08-14:
 | Coverage snapshot | 92.07% lines; 90.51% statements; 55.96% branches; 88.51% functions | `forge coverage --report summary --no-match-contract BaseMainnetUSDCForkTest` |
 | Web lint | Passed | `cd apps/web && npm run lint` |
 | Web production build/render | Passed | `cd apps/web && npm test` |
-| Funded-vault release monitor | Passed: registry, identity, state, balance, allowance, config, runtime and liveness | `./script/check-base-sepolia-vault.sh` |
+| R1 smoke-vault release monitor | Passed: registry, identity, Active state, zero balance/allowance, config, runtime and liveness | `./script/check-base-sepolia-vault.sh` |
 | Browser QA | Desktop and 390 × 844 mobile; four navigation surfaces; no app-origin console errors | Manual local preview inspection |
 | Private Sites deployment | Version 1 succeeded | `https://heirloom-base-v31.gnanasekaran-sekaree.chatgpt.site` |
 | Prior hosted protocol CI | Passed on the pre-remediation M7 source commit; retained as historical evidence, not final-candidate approval | [GitHub Actions run 31820092793](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31820092793) |
@@ -50,9 +52,10 @@ Verified locally from clean committed source on 2026-08-14:
 | Hosted remediation CI | Passed all four jobs on exact evidence commit `1f3b682`: high-intensity protocol/gas, 16/16 source mutation, 9/9 Base mainnet USDC fork and web lint/build/render | [GitHub Actions run 31827335863](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31827335863) |
 | Hosted v3.1-R1 release CI | Passed all four jobs on exact deployment evidence commit `02b0ea5` | [GitHub Actions run 31829730293](https://github.com/gnanam1990/heirloom-protocol/actions/runs/31829730293) |
 | v3.1-R1 Base Sepolia factory deployment | Success at block `45483268`; reviewed dry-run/live input exact match; factory and implementation source verified | [`0x839c…f0732`](https://base-sepolia.blockscout.com/tx/0x839cb78414d54cd2e584d44b3f1062c43e7d6643741d6685c0d6218d8dff0732) |
-| Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |
-| Base Sepolia owner vault creation | Success at block `45474409` | [`0x2d02…e077`](https://base-sepolia.blockscout.com/tx/0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077) |
-| Base Sepolia 20 USDC funding | Success at block `45475123` | [`0xec16…6e97`](https://base-sepolia.blockscout.com/tx/0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97) |
+| v3.1-R1 smoke vault creation | Success at block `45500300`; predicted address, registry, config and runtime identity match | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312) |
+| Historical Base Sepolia factory deployment | Success at block `45473582` | [`0x09ba…8fc7`](https://sepolia.basescan.org/tx/0x09ba628d90f17db61580d4a68d95948fc80321e3d01a4aa86fb8a1ff04cb8fc7) |
+| Historical Base Sepolia owner vault creation | Success at block `45474409` | [`0x2d02…e077`](https://base-sepolia.blockscout.com/tx/0x2d02230c3c3fb7d70d704769b8ff08032f979db7be3ed06d60b147d9863ce077) |
+| Historical Base Sepolia 20 USDC funding | Success at block `45475123` | [`0xec16…6e97`](https://base-sepolia.blockscout.com/tx/0xec16454ee3dc197f1df5f3c50ccd200d752c3728f2d0c5323d22fbfa5ca46e97) |
 
 The original hosted workflow allocation blocker was cleared on 2026-08-14. The rerun completed
 both the protocol and web jobs successfully.
@@ -78,6 +81,28 @@ The audit-remediated release was broadcast from hosted-CI-passed evidence commit
 
 The machine-readable record is
 [`deployments/base-sepolia-02b0ea5-v3.1-r1.json`](../deployments/base-sepolia-02b0ea5-v3.1-r1.json).
+
+## Base Sepolia v3.1-R1 smoke-vault evidence
+
+The first R1 vault was created with the reviewed minimum schedule and the same destination set used
+by the historical test configuration. It is deliberately recorded as unfunded: the release owner
+held zero Base Sepolia USDC at verification time.
+
+| Field | Verified value |
+|---|---|
+| Vault | [`0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371`](https://base-sepolia.blockscout.com/address/0x21ea6A01Dd4A7C9F87Bdc80773fbB765FF6fa371) — verified EIP-1167 clone |
+| Create | [`0x8f68…6312`](https://base-sepolia.blockscout.com/tx/0x8f6879fa53eab91288f1c21597573fd17746c06b50b7d6f49e7fec0f04a66312), block `45500300`, success |
+| Prediction and registry | Predicted address matched; `vaultAt(0)` matched; `isVault(vault) == true` |
+| Owner and asset | `0xE8405844a45C209895afE2e49be6aA2C6C6202a6`; official Base Sepolia USDC |
+| Version | `0x2307fc907cb859b0cb1ee608138ba346e301805703f489f8370477c357b73f56` |
+| State and balances | `Active` (`0`); vault `0 USDC`; owner `0 USDC`; allowance `0` |
+| Liveness | `lastSeen = 1786768888`; nonce `1`; claim eligible `2026-11-13T04:41:28Z` |
+| Config | One 40% standard route; one 60% terminal-last route; 2-of-3 guardians |
+| Config hash | `0xbdc507dcc83036b928e0a56ee2040435e270a56b6ad1543d1d767e528da4e7ff` |
+| Clone runtime hash | `0x100016fa0ed9ba6b03d57af1e255e6e1c475093a2dce36b8d407f9e0cc7b2aaa` |
+
+The exact configuration, receipt, event-derived salts and post-create reads are recorded in
+[`deployments/base-sepolia-v3.1-r1-vault-0x21ea6a01.json`](../deployments/base-sepolia-v3.1-r1-vault-0x21ea6a01.json).
 
 ## Historical pre-remediation Base Sepolia evidence
 

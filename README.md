@@ -86,10 +86,10 @@ npm run lint
 npm test
 ```
 
-The dashboard currently preserves the historical funded-vault evidence on the earlier verified
-Base Sepolia factory. It will move to the R1 factory only after an R1 smoke vault is created and its
-manifest is reviewed. Funding, allowance, liveness, routing and recovery state are reconstructed
-from public contract reads.
+The dashboard is pinned to the R1 factory and verified smoke vault. Funding, allowance, liveness,
+routing and recovery state are reconstructed from public contract reads. The R1 vault is currently
+unfunded because the release owner has no Base Sepolia USDC; no historical balance is presented as
+R1 evidence.
 
 ## Release track
 

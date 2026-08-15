@@ -55,7 +55,7 @@ from RPC or explorer evidence. Before accepting the deployment:
 7. Record every transaction, block, code hash and explorer verification link.
 8. Configure the UI only after the manifest is reviewed.
 
-## Funded-vault monitor
+## Release-vault monitor
 
 Run the read-only release monitor against the public Base Sepolia RPC:
 
@@ -64,8 +64,9 @@ Run the read-only release monitor against the public Base Sepolia RPC:
 ```
 
 Set `BASE_SEPOLIA_RPC_URL` to use another provider. The monitor fails closed if the factory
-registry, owner, asset, version, state, config hash, 20 USDC balance, zero residual allowance,
-runtime hash or minimum liveness nonce differs from the recorded release evidence.
+registry, owner, asset, version, state, manifest-pinned balance, zero residual allowance, runtime
+hash or minimum liveness nonce differs from the recorded R1 evidence. Update the expected balance
+and nonce only in the same commit as a verified funding or heartbeat receipt.
 
 ## Mainnet boundary
 

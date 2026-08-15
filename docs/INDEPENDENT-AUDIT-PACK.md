@@ -164,6 +164,8 @@ cross-feature races:
 - Distribution cannot be cancelled after `startDistribution()`.
 - The v3.1-R1 Base Sepolia factory is the audit-remediated candidate and has source/runtime evidence;
   the earlier funded vault remains historical pre-remediation evidence only.
+- The R1 smoke vault proves creation and identity but is unfunded; funded lifecycle evidence for R1
+  remains pending test-USDC acquisition.
 - Base Sepolia evidence is not a production audit and the funded testnet vault has not yet elapsed
   through its complete real-time lifecycle.
 
