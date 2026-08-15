@@ -3,8 +3,8 @@
   "sessionId": "local-8990da6b-54e4-4f0c-881a-25f10ac3908c",
   "model": "gpt-5.6-sol",
   "startedAt": "2026-08-14T12:44:06.241Z",
-  "endedAt": "2026-08-15T14:39:14.256Z",
-  "durationMs": 93308006,
+  "endedAt": "2026-08-15T15:38:04.265Z",
+  "durationMs": 96838017,
   "status": "running",
   "tokens": {
     "total": 0,
@@ -16,18 +16,36 @@
   },
   "toolCalls": 0,
   "lines": {
-    "added": 3,
-    "removed": 3
+    "added": 54,
+    "removed": 266
   },
   "filesChanged": [
-    "docs/BASE-BUILDER-GRANT-PROPOSAL.md"
+    ".gitignore",
+    "README.md",
+    "apps/web/app/demo/AnimatedDemo.tsx",
+    "apps/web/app/globals.css",
+    "apps/web/public/demo/heirloom-demo-narration.m4a",
+    "apps/web/public/demo/heirloom-one-minute-demo.mp4",
+    "apps/web/public/demo/heirloom-one-minute-demo.vtt",
+    "apps/web/scripts/render-demo-frames.mjs",
+    "apps/web/tests/rendered-html.test.mjs",
+    "docs/BASE-BUILDER-GRANT-PROPOSAL.md",
+    "docs/BASE-GRANT-ONE-MINUTE-DEMO.md",
+    "outputs/demo-video/01-overview.png",
+    "outputs/demo-video/02-beneficiaries.png",
+    "outputs/demo-video/03-security.png",
+    "outputs/demo-video/04-activity.png",
+    "outputs/demo-video/05-blockscout.png",
+    "outputs/demo-video/06-vault-tokens.png",
+    "outputs/demo-video/narration.txt",
+    "script/build-proposal-demo-video.sh"
   ],
   "git": {
     "branch": "main",
-    "headBefore": "18e84a557e6494af59c340729fea986483b0dfa8",
-    "headAfter": "18e84a557e6494af59c340729fea986483b0dfa8",
+    "headBefore": "80818a9e224b10a82a1eb391e259c8db41de43fc",
+    "headAfter": "80818a9e224b10a82a1eb391e259c8db41de43fc",
     "commitShas": [
-      "18e84a557e6494af59c340729fea986483b0dfa8"
+      "80818a9e224b10a82a1eb391e259c8db41de43fc"
     ]
   },
   "summary": "",
